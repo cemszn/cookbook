@@ -1248,20 +1248,24 @@ html.dark .cook-timer-digits { color: var(--green-deep); text-shadow: none; }
   display: inline-flex; align-items: center; justify-content: center;
   padding: 0 14px; width: auto; height: auto;
   border-radius: 6px; cursor: pointer; font-size: 13px;
-  transition: box-shadow 0.12s, transform 0.1s;
+  transition: box-shadow 0.15s, transform 0.1s, background 0.15s;
 }
 .cook-timer-btn:active { transform: translateY(1px); }
 .cook-timer-btn-start {
   background: linear-gradient(to bottom, #3a8f68 0%, #2d6b4f 100%);
   border: 1px solid #265c42; color: #e8f5ec;
-  box-shadow: 0 2px 6px rgba(45,107,79,0.3);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.18) inset, 0 3px 10px rgba(45,107,79,0.35);
+  min-width: 42px;
 }
+.cook-timer-btn-start:hover { background: linear-gradient(to bottom, #44a878 0%, #357a5a 100%); }
+.cook-timer-btn-start:active { background: linear-gradient(to bottom, #286048 0%, #357a5a 100%); }
 .cook-timer-btn-reset {
   background: linear-gradient(to bottom, #fdfaf5 0%, #eee8dc 100%);
   border: 1px solid #b8c9bb; border-bottom-color: #9aab9d;
   color: var(--text-mid);
   box-shadow: 0 1px 0 rgba(255,255,255,0.9) inset, 0 2px 5px rgba(0,0,0,0.09);
 }
+.cook-timer-btn-reset:hover { box-shadow: 0 1px 0 rgba(255,255,255,0.9) inset, 0 4px 12px rgba(0,0,0,0.13); }
 html.dark .cook-timer-btn-reset {
   background: linear-gradient(to bottom, #243028 0%, #1a2320 100%);
   border-color: #3a5040;
