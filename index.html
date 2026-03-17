@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cookbook</title>
+  <link rel="stylesheet" href="css/styles.css"/>
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" sizes="180x180" href="icon-180.png">
+  <link rel="apple-touch-icon" sizes="167x167" href="icon-180.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="icon-180.png">
+  <link rel="icon" type="image/png" sizes="1024x1024" href="icon-1024.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Cookbook">
+</head>
+<body>
+
+  <!-- ── DARK MODE TOGGLE ── -->
+  <div class="toolbox">
+    <div class="toolbox-pill" onclick="toggleTheme()" title="Toggle dark mode">
+      <div class="toggle-track theme-track">
+        <div class="toggle-thumb theme-thumb"></div>
+      </div>
+      <span class="toggle-icon">🌙</span>
+      <span class="toggle-label">Dark</span>
+    </div>
+  </div>
+
+  <div class="page">
+
+    <!-- ── HEADER ── -->
+    <header class="book-header">
+      <div class="book-logotype-main">Cookbook</div>
+    </header>
+
+    <!-- ── SEARCH + NEW RECIPE ── -->
+    <div class="home-controls">
+      <div class="search-wrap">
+        <span class="search-icon">⌕</span>
+        <input
+          type="text"
+          class="search-input"
+          id="search-input"
+          placeholder="Search recipes by name, category, or tag…"
+          oninput="filterRecipes()"
+        />
+      </div>
+      <a href="new-recipe.html" class="btn-new-recipe">
+        <span>＋</span> New Recipe
+      </a>
+    </div>
+
+    <!-- ── RECIPE GRID ── -->
+    <div class="section-heading">
+      <h2>All Recipes</h2>
+    </div>
+    <div class="recipe-grid" id="recipe-grid">
+      <div class="loading-state">Loading recipes…</div>
+    </div>
+
+  </div><!-- /.page -->
+
+  <!-- ── FIREBASE SDKs ── -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script src="js/home.js"></script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Recipe — Cookbook</title>
+  <link rel="stylesheet" href="css/styles.css"/>
+</head>
+<body>
+
+  <!-- ── TOOLBOX (dark mode + cook mode + edit) ── -->
+  <div class="toolbox">
+    <div class="toolbox-pill" onclick="toggleCookMode()" title="Cook Mode" id="cook-mode-pill">
+      <span class="toggle-icon">🍳</span>
+      <span class="toggle-label">Cook</span>
+    </div>
+    <div class="toolbox-pill" onclick="toggleTheme()" title="Toggle dark mode">
+      <div class="toggle-track theme-track">
+        <div class="toggle-thumb theme-thumb"></div>
+      </div>
+      <span class="toggle-icon">🌙</span>
+      <span class="toggle-label">Dark</span>
+    </div>
+    <div class="toolbox-pill" onclick="editRecipe()" title="Edit this recipe" id="edit-pill">
+      <span class="toggle-icon">✏️</span>
+      <span class="toggle-label">Edit</span>
+    </div>
+  </div>
+
+  <div class="page" id="recipe-page">
+    <!-- Content injected by recipe.js -->
+    <div class="loading-state" style="padding:120px 0; opacity:1; animation:none;">Loading recipe…</div>
+  </div>
+
+  <!-- ── COOK MODE OVERLAY ── -->
+  <div class="cook-overlay" id="cook-overlay">
+    <div class="cook-margin-rule"></div>
+    <div class="cook-inner">
+
+      <div class="cook-topbar">
+        <div class="cook-topbar-title" id="cook-recipe-name"></div>
+        <div style="display:flex;align-items:center;gap:20px;">
+          <div class="cook-progress-dots" id="cook-dots"></div>
+          <button class="cook-close-btn" onclick="closeCookMode()">✕ &nbsp;Exit</button>
+        </div>
+      </div>
+
+      <div class="cook-stage">
+        <div class="cook-step-wrap" id="cook-step-wrap">
+          <div class="cook-step-label" id="cook-step-label">Step 1</div>
+          <div class="cook-step-header">
+            <div class="cook-step-number-large" id="cook-step-numeral"></div>
+            <div class="cook-step-title-large" id="cook-step-title"></div>
+          </div>
+          <p class="cook-step-body" id="cook-step-body"></p>
+          <div class="cook-step-tip" id="cook-step-tip" style="display:none;"></div>
+        </div>
+
+        <div class="cook-done-wrap" id="cook-done-wrap">
+          <div class="cook-done-icon">🍽️</div>
+          <div class="cook-done-title">Bon<br><em>Appétit</em></div>
+          <p class="cook-done-sub" id="cook-done-sub"></p>
+        </div>
+      </div>
+
+      <div class="cook-bottombar" id="cook-bottombar">
+        <div class="cook-nav-btns">
+          <button class="cook-nav-btn cook-btn-prev" id="cook-prev" onclick="cookPrev()">← Previous</button>
+          <button class="cook-nav-btn cook-btn-next" id="cook-next" onclick="cookNext()">Next →</button>
+        </div>
+        <div class="cook-timer">
+          <div class="cook-timer-display">
+            <div class="cook-timer-digits" id="cook-timer-digits">00:00:00</div>
+            <div class="cook-timer-label">
+              <span>hr</span><span style="flex:1"></span><span>min</span><span style="flex:1"></span><span>sec</span>
+            </div>
+          </div>
+          <div class="cook-timer-btns">
+            <button class="cook-timer-btn cook-timer-btn-start" id="cook-timer-start" onclick="timerToggle()" title="Start / Pause">▶</button>
+            <button class="cook-timer-btn cook-timer-btn-reset" onclick="timerReset()" title="Reset">↺</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── FIREBASE SDKs ── -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script src="js/recipe.js"></script>
+</body>
+</html>

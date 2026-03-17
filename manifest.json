@@ -1,0 +1,23 @@
+{
+  "name": "Whole & Wild Cookbook",
+  "short_name": "Cookbook",
+  "description": "Whole & Wild — Nourishing Blends recipe collection",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#faf6f0",
+  "theme_color": "#2d4a35",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon-180.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-1024.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

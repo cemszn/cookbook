@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>New Recipe — Cookbook</title>
+  <link rel="stylesheet" href="css/styles.css"/>
+</head>
+<body>
+
+  <!-- ── DARK MODE TOGGLE ── -->
+  <div class="toolbox">
+    <div class="toolbox-pill" onclick="toggleTheme()" title="Toggle dark mode">
+      <div class="toggle-track theme-track">
+        <div class="toggle-thumb theme-thumb"></div>
+      </div>
+      <span class="toggle-icon">🌙</span>
+      <span class="toggle-label">Dark</span>
+    </div>
+  </div>
+
+  <div class="page form-page">
+
+    <!-- ── HEADER ── -->
+    <header class="book-header">
+      <div class="book-logotype-main">Cookbook</div>
+    </header>
+
+    <a href="index.html" class="back-btn" id="back-btn">← Back to cookbook</a>
+
+    <div class="section-heading" style="opacity:0; animation: fadeUp 0.9s ease forwards 0.1s;">
+      <h2 id="page-heading">New Recipe</h2>
+    </div>
+
+    <form id="recipe-form" onsubmit="submitRecipe(event)">
+
+      <!-- ══ SECTION 1: BASICS ══ -->
+      <div class="form-section">
+        <div class="section-heading"><h2>The Basics</h2></div>
+
+        <div class="form-row two">
+          <div class="form-field">
+            <label for="f-title">Recipe Title *</label>
+            <input id="f-title" class="form-input" type="text"
+              placeholder="e.g. Saffron Risotto" required />
+          </div>
+          <div class="form-field">
+            <label for="f-subtitle">Subtitle / Tagline</label>
+            <input id="f-subtitle" class="form-input" type="text"
+              placeholder="e.g. Golden & Silky" />
+          </div>
+        </div>
+
+        <div class="form-row single">
+          <div class="form-field">
+            <label for="f-category">Category</label>
+            <input id="f-category" class="form-input" type="text"
+              placeholder="e.g. Italian · Rice · Vegetarian" />
+            <span class="field-help">Separate with · or commas</span>
+          </div>
+        </div>
+
+        <div class="form-row single">
+          <div class="form-field">
+            <label for="f-description">Description *</label>
+            <textarea id="f-description" class="form-textarea"
+              placeholder="A short, appetising description of the dish — what makes it special, what it tastes like…"
+              required></textarea>
+          </div>
+        </div>
+
+        <div class="form-row single">
+          <div class="form-field">
+            <label>Dish Photo <span class="section-note">(optional)</span></label>
+            <input id="f-image" type="file" accept="image/*" style="display:none"
+              onchange="handleImageSelect(this)" />
+            <div class="image-upload-area" id="image-upload-area"
+              onclick="document.getElementById('f-image').click()"
+              ondragover="event.preventDefault(); this.classList.add('drag-over')"
+              ondragleave="this.classList.remove('drag-over')"
+              ondrop="handleImageDrop(event)">
+              <img id="image-preview" class="image-preview-img" style="display:none" alt="Dish preview" />
+              <div id="image-upload-placeholder" class="image-upload-placeholder">
+                <span class="image-upload-icon">🖼</span>
+                <span class="image-upload-text">Click to upload or drag &amp; drop</span>
+                <span class="image-upload-hint">JPG, PNG, WEBP · Max 5 MB</span>
+              </div>
+            </div>
+            <button type="button" class="image-remove-btn" id="image-remove-btn"
+              style="display:none" onclick="removeImage()">✕ Remove photo</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ SECTION 2: DETAILS ══ -->
+      <div class="form-section">
+        <div class="section-heading"><h2>Details</h2></div>
+
+        <div class="form-row four">
+          <div class="form-field">
+            <label for="f-prep">Prep Time (min) *</label>
+            <input id="f-prep" class="form-input" type="number"
+              min="0" placeholder="10" required />
+          </div>
+          <div class="form-field">
+            <label for="f-cook">Cook Time (min) *</label>
+            <input id="f-cook" class="form-input" type="number"
+              min="0" placeholder="30" required />
+          </div>
+          <div class="form-field">
+            <label for="f-servings">Servings *</label>
+            <input id="f-servings" class="form-input" type="number"
+              min="1" placeholder="4" required />
+          </div>
+          <div class="form-field">
+            <label for="f-difficulty">Difficulty *</label>
+            <select id="f-difficulty" class="form-select" required>
+              <option value="">Select…</option>
+              <option value="Easy">Easy</option>
+              <option value="Medium">Medium</option>
+              <option value="Hard">Hard</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row single">
+          <div class="form-field">
+            <label for="f-tags">Tags</label>
+            <input id="f-tags" class="form-input" type="text"
+              placeholder="e.g. Gluten-free, Mediterranean, One-pan, 30 minutes" />
+            <span class="field-help">Separate with commas</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ SECTION 3: KEY INGREDIENTS (swatches) ══ -->
+      <div class="form-section">
+        <div class="section-heading"><h2>Key Ingredients <span class="section-note">(up to 4 — shown as visual swatches)</span></h2></div>
+
+        <div id="key-ingredients-list" class="dynamic-list"></div>
+        <button type="button" class="btn-add-item" id="add-key-ingredient"
+          onclick="addKeyIngredient()">＋ Add key ingredient</button>
+      </div>
+
+      <!-- ══ SECTION 4: INGREDIENTS ══ -->
+      <div class="form-section">
+        <div class="section-heading"><h2>Ingredients *</h2></div>
+
+        <div id="ingredients-list" class="dynamic-list"></div>
+        <button type="button" class="btn-add-item" onclick="addIngredient()">＋ Add ingredient</button>
+      </div>
+
+      <!-- ══ SECTION 5: METHOD ══ -->
+      <div class="form-section">
+        <div class="section-heading"><h2>Method *</h2></div>
+
+        <div id="steps-list" class="dynamic-list"></div>
+        <button type="button" class="btn-add-item" onclick="addStep()">＋ Add step</button>
+      </div>
+
+      <!-- ══ SECTION 6: KITCHEN NOTES ══ -->
+      <div class="form-section">
+        <div class="section-heading"><h2>Kitchen Notes <span class="section-note">(optional)</span></h2></div>
+
+        <div id="notes-list" class="dynamic-list"></div>
+        <button type="button" class="btn-add-item" onclick="addNote()">＋ Add note</button>
+      </div>
+
+      <!-- ══ SECTION 7: NUTRITION FACTS ══ -->
+      <div class="form-section">
+        <div class="section-heading"><h2>Nutrition Facts <span class="section-note">(optional — per serving)</span></h2></div>
+
+        <div class="form-row two">
+          <div class="form-field">
+            <label for="nf-serving-size">Serving Size</label>
+            <input id="nf-serving-size" class="form-input" type="text"
+              placeholder="e.g. 1 fillet, 1 cup, 200g" />
+          </div>
+          <div class="form-field">
+            <label for="nf-calories">Calories</label>
+            <input id="nf-calories" class="form-input" type="number"
+              min="0" placeholder="e.g. 310" />
+          </div>
+        </div>
+
+        <div class="nf-form-label-group">Fats &amp; Cholesterol</div>
+        <div class="nf-form-grid">
+          <div class="form-field">
+            <label for="nf-total-fat">Total Fat (g)</label>
+            <input id="nf-total-fat" class="form-input" type="number" min="0" step="0.1" placeholder="e.g. 18" />
+          </div>
+          <div class="form-field">
+            <label for="nf-cholesterol">Cholesterol (mg)</label>
+            <input id="nf-cholesterol" class="form-input" type="number" min="0" placeholder="e.g. 72" />
+          </div>
+        </div>
+        <div class="nf-form-subgroup">
+          <div class="form-field">
+            <label for="nf-saturated-fat">Saturated Fat (g)</label>
+            <input id="nf-saturated-fat" class="form-input" type="number" min="0" step="0.1" placeholder="e.g. 3" />
+          </div>
+          <div class="form-field">
+            <label for="nf-trans-fat">Trans Fat (g)</label>
+            <input id="nf-trans-fat" class="form-input" type="number" min="0" step="0.1" placeholder="e.g. 0" />
+          </div>
+        </div>
+
+        <div class="nf-form-label-group">Sodium &amp; Carbohydrates</div>
+        <div class="nf-form-grid">
+          <div class="form-field">
+            <label for="nf-sodium">Sodium (mg)</label>
+            <input id="nf-sodium" class="form-input" type="number" min="0" placeholder="e.g. 620" />
+          </div>
+          <div class="form-field">
+            <label for="nf-total-carb">Total Carbohydrate (g)</label>
+            <input id="nf-total-carb" class="form-input" type="number" min="0" step="0.1" placeholder="e.g. 5" />
+          </div>
+        </div>
+        <div class="nf-form-subgroup">
+          <div class="form-field">
+            <label for="nf-fiber">Dietary Fiber (g)</label>
+            <input id="nf-fiber" class="form-input" type="number" min="0" step="0.1" placeholder="e.g. 1" />
+          </div>
+          <div class="form-field">
+            <label for="nf-total-sugars">Total Sugars (g)</label>
+            <input id="nf-total-sugars" class="form-input" type="number" min="0" step="0.1" placeholder="e.g. 1" />
+          </div>
+        </div>
+
+        <div class="nf-form-label-group">Protein</div>
+        <div class="nf-form-grid">
+          <div class="form-field">
+            <label for="nf-protein">Protein (g)</label>
+            <input id="nf-protein" class="form-input" type="number" min="0" step="0.1" placeholder="e.g. 34" />
+          </div>
+        </div>
+
+        <div class="nf-form-label-group">Additional Nutrition <span class="nf-label-note">(vitamins, minerals, etc.)</span></div>
+        <div id="nf-extras-list" class="dynamic-list"></div>
+        <button type="button" class="btn-add-item" onclick="addNutritionExtra()">＋ Add extra nutrition</button>
+      </div>
+
+      <!-- ══ FORM ACTIONS ══ -->
+      <div class="form-section">
+        <div class="form-actions">
+          <button type="submit" class="btn-submit" id="submit-btn">
+            <span id="submit-spinner" style="display:none;" class="spinner"></span>
+            Save Recipe
+          </button>
+          <a href="index.html" class="btn-cancel" id="cancel-btn">Cancel</a>
+          <span class="form-status" id="form-status"></span>
+        </div>
+      </div>
+
+    </form>
+  </div><!-- /.page -->
+
+  <!-- ── FIREBASE SDKs ── -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script src="js/new-recipe.js"></script>
+</body>
+</html>
