@@ -399,9 +399,7 @@ async function loadForEdit(id) {
 
     // Back / Cancel both return to the recipe page, not the home page
     const recipeUrl = `recipe.html?id=${id}`;
-    document.getElementById('back-btn').href   = recipeUrl;
     document.getElementById('cancel-btn').href = recipeUrl;
-    document.getElementById('back-btn').textContent = '← Back to recipe';
 
     populateForm(r);
   } catch (err) {

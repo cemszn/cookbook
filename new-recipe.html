@@ -8,14 +8,18 @@
 </head>
 <body>
 
-  <!-- ── DARK MODE TOGGLE ── -->
+  <!-- ── TOOLBOX ── -->
   <div class="toolbox">
-    <div class="toolbox-pill" onclick="toggleTheme()" title="Toggle dark mode">
-      <div class="toggle-track theme-track">
-        <div class="toggle-thumb theme-thumb"></div>
+    <div class="toolbox-pill" onclick="history.back()" title="Go back">
+      <span class="toggle-label">← Back</span>
+    </div>
+    <div class="toolbox-right">
+      <div class="toolbox-pill" onclick="toggleTheme()" title="Toggle dark mode">
+        <div class="toggle-track theme-track">
+          <div class="toggle-thumb theme-thumb"></div>
+        </div>
+        <span class="toggle-label">Dark</span>
       </div>
-      <span class="toggle-icon">🌙</span>
-      <span class="toggle-label">Dark</span>
     </div>
   </div>
 
@@ -26,9 +30,7 @@
       <div class="book-logotype-main">Cookbook</div>
     </header>
 
-    <a href="index.html" class="back-btn" id="back-btn">← Back to cookbook</a>
-
-    <div class="section-heading" style="opacity:0; animation: fadeUp 0.9s ease forwards 0.1s;">
+<div class="section-heading" style="opacity:0; animation: fadeUp 0.9s ease forwards 0.1s;">
       <h2 id="page-heading">New Recipe</h2>
     </div>
 

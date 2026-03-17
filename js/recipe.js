@@ -16,6 +16,28 @@ function toggleTheme() {
   localStorage.setItem('theme', isDark ? 'dark' : 'light');
 }
 
+function toolboxBack() {
+  const overlay = document.getElementById('cook-overlay');
+  if (overlay && overlay.classList.contains('active')) {
+    closeCookMode();
+  } else {
+    history.back();
+  }
+}
+
+function toggleToolboxMenu(e) {
+  e.stopPropagation();
+  document.getElementById('toolbox-menu').classList.toggle('open');
+}
+
+function closeToolboxMenu() {
+  document.getElementById('toolbox-menu').classList.remove('open');
+}
+
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.toolbox-right')) closeToolboxMenu();
+});
+
 // ── Globals ────────────────────────────────────────────────────
 let recipe         = null;
 let servings       = 2;
@@ -53,8 +75,7 @@ async function loadRecipe() {
 
 function showError(msg) {
   document.getElementById('recipe-page').innerHTML = `
-    <a href="index.html" class="back-btn" style="opacity:1;animation:none;">← Back to cookbook</a>
-    <div class="empty-state" style="padding:80px 0;">
+<div class="empty-state" style="padding:80px 0;">
       <div class="empty-state-icon">⚠️</div>
       <div class="empty-state-title">Oops</div>
       <div class="empty-state-sub">${escHtml(msg)}</div>
@@ -89,8 +110,6 @@ function renderPage() {
 
   const page = document.getElementById('recipe-page');
   page.innerHTML = `
-    <a href="index.html" class="back-btn">← Back to cookbook</a>
-
     <header class="book-header">
       <div class="book-logotype-main">Cookbook</div>
     </header>

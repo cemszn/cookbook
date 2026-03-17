@@ -8,22 +8,37 @@
 </head>
 <body>
 
-  <!-- ── TOOLBOX (dark mode + cook mode + edit) ── -->
+  <!-- ── TOOLBOX ── -->
   <div class="toolbox">
-    <div class="toolbox-pill" onclick="toggleCookMode()" title="Cook Mode" id="cook-mode-pill">
-      <span class="toggle-icon">🍳</span>
-      <span class="toggle-label">Cook</span>
+    <div class="toolbox-pill" onclick="toolboxBack()" title="Go back" id="toolbox-back">
+      <span class="toggle-label">← Back</span>
     </div>
-    <div class="toolbox-pill" onclick="toggleTheme()" title="Toggle dark mode">
-      <div class="toggle-track theme-track">
-        <div class="toggle-thumb theme-thumb"></div>
+    <div class="toolbox-right">
+      <div class="toolbox-pills">
+        <div class="toolbox-pill" onclick="toggleCookMode()" title="Cook Mode" id="cook-mode-pill">
+          <span class="toggle-label">Cook</span>
+        </div>
+        <div class="toolbox-pill" onclick="editRecipe()" title="Edit this recipe" id="edit-pill">
+          <span class="toggle-label">Edit</span>
+        </div>
+        <div class="toolbox-pill" onclick="toggleTheme()" title="Toggle dark mode">
+          <div class="toggle-track theme-track">
+            <div class="toggle-thumb theme-thumb"></div>
+          </div>
+          <span class="toggle-label">Dark</span>
+        </div>
       </div>
-      <span class="toggle-icon">🌙</span>
-      <span class="toggle-label">Dark</span>
-    </div>
-    <div class="toolbox-pill" onclick="editRecipe()" title="Edit this recipe" id="edit-pill">
-      <span class="toggle-icon">✏️</span>
-      <span class="toggle-label">Edit</span>
+      <div class="toolbox-pill toolbox-menu-btn" id="toolbox-menu-btn" onclick="toggleToolboxMenu(event)">
+        <span class="toggle-label">Menu</span>
+      </div>
+      <div class="toolbox-menu" id="toolbox-menu">
+        <div class="toolbox-menu-item" onclick="toggleCookMode();closeToolboxMenu()">Cook</div>
+        <div class="toolbox-menu-item" onclick="editRecipe();closeToolboxMenu()">Edit</div>
+        <div class="toolbox-menu-item" onclick="toggleTheme();closeToolboxMenu()">
+          <div class="toggle-track theme-track"><div class="toggle-thumb theme-thumb"></div></div>
+          Dark
+        </div>
+      </div>
     </div>
   </div>
 
@@ -89,6 +104,6 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
   <script src="js/firebase-config.js"></script>
-  <script src="js/recipe.js"></script>
+  <script src="js/recipe.js?v=2"></script>
 </body>
 </html>
