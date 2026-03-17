@@ -1164,13 +1164,15 @@ html.dark .cook-step-tip { color: var(--text-dark); }
 
 .cook-bottombar {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: space-between;
   padding: 16px 0 28px;
   border-top: 1px solid var(--rule);
   flex-shrink: 0;
+  flex-wrap: wrap;
+  gap: 10px;
 }
-.cook-nav-btns { display: flex; gap: 10px; }
+.cook-nav-btns { display: flex; gap: 10px; align-items: stretch; }
 
 .cook-nav-btn {
   display: inline-flex;
@@ -1197,7 +1199,8 @@ html.dark .cook-step-tip { color: var(--text-dark); }
   box-shadow: 0 1px 0 rgba(255,255,255,0.9) inset, 0 2px 5px rgba(0,0,0,0.09);
 }
 .cook-btn-prev:hover:not(:disabled) { box-shadow: 0 1px 0 rgba(255,255,255,0.9) inset, 0 4px 12px rgba(0,0,0,0.13); }
-html.dark .cook-btn-prev { background: linear-gradient(to bottom, #243028 0%, #1a2320 100%); border-color: #3a5040; color: var(--text-mid); }
+html.dark .cook-btn-prev { background: linear-gradient(to bottom, #243028 0%, #1a2320 100%); border-color: #3a5040; color: var(--text-mid); box-shadow: none; }
+html.dark .cook-btn-prev:hover:not(:disabled) { box-shadow: none; }
 
 .cook-btn-next {
   background: linear-gradient(to bottom, #3a8f68 0%, #2d6b4f 100%);
@@ -1209,37 +1212,42 @@ html.dark .cook-btn-prev { background: linear-gradient(to bottom, #243028 0%, #1
 .cook-btn-next:active:not(:disabled) { background: linear-gradient(to bottom, #286048 0%, #357a5a 100%); }
 
 /* Timer */
-.cook-timer { display: flex; align-items: center; gap: 8px; }
+.cook-timer { display: flex; align-items: stretch; gap: 8px; }
 .cook-timer-display {
-  background: linear-gradient(to bottom, #2a2018 0%, #1c1610 100%);
-  border: 1px solid #3a2e1e;
-  border-bottom-color: #4a3a28;
+  background: linear-gradient(to bottom, var(--warm-white) 0%, var(--cream) 100%);
+  border: 1px solid var(--rule);
+  border-bottom-color: #9aab9d;
   border-radius: 5px;
-  padding: 5px 12px 4px;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.25);
+  padding: 4px 12px;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.9) inset, 0 2px 5px rgba(0,0,0,0.09);
+  display: flex; flex-direction: column; justify-content: center;
+}
+html.dark .cook-timer-display {
+  background: linear-gradient(to bottom, #243028 0%, #1a2320 100%);
+  border-color: #3a5040;
+  box-shadow: none;
 }
 .cook-timer-digits {
   font-family: 'Courier New', monospace;
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 700;
   letter-spacing: 0.06em;
-  color: #c8e87a;
-  text-shadow: 0 0 6px rgba(180,220,80,0.55), 0 0 14px rgba(180,220,80,0.18);
+  color: var(--green-deep);
+  text-shadow: none;
   line-height: 1;
   user-select: none;
 }
-html.dark .cook-timer-digits { color: #a8e6b8; text-shadow: 0 0 6px rgba(100,220,140,0.6), 0 0 14px rgba(100,220,140,0.2); }
+html.dark .cook-timer-digits { color: var(--green-deep); text-shadow: none; }
 .cook-timer-label {
   font-size: 7px; letter-spacing: 0.2em; text-transform: uppercase;
-  color: rgba(180,220,80,0.38); text-align: center; margin-top: 3px;
+  color: var(--text-light); text-align: center; margin-top: 3px;
   display: flex; justify-content: space-around; width: 100%;
 }
-html.dark .cook-timer-label { color: rgba(100,220,140,0.35); }
-.cook-timer-btns { display: flex; flex-direction: column; gap: 4px; }
+.cook-timer-btns { display: flex; flex-direction: row; gap: 4px; align-items: stretch; }
 .cook-timer-btn {
-  width: 28px; height: 28px;
-  display: flex; align-items: center; justify-content: center;
-  border-radius: 4px; cursor: pointer; font-size: 13px;
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 0 14px; width: auto; height: auto;
+  border-radius: 6px; cursor: pointer; font-size: 13px;
   transition: box-shadow 0.12s, transform 0.1s;
 }
 .cook-timer-btn:active { transform: translateY(1px); }
@@ -1250,8 +1258,19 @@ html.dark .cook-timer-label { color: rgba(100,220,140,0.35); }
 }
 .cook-timer-btn-reset {
   background: linear-gradient(to bottom, #fdfaf5 0%, #eee8dc 100%);
-  border: 1px solid #b8c9bb; color: var(--text-mid);
-  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+  border: 1px solid #b8c9bb; border-bottom-color: #9aab9d;
+  color: var(--text-mid);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.9) inset, 0 2px 5px rgba(0,0,0,0.09);
+}
+html.dark .cook-timer-btn-reset {
+  background: linear-gradient(to bottom, #243028 0%, #1a2320 100%);
+  border-color: #3a5040;
+  color: var(--text-mid);
+  box-shadow: none;
+}
+
+@media (max-width: 540px) {
+  .cook-timer { width: 100%; justify-content: center; }
 }
 
 /* ══════════════════════════════════════════════════════════════
