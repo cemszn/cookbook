@@ -1318,7 +1318,7 @@ html.dark .cook-timer-btn-reset {
 }
 
 @media (max-width: 540px) {
-  .cook-timer { width: 100%; justify-content: center; }
+  .cook-timer { display: none; }
 }
 
 /* ══════════════════════════════════════════════════════════════
@@ -1368,6 +1368,7 @@ label {
 .form-input,
 .form-textarea,
 .form-select {
+  width: 100%;
   background: var(--warm-white);
   border: 1px solid var(--rule);
   border-radius: 5px;
@@ -1670,8 +1671,7 @@ label {
   .hero-top { grid-template-columns: 1fr; gap: 24px; }
   .recipe-title { font-size: 42px; }
   .info-grid { grid-template-columns: repeat(2, 1fr); }
-  .info-cell:nth-child(5) { border-left: none; }
-  .info-cell:nth-child(6) { border-left: 1px solid var(--rule); }
+  .info-cell:nth-child(7) { border-left: 1px solid var(--rule); }
   .two-col { grid-template-columns: 1fr; gap: 40px; }
   .form-row.four { grid-template-columns: repeat(2, 1fr); }
   .form-row.two  { grid-template-columns: 1fr; }
