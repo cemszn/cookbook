@@ -5,15 +5,33 @@
 
 // ── Theme init (runs immediately on every page) ─────────────────
 (function () {
-  if (localStorage.getItem('theme') === 'dark') {
+<<<<<<< HEAD
+  const mq = window.matchMedia('(prefers-color-scheme: dark)');
+
+  function applySystemTheme(e) {
+    document.documentElement.classList.toggle('dark', e.matches);
+  }
+
+  applySystemTheme(mq);
+  mq.addEventListener('change', applySystemTheme);
+=======
+  const saved = localStorage.getItem('theme');
+  const mq = window.matchMedia('(prefers-color-scheme: dark)');
+  if (saved === 'dark' || (!saved && mq.matches)) {
     document.documentElement.classList.add('dark');
   }
+  // Follow system theme changes when the user hasn't set a manual preference
+  mq.addEventListener('change', function (e) {
+    if (!localStorage.getItem('theme')) {
+      document.documentElement.classList.toggle('dark', e.matches);
+    }
+  });
+>>>>>>> 566a7692bf87dbb1f9604bb3f8a70f0eecf91a00
 })();
 
 // ── Theme toggle (called from onclick in all three HTML files) ──
 function toggleTheme() {
-  const isDark = document.documentElement.classList.toggle('dark');
-  localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  document.documentElement.classList.toggle('dark');
 }
 
 // ── HTML escaping (used in template strings across home/recipe) ─
