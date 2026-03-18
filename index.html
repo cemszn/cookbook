@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Cookbook</title>
-  <link rel="stylesheet" href="css/styles.css?v=2"/>
+  <link rel="stylesheet" href="css/styles.css?v=3"/>
   <link rel="icon" type="image/png" sizes="64x64" href="favicon.png">
   <link rel="manifest" href="manifest.json">
   <link rel="apple-touch-icon" sizes="180x180" href="icon-180.png">
@@ -68,5 +68,9 @@
   <script src="js/firebase-config.js"></script>
   <script src="js/utils.js"></script>
   <script src="js/home.js"></script>
+  <footer class="site-footer">
+    <p>All rights reserved &copy; <span id="footer-year"></span></p>
+  </footer>
+  <script>document.getElementById('footer-year').textContent = new Date().getFullYear();</script>
 </body>
 </html>
