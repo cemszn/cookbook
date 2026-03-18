@@ -1035,7 +1035,7 @@ html.dark .step-tip { color: var(--text-dark); }
   background: var(--cream);
   overflow: hidden;
 }
-.cook-overlay.active { display: flex; flex-direction: column; }
+.cook-overlay.active { display: flex; flex-direction: column; touch-action: none; }
 .cook-overlay::before {
   content: '';
   position: absolute;
@@ -1045,15 +1045,6 @@ html.dark .step-tip { color: var(--text-dark); }
   pointer-events: none;
   z-index: 0;
 }
-.cook-margin-rule {
-  position: absolute;
-  top: 0; bottom: 0; left: 30px;
-  width: 1px;
-  background: rgba(200,80,80,0.15);
-  pointer-events: none;
-  z-index: 2;
-}
-html.dark .cook-margin-rule { background: rgba(200,80,80,0.09); }
 
 .cook-inner {
   position: relative;
@@ -1227,7 +1218,6 @@ html.dark .cook-step-tip { color: var(--text-dark); }
   display: flex;
   animation: celebFadeIn 0.5s ease forwards;
 }
-html.dark .cook-celebration { background-color: var(--bg); }
 
 .cook-celebration-lottie {
   width: min(360px, 72vw);
@@ -1237,21 +1227,17 @@ html.dark .cook-celebration { background-color: var(--bg); }
 
 .cook-celebration-text { margin-top: 8px; }
 
-.cook-celebration-bon {
+.cook-celebration-title {
   font-family: 'Cormorant Garamond', serif;
   font-size: clamp(52px, 10vw, 80px);
   font-weight: 300;
   line-height: 1;
   color: var(--green-deep);
-}
-.cook-celebration-appetit {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(52px, 10vw, 80px);
-  font-weight: 300;
-  font-style: italic;
-  line-height: 1;
-  color: var(--sea);
   margin-bottom: 16px;
+}
+.cook-celebration-title em {
+  font-style: italic;
+  color: var(--sea);
 }
 .cook-celebration-sub {
   font-size: 15px;

@@ -463,9 +463,12 @@ function toggleCookMode() {
   const isActive = overlay.classList.toggle('active');
 
   if (isActive) {
+    document.body.style.overflow = 'hidden';
     cookIndex = 0;
     cookDirection = 'left';
     showCookStep(true); // skip animation on first load
+  } else {
+    document.body.style.overflow = '';
   }
 }
 
@@ -475,6 +478,7 @@ function closeCookMode() {
   if (_lottieInstance) { _lottieInstance.destroy(); _lottieInstance = null; }
   closeCookIngredients();
   document.getElementById('cook-overlay').classList.remove('active');
+  document.body.style.overflow = '';
   timerReset();
 }
 
