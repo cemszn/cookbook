@@ -71,12 +71,6 @@
           <p class="cook-step-body" id="cook-step-body"></p>
           <div class="cook-step-tip" id="cook-step-tip"></div>
         </div>
-
-        <div class="cook-done-wrap" id="cook-done-wrap">
-          <div class="cook-done-icon">🍽️</div>
-          <div class="cook-done-title">Bon<br><em>Appétit</em></div>
-          <p class="cook-done-sub" id="cook-done-sub"></p>
-        </div>
       </div>
 
       <div class="cook-bottombar" id="cook-bottombar">
@@ -115,12 +109,24 @@
 
   </div>
 
+  <!-- ── CELEBRATION SCREEN ── -->
+  <div class="cook-celebration" id="cook-celebration" onclick="closeCelebration()">
+    <div class="cook-celebration-lottie" id="cook-lottie"></div>
+    <div class="cook-celebration-text">
+      <div class="cook-celebration-bon">Bon</div>
+      <div class="cook-celebration-appetit"><em>Appétit</em></div>
+      <p class="cook-celebration-sub" id="cook-celebration-sub"></p>
+    </div>
+    <div class="cook-celebration-hint">Tap anywhere to finish</div>
+  </div>
+
   <!-- ── FIREBASE SDKs ── -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
   <script src="js/firebase-config.js"></script>
   <script src="js/utils.js"></script>
-  <script src="js/recipe.js?v=2"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+  <script src="js/recipe.js?v=3"></script>
   <footer class="site-footer">
     <p>All rights reserved &copy; <span id="footer-year"></span></p>
   </footer>

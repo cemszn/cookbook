@@ -1201,28 +1201,75 @@ html.dark .cook-close-btn { background: linear-gradient(to bottom, #243028 0%, #
 html.dark .cook-step-tip { color: var(--text-dark); }
 .cook-step-tip.is-visible { display: inline-block; }
 
-.cook-done-wrap {
-  display: none;
-  position: absolute;
+/* ── Celebration screen ────────────────────────────────────── */
+@keyframes celebFadeIn {
+  from { opacity: 0; transform: scale(0.97); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.cook-celebration {
+  position: fixed;
   inset: 0;
+  z-index: 600;
+  background: var(--cream);
+  display: none;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
+  cursor: pointer;
   padding: 40px;
+  /* same lined-paper texture as cook-overlay */
+  background-image: repeating-linear-gradient(0deg, transparent, transparent 28px,
+    rgba(0,0,0,0.014) 28px, rgba(0,0,0,0.014) 29px);
 }
-.cook-done-wrap.visible { display: flex; }
-.cook-done-icon { font-size: 64px; margin-bottom: 24px; }
-.cook-done-title {
+.cook-celebration.active {
+  display: flex;
+  animation: celebFadeIn 0.5s ease forwards;
+}
+html.dark .cook-celebration { background-color: var(--bg); }
+
+.cook-celebration-lottie {
+  width: min(360px, 72vw);
+  height: min(360px, 72vw);
+  flex-shrink: 0;
+}
+
+.cook-celebration-text { margin-top: 8px; }
+
+.cook-celebration-bon {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 72px;
+  font-size: clamp(52px, 10vw, 80px);
   font-weight: 300;
-  line-height: 1.05;
+  line-height: 1;
   color: var(--green-deep);
-  margin-bottom: 20px;
 }
-.cook-done-title em { font-style: italic; color: var(--sea); }
-.cook-done-sub { font-size: 16px; color: var(--text-mid); max-width: 420px; }
+.cook-celebration-appetit {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(52px, 10vw, 80px);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1;
+  color: var(--sea);
+  margin-bottom: 16px;
+}
+.cook-celebration-sub {
+  font-size: 15px;
+  color: var(--text-mid);
+  max-width: 380px;
+  margin: 0 auto 0;
+  font-weight: 300;
+  line-height: 1.7;
+}
+.cook-celebration-hint {
+  position: absolute;
+  bottom: 32px;
+  left: 0; right: 0;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--rule);
+}
 
 .cook-bottombar {
   display: flex;

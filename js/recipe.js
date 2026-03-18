@@ -322,8 +322,6 @@ function setupCookMode() {
   cookSteps = recipe.steps || [];
   document.getElementById('cook-recipe-name').innerHTML =
     `<strong>${escHtml(recipe.title)}</strong>${recipe.subtitle ? ' · ' + escHtml(recipe.subtitle) : ''}`;
-  document.getElementById('cook-done-sub').textContent =
-    `Your ${recipe.title} is ready. Serve immediately and enjoy.`;
   buildDots();
   initSwipeGesture();
 }
@@ -413,11 +411,18 @@ function _applyStepContent() {
     cookIndex === cookSteps.length - 1 ? 'Finish →' : 'Next →';
 }
 
-function showCookStep() {
+function showCookStep(skipAnimation) {
   const wrap     = document.getElementById('cook-step-wrap');
-  const doneWrap = document.getElementById('cook-done-wrap');
   const outClass = cookDirection === 'left' ? 'slide-out-left' : 'slide-out-right';
   const inClass  = cookDirection === 'left' ? 'slide-in-left'  : 'slide-in-right';
+
+  if (skipAnimation) {
+    wrap.classList.remove('slide-in-left', 'slide-in-right', 'slide-out-left', 'slide-out-right');
+    _applyStepContent();
+    wrap.classList.add('visible');
+    updateDots();
+    return;
+  }
 
   // Slide out
   wrap.classList.remove('visible', 'slide-in-left', 'slide-in-right');
@@ -425,13 +430,9 @@ function showCookStep() {
 
   setTimeout(() => {
     wrap.classList.remove(outClass);
-    doneWrap.classList.remove('visible');
 
     if (cookIndex >= cookSteps.length) {
-      doneWrap.classList.add('visible');
-      document.getElementById('cook-next').textContent = 'Finish';
-      document.getElementById('cook-next').disabled = false;
-      document.getElementById('cook-prev').disabled = false;
+      showCelebration();
       return;
     }
 
@@ -463,12 +464,15 @@ function toggleCookMode() {
 
   if (isActive) {
     cookIndex = 0;
-    showCookStep();
-    document.getElementById('cook-done-wrap').classList.remove('visible');
+    cookDirection = 'left';
+    showCookStep(true); // skip animation on first load
   }
 }
 
 function closeCookMode() {
+  const cel = document.getElementById('cook-celebration');
+  if (cel) cel.classList.remove('active');
+  if (_lottieInstance) { _lottieInstance.destroy(); _lottieInstance = null; }
   closeCookIngredients();
   document.getElementById('cook-overlay').classList.remove('active');
   timerReset();
@@ -531,18 +535,36 @@ function renderCookIngredients() {
   }).join('');
 
   // Drag-to-dismiss on the handle
-  const handle  = document.getElementById('cook-ingredients-handle');
-  const sheet   = document.getElementById('cook-ingredients-sheet');
+  const handle = document.getElementById('cook-ingredients-handle');
+  const sheet  = document.getElementById('cook-ingredients-sheet');
   if (!handle || handle._dragBound) return;
   handle._dragBound = true;
 
-  let dragStartY = 0;
+  let dragStartY = 0, dragging = false;
+
   handle.addEventListener('touchstart', e => {
     dragStartY = e.touches[0].clientY;
+    dragging = true;
+    sheet.style.transition = 'none';
   }, { passive: true });
+
+  handle.addEventListener('touchmove', e => {
+    if (!dragging) return;
+    const dy = Math.max(0, e.touches[0].clientY - dragStartY);
+    sheet.style.transform = `translateY(${dy}px)`;
+  }, { passive: true });
+
   handle.addEventListener('touchend', e => {
+    if (!dragging) return;
+    dragging = false;
+    sheet.style.transition = '';
     const dy = e.changedTouches[0].clientY - dragStartY;
-    if (dy > 60) closeCookIngredients();
+    if (dy > 100) {
+      sheet.style.transform = '';
+      closeCookIngredients();
+    } else {
+      sheet.style.transform = ''; // snap back
+    }
   }, { passive: true });
 }
 
@@ -566,6 +588,37 @@ function closeCookIngredients() {
   sheet.classList.add('closing');
   backdrop.classList.remove('open');
   setTimeout(() => sheet.classList.remove('closing'), 280);
+}
+
+// ── Celebration screen ─────────────────────────────────────────
+let _lottieInstance = null;
+
+function showCelebration() {
+  const cel = document.getElementById('cook-celebration');
+  if (!cel) return;
+  document.getElementById('cook-celebration-sub').textContent =
+    recipe ? `Your ${recipe.title} is ready. Serve immediately and enjoy.` : '';
+  cel.classList.add('active');
+
+  const container = document.getElementById('cook-lottie');
+  if (window.lottie && container) {
+    if (_lottieInstance) { _lottieInstance.destroy(); _lottieInstance = null; }
+    container.innerHTML = '';
+    _lottieInstance = lottie.loadAnimation({
+      container,
+      renderer: 'svg',
+      loop: true,
+      autoplay: true,
+      path: 'assets/cooking.json'
+    });
+  }
+}
+
+function closeCelebration() {
+  const cel = document.getElementById('cook-celebration');
+  if (cel) cel.classList.remove('active');
+  if (_lottieInstance) { _lottieInstance.destroy(); _lottieInstance = null; }
+  closeCookMode();
 }
 
 // ── Edit ───────────────────────────────────────────────────────
