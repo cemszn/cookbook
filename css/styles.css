@@ -268,7 +268,7 @@ html.dark .toggle-thumb.theme-thumb { transform: translateX(16px); background: #
   top: 50%;
   transform: translateY(-50%);
   color: var(--text-light);
-  font-size: 15px;
+  font-size: 22px;
   pointer-events: none;
 }
 .search-input {
@@ -1508,7 +1508,6 @@ html.dark .cook-ingredients-close {
   flex: 1;
   overflow-y: auto;
   padding: 10px 24px 32px;
-  -webkit-overflow-scrolling: touch;
 }
 
 /* ══════════════════════════════════════════════════════════════
@@ -1830,9 +1829,6 @@ label {
   margin-top: -4px;
 }
 
-/* ── COOK MODE TOGGLE (recipe page toolbox pill) ── */
-.toggle-track.cook-track.active { background: var(--green-mid); }
-.toggle-thumb.cook-thumb.active { transform: translateX(16px); background: #141a16; }
 
 /* ══════════════════════════════════════════════════════════════
    ANIMATIONS
@@ -1873,7 +1869,6 @@ label {
   .btn-new-recipe { justify-content: center; }
   .cook-step-number-large { font-size: 56px; }
   .cook-step-title-large  { font-size: 32px; }
-  .cook-done-title { font-size: 48px; }
 }
 
 @media print {

@@ -77,6 +77,17 @@
   <script>
     (function () {
       var screen = document.getElementById('launch-screen');
+      function endLaunch() {
+        screen.classList.add('fading');
+        document.documentElement.classList.remove('launching');
+        setTimeout(function () { screen.remove(); }, 280);
+      }
+      // Skip if navigating from within the app (not a fresh launch)
+      if (document.referrer && document.referrer.startsWith(window.location.origin)) {
+        screen.remove();
+        document.documentElement.classList.remove('launching');
+        return;
+      }
       var anim = lottie.loadAnimation({
         container: document.getElementById('launch-lottie'),
         renderer: 'svg',
@@ -85,11 +96,6 @@
         path: 'assets/loading.json'
       });
       anim.setSpeed(2);
-      function endLaunch() {
-        screen.classList.add('fading');
-        document.documentElement.classList.remove('launching');
-        setTimeout(function () { screen.remove(); }, 280);
-      }
       anim.addEventListener('complete', endLaunch);
       // Fallback: never block the app for more than 4s
       setTimeout(endLaunch, 4000);
