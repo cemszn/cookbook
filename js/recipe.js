@@ -4,18 +4,6 @@
    and renders the full page including cook mode.
 ═══════════════════════════════════════════════════════════════ */
 
-// ── Theme ──────────────────────────────────────────────────────
-(function () {
-  if (localStorage.getItem('theme') === 'dark') {
-    document.documentElement.classList.add('dark');
-  }
-})();
-
-function toggleTheme() {
-  const isDark = document.documentElement.classList.toggle('dark');
-  localStorage.setItem('theme', isDark ? 'dark' : 'light');
-}
-
 function toolboxBack() {
   const overlay = document.getElementById('cook-overlay');
   if (overlay && overlay.classList.contains('active')) {
@@ -34,9 +22,10 @@ function closeToolboxMenu() {
   document.getElementById('toolbox-menu').classList.remove('open');
 }
 
-document.addEventListener('click', function(e) {
+function _onDocumentClick(e) {
   if (!e.target.closest('.toolbox-right')) closeToolboxMenu();
-});
+}
+document.addEventListener('click', _onDocumentClick);
 
 // ── Globals ────────────────────────────────────────────────────
 let recipe         = null;
@@ -75,7 +64,7 @@ async function loadRecipe() {
 
 function showError(msg) {
   document.getElementById('recipe-page').innerHTML = `
-<div class="empty-state" style="padding:80px 0;">
+    <div class="empty-state empty-state--no-hpad">
       <div class="empty-state-icon">⚠️</div>
       <div class="empty-state-title">Oops</div>
       <div class="empty-state-sub">${escHtml(msg)}</div>
@@ -148,7 +137,7 @@ function renderPage() {
       </div>
       <div class="info-cell">
         <span class="meta-label">Difficulty</span>
-        <span class="meta-value" style="font-size:18px;">${escHtml(r.difficulty || '—')}</span>
+        <span class="meta-value meta-value--small">${escHtml(r.difficulty || '—')}</span>
       </div>
     </div>
 
@@ -282,7 +271,7 @@ function buildNutritionCard(nf) {
       : label;
     const indentClass = indent ? ' indent' : '';
     const bar = barClass && dvPct !== null
-      ? `<div class="nf-bar-wrap"${indent ? ` style="margin-left:${indent}px"` : ''}>
+      ? `<div class="nf-bar-wrap${indent ? ' nf-bar-wrap--indent' : ''}">
            <div class="nf-bar ${barClass}" style="width:${Math.min(dvPct, 100)}%"></div>
          </div>` : '';
     return `
@@ -327,6 +316,7 @@ function buildNutritionCard(nf) {
 // ══════════════════════════════════════════════════════════════
 let cookSteps  = [];
 let cookIndex  = 0;
+let cookDots   = [];
 
 function setupCookMode() {
   cookSteps = recipe.steps || [];
@@ -342,12 +332,11 @@ function buildDots() {
   container.innerHTML = cookSteps.map((_, i) =>
     `<div class="cook-dot" id="cook-dot-${i}"></div>`
   ).join('');
+  cookDots = Array.from(container.children);
 }
 
 function updateDots() {
-  cookSteps.forEach((_, i) => {
-    const dot = document.getElementById(`cook-dot-${i}`);
-    if (!dot) return;
+  cookDots.forEach((dot, i) => {
     dot.className = 'cook-dot' +
       (i < cookIndex ? ' done' : i === cookIndex ? ' active' : '');
   });
@@ -381,10 +370,11 @@ function showCookStep() {
 
     const tipEl = document.getElementById('cook-step-tip');
     if (step.tip) {
-      tipEl.textContent    = step.tip;
-      tipEl.style.display  = 'inline-block';
+      tipEl.textContent = step.tip;
+      tipEl.classList.add('is-visible');
     } else {
-      tipEl.style.display  = 'none';
+      tipEl.classList.remove('is-visible');
+      tipEl.textContent = '';
     }
 
     document.getElementById('cook-prev').disabled = cookIndex === 0;
@@ -461,16 +451,6 @@ function formatTime(s) {
   return [h, m, sec].map(n => String(n).padStart(2, '0')).join(':');
 }
 
-// ── Utility ────────────────────────────────────────────────────
-function escHtml(str) {
-  if (!str) return '';
-  return String(str)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
-}
-
 // ── Edit ───────────────────────────────────────────────────────
 function editRecipe() {
   const id = getRecipeId();
@@ -479,3 +459,7 @@ function editRecipe() {
 
 // ── Init ───────────────────────────────────────────────────────
 loadRecipe();
+
+window.addEventListener('beforeunload', function () {
+  if (timerInterval) clearInterval(timerInterval);
+});

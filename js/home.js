@@ -3,18 +3,6 @@
    Loads all recipes from Firestore and renders the recipe grid.
 ═══════════════════════════════════════════════════════════════ */
 
-// ── Theme ──────────────────────────────────────────────────────
-(function () {
-  if (localStorage.getItem('theme') === 'dark') {
-    document.documentElement.classList.add('dark');
-  }
-})();
-
-function toggleTheme() {
-  const isDark = document.documentElement.classList.toggle('dark');
-  localStorage.setItem('theme', isDark ? 'dark' : 'light');
-}
-
 // ── State ──────────────────────────────────────────────────────
 let allRecipes = [];
 
@@ -86,7 +74,7 @@ function recipeCardHTML(r) {
         </div>
         <div class="card-meta-item">
           <span class="card-meta-label">Difficulty</span>
-          <span class="card-meta-value" style="font-size:14px;">${escHtml(r.difficulty || '—')}</span>
+          <span class="card-meta-value card-meta-value--small">${escHtml(r.difficulty || '—')}</span>
         </div>
       </div>
       ${tagsHTML ? `<div class="card-tags">${tagsHTML}</div>` : ''}
@@ -94,7 +82,7 @@ function recipeCardHTML(r) {
 }
 
 // ── Search / Filter ────────────────────────────────────────────
-function filterRecipes() {
+function _filterRecipesImpl() {
   const query = document.getElementById('search-input').value.toLowerCase().trim();
   if (!query) {
     renderGrid(allRecipes);
@@ -111,15 +99,7 @@ function filterRecipes() {
   renderGrid(filtered);
 }
 
-// ── Utility ────────────────────────────────────────────────────
-function escHtml(str) {
-  if (!str) return '';
-  return String(str)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
-}
+const filterRecipes = debounce(_filterRecipesImpl, 250);
 
 // ── Init ───────────────────────────────────────────────────────
 loadRecipes();

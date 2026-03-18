@@ -3,18 +3,6 @@
    Manages dynamic field lists and saves new recipes to Firestore.
 ═══════════════════════════════════════════════════════════════ */
 
-// ── Theme ──────────────────────────────────────────────────────
-(function () {
-  if (localStorage.getItem('theme') === 'dark') {
-    document.documentElement.classList.add('dark');
-  }
-})();
-
-function toggleTheme() {
-  const isDark = document.documentElement.classList.toggle('dark');
-  localStorage.setItem('theme', isDark ? 'dark' : 'light');
-}
-
 // ── Swatch colour options ──────────────────────────────────────
 const SWATCH_COLORS = [
   'fish', 'lemon', 'olive', 'caper',
@@ -88,7 +76,7 @@ function removeImage() {
   document.getElementById('f-image').value = '';
 }
 
-async function uploadImage(/* recipeId unused — Cloudinary generates its own public ID */) {
+async function uploadImage() {
   if (!selectedImageFile) return existingImageUrl;
 
   const formData = new FormData();
@@ -113,8 +101,7 @@ async function uploadImage(/* recipeId unused — Cloudinary generates its own p
 function addKeyIngredient() {
   const list = document.getElementById('key-ingredients-list');
   if (list.children.length >= 4) {
-    document.getElementById('add-key-ingredient').style.opacity = '0.4';
-    document.getElementById('add-key-ingredient').style.pointerEvents = 'none';
+    document.getElementById('add-key-ingredient').classList.add('btn-add-item--disabled');
     return;
   }
   const id = `ki-${kiCount++}`;
@@ -122,10 +109,8 @@ function addKeyIngredient() {
   div.className = 'key-ingredient-block';
   div.id = id;
   div.innerHTML = `
-    <div style="display:flex; justify-content:space-between; align-items:center;">
-      <span style="font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:var(--text-light);">
-        Key Ingredient ${list.children.length + 1}
-      </span>
+    <div class="ki-block-header">
+      <span class="ki-block-label">Key Ingredient ${list.children.length + 1}</span>
       <button type="button" class="btn-remove" onclick="removeItem('${id}', 'key')">✕</button>
     </div>
     <div class="form-row two">
@@ -201,7 +186,7 @@ function addStep() {
   div.id = id;
   div.innerHTML = `
     <span class="dynamic-item-number">${num}</span>
-    <div class="dynamic-item-fields" style="flex-direction:column;">
+    <div class="dynamic-item-fields dynamic-item-fields--col">
       <input class="form-input" type="text" placeholder="Step title * (e.g. Preheat the Oven)" required />
       <textarea class="form-textarea" placeholder="Step instructions *" required></textarea>
       <input class="form-input" type="text" placeholder="Tip (optional — shown as a highlighted callout)" />
@@ -261,8 +246,7 @@ function removeItem(id, type) {
     const list = document.getElementById('key-ingredients-list');
     const btn  = document.getElementById('add-key-ingredient');
     if (list.children.length < 4) {
-      btn.style.opacity       = '1';
-      btn.style.pointerEvents = 'auto';
+      btn.classList.remove('btn-add-item--disabled');
     }
   }
 
@@ -581,7 +565,7 @@ async function submitRecipe(e) {
         let imageUrl = null;
         let imageWarn = null;
         try {
-          imageUrl = await uploadImage(recipeId);
+          imageUrl = await uploadImage();
         } catch (imgErr) {
           console.warn('Image upload failed:', imgErr);
           imageWarn = 'Recipe saved, but the image could not be uploaded. Check your Firebase Storage rules.';

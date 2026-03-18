@@ -54,7 +54,7 @@
 
       <div class="cook-topbar">
         <div class="cook-topbar-title" id="cook-recipe-name"></div>
-        <div style="display:flex;align-items:center;gap:20px;">
+        <div class="cook-topbar-controls">
           <div class="cook-progress-dots" id="cook-dots"></div>
           <button class="cook-close-btn" onclick="closeCookMode()">✕ &nbsp;Exit</button>
         </div>
@@ -68,7 +68,7 @@
             <div class="cook-step-title-large" id="cook-step-title"></div>
           </div>
           <p class="cook-step-body" id="cook-step-body"></p>
-          <div class="cook-step-tip" id="cook-step-tip" style="display:none;"></div>
+          <div class="cook-step-tip" id="cook-step-tip"></div>
         </div>
 
         <div class="cook-done-wrap" id="cook-done-wrap">
@@ -87,7 +87,7 @@
           <div class="cook-timer-display">
             <div class="cook-timer-digits" id="cook-timer-digits">00:00:00</div>
             <div class="cook-timer-label">
-              <span>hr</span><span style="flex:1"></span><span>min</span><span style="flex:1"></span><span>sec</span>
+              <span>hr</span><span class="cook-timer-spacer"></span><span>min</span><span class="cook-timer-spacer"></span><span>sec</span>
             </div>
           </div>
           <div class="cook-timer-btns">
@@ -104,6 +104,7 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
   <script src="js/firebase-config.js"></script>
+  <script src="js/utils.js"></script>
   <script src="js/recipe.js?v=2"></script>
 </body>
 </html>

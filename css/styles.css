@@ -440,6 +440,7 @@ html.dark .toggle-thumb.theme-thumb { transform: translateX(16px); background: #
   line-height: 1;
 }
 .card-meta-unit { font-size: 11px; color: var(--text-mid); }
+.card-meta-value--small { font-size: 14px; }
 
 .card-tags {
   display: flex;
@@ -482,6 +483,7 @@ html.dark .toggle-thumb.theme-thumb { transform: translateX(16px); background: #
   max-width: 320px;
   margin: 0 auto 28px;
 }
+.empty-state--no-hpad { padding-left: 0; padding-right: 0; }
 
 /* ── LOADING STATE ── */
 .loading-state {
@@ -657,6 +659,7 @@ html.dark .toggle-thumb.theme-thumb { transform: translateX(16px); background: #
   color: var(--green-deep);
 }
 .meta-unit { font-size: 13px; color: var(--text-mid); }
+.meta-value--small { font-size: 18px; }
 
 /* ── TWO-COLUMN LAYOUT ── */
 .two-col {
@@ -960,6 +963,7 @@ html.dark .step-tip { color: var(--text-dark); }
   margin: 2px 0 6px;
   overflow: hidden;
 }
+.nf-bar-wrap--indent { margin-left: 16px; }
 .nf-bar { height: 100%; border-radius: 2px; transition: width 0.8s cubic-bezier(0.34,1.2,0.64,1); }
 .bar-green  { background: var(--green-mid); }
 .bar-sea    { background: var(--sea); }
@@ -1062,6 +1066,8 @@ html.dark .cook-margin-rule { background: rgba(200,80,80,0.09); }
   width: 100%;
   padding: 0 clamp(24px, 5vw, 80px);
 }
+
+.cook-topbar-controls { display: flex; align-items: center; gap: 20px; }
 
 .cook-topbar {
   display: flex;
@@ -1173,7 +1179,7 @@ html.dark .cook-close-btn { background: linear-gradient(to bottom, #243028 0%, #
   max-width: 560px;
 }
 .cook-step-tip {
-  display: inline-block;
+  display: none;
   margin-top: 20px;
   background: var(--sea-pale);
   border-left: 2px solid var(--sea-light);
@@ -1185,6 +1191,7 @@ html.dark .cook-close-btn { background: linear-gradient(to bottom, #243028 0%, #
   max-width: 520px;
 }
 html.dark .cook-step-tip { color: var(--text-dark); }
+.cook-step-tip.is-visible { display: inline-block; }
 
 .cook-done-wrap {
   display: none;
@@ -1233,8 +1240,8 @@ html.dark .cook-step-tip { color: var(--text-dark); }
   transition: box-shadow 0.15s, transform 0.1s, background 0.15s, opacity 0.2s;
   user-select: none;
 }
-.cook-nav-btn:active { transform: translateY(1px); }
-.cook-nav-btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none !important; }
+.cook-nav-btn:active:not(:disabled) { transform: translateY(1px); }
+.cook-nav-btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none; }
 
 .cook-btn-prev {
   background: linear-gradient(to bottom, #fdfaf5 0%, #eee8dc 100%);
@@ -1287,6 +1294,7 @@ html.dark .cook-timer-digits { color: var(--green-deep); text-shadow: none; }
   color: var(--text-light); text-align: center; margin-top: 3px;
   display: flex; justify-content: space-around; width: 100%;
 }
+.cook-timer-spacer { flex: 1; }
 .cook-timer-btns { display: flex; flex-direction: row; gap: 4px; align-items: stretch; }
 .cook-timer-btn {
   display: inline-flex; align-items: center; justify-content: center;
@@ -1433,6 +1441,7 @@ label {
 .dynamic-item-fields .form-input { flex: 1; min-width: 100px; }
 .dynamic-item-fields .form-input.narrow { max-width: 80px; flex: 0 0 80px; }
 .dynamic-item-fields .form-textarea { flex: 1; min-height: 72px; }
+.dynamic-item-fields--col { flex-direction: column; }
 
 .dynamic-item-number {
   font-family: 'Cormorant Garamond', serif;
@@ -1475,6 +1484,7 @@ label {
   margin-top: 4px;
 }
 .btn-add-item:hover { border-color: var(--green-mid); color: var(--green-mid); }
+.btn-add-item--disabled { opacity: 0.4; pointer-events: none; }
 
 /* ── KEY INGREDIENT BLOCKS ── */
 .key-ingredient-block {
@@ -1487,6 +1497,8 @@ label {
   gap: 14px;
 }
 .key-ingredient-block label { display: block; }
+.ki-block-header { display: flex; justify-content: space-between; align-items: center; }
+.ki-block-label { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-light); }
 .key-ingredient-preview {
   display: flex;
   align-items: center;
@@ -1535,8 +1547,8 @@ label {
   transition: box-shadow 0.15s, transform 0.1s, background 0.15s;
 }
 .btn-submit:hover { background: linear-gradient(to bottom, #44a878 0%, #357a5a 100%); box-shadow: 0 1px 0 rgba(255,255,255,0.18) inset, 0 6px 20px rgba(45,107,79,0.5); }
-.btn-submit:active { transform: translateY(1px); }
-.btn-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
+.btn-submit:active:not(:disabled) { transform: translateY(1px); }
+.btn-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
 .btn-cancel {
   display: inline-flex;
