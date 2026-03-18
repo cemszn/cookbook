@@ -6,10 +6,16 @@
 // ── Theme init (runs immediately on every page) ─────────────────
 (function () {
   const saved = localStorage.getItem('theme');
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  if (saved === 'dark' || (!saved && prefersDark)) {
+  const mq = window.matchMedia('(prefers-color-scheme: dark)');
+  if (saved === 'dark' || (!saved && mq.matches)) {
     document.documentElement.classList.add('dark');
   }
+  // Follow system theme changes when the user hasn't set a manual preference
+  mq.addEventListener('change', function (e) {
+    if (!localStorage.getItem('theme')) {
+      document.documentElement.classList.toggle('dark', e.matches);
+    }
+  });
 })();
 
 // ── Theme toggle (called from onclick in all three HTML files) ──
