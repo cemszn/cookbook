@@ -407,8 +407,10 @@ function _applyStepContent() {
 
   document.getElementById('cook-prev').disabled = cookIndex === 0;
   document.getElementById('cook-next').disabled = false;
-  document.getElementById('cook-next').textContent =
-    cookIndex === cookSteps.length - 1 ? 'Finish →' : 'Next →';
+  document.getElementById('cook-next').innerHTML =
+    cookIndex === cookSteps.length - 1
+      ? 'Finish ' + feather.toSvg('arrow-right')
+      : 'Next ' + feather.toSvg('arrow-right');
 }
 
 function showCookStep(skipAnimation) {
@@ -492,14 +494,14 @@ function timerToggle() {
   if (timerRunning) {
     clearInterval(timerInterval);
     timerRunning = false;
-    btn.textContent = '▶';
+    btn.innerHTML = feather.toSvg('play');
   } else {
     timerInterval = setInterval(() => {
       timerSeconds++;
       document.getElementById('cook-timer-digits').textContent = formatTime(timerSeconds);
     }, 1000);
     timerRunning = true;
-    btn.textContent = '⏸';
+    btn.innerHTML = feather.toSvg('pause');
   }
 }
 
@@ -508,7 +510,7 @@ function timerReset() {
   timerRunning  = false;
   timerSeconds  = 0;
   document.getElementById('cook-timer-digits').textContent = '00:00:00';
-  document.getElementById('cook-timer-start').textContent  = '▶';
+  document.getElementById('cook-timer-start').innerHTML  = feather.toSvg('play');
 }
 
 function formatTime(s) {

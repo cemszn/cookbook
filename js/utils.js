@@ -30,6 +30,11 @@ function escHtml(str) {
     .replace(/"/g, '&quot;');
 }
 
+// ── Feather icons ────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', function () {
+  if (typeof feather !== 'undefined') feather.replace();
+});
+
 // ── Debounce ────────────────────────────────────────────────────
 function debounce(fn, delay) {
   let timer;

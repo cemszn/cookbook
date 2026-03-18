@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Recipe — Cookbook</title>
-  <link rel="stylesheet" href="css/styles.css?v=3"/>
+  <link rel="stylesheet" href="css/styles.css?v=4"/>
   <link rel="icon" type="image/png" sizes="64x64" href="favicon.png">
 </head>
 <body>
@@ -12,15 +12,15 @@
   <!-- ── TOOLBOX ── -->
   <div class="toolbox">
     <div class="toolbox-pill" onclick="toolboxBack()" title="Go back" id="toolbox-back">
-      <span class="toggle-label">← Back</span>
+      <i data-feather="arrow-left"></i><span class="toggle-label">Back</span>
     </div>
     <div class="toolbox-right">
       <div class="toolbox-pills">
         <div class="toolbox-pill" onclick="toggleCookMode()" title="Cook Mode" id="cook-mode-pill">
-          <span class="toggle-label">Cook</span>
+          <i data-feather="maximize-2"></i>
         </div>
         <div class="toolbox-pill" onclick="editRecipe()" title="Edit this recipe" id="edit-pill">
-          <span class="toggle-label">Edit</span>
+          <i data-feather="edit-3"></i>
         </div>
         <div class="toolbox-pill" onclick="toggleTheme()" title="Toggle dark mode">
           <div class="toggle-track theme-track">
@@ -30,7 +30,7 @@
         </div>
       </div>
       <div class="toolbox-pill toolbox-menu-btn" id="toolbox-menu-btn" onclick="toggleToolboxMenu(event)">
-        <span class="toggle-label">Menu</span>
+        <i data-feather="menu"></i><span class="toggle-label">Menu</span>
       </div>
       <div class="toolbox-menu" id="toolbox-menu">
         <div class="toolbox-menu-item" onclick="toggleCookMode();closeToolboxMenu()">Cook</div>
@@ -56,7 +56,7 @@
         <div class="cook-topbar-title" id="cook-recipe-name"></div>
         <div class="cook-topbar-controls">
           <div class="cook-progress-dots" id="cook-dots"></div>
-          <button class="cook-close-btn" onclick="closeCookMode()">✕ &nbsp;Exit</button>
+          <button class="cook-close-btn" onclick="closeCookMode()"><i data-feather="x"></i>&nbsp;Exit</button>
         </div>
       </div>
 
@@ -74,9 +74,9 @@
 
       <div class="cook-bottombar" id="cook-bottombar">
         <div class="cook-nav-btns">
-          <button class="cook-nav-btn cook-btn-ingredients" id="cook-ingredients-btn" onclick="toggleCookIngredients()">☰ Ingredients</button>
-          <button class="cook-nav-btn cook-btn-prev" id="cook-prev" onclick="cookPrev()">← Previous</button>
-          <button class="cook-nav-btn cook-btn-next" id="cook-next" onclick="cookNext()">Next →</button>
+          <button class="cook-nav-btn cook-btn-ingredients" id="cook-ingredients-btn" onclick="toggleCookIngredients()"><i data-feather="list"></i> Ingredients</button>
+          <button class="cook-nav-btn cook-btn-prev" id="cook-prev" onclick="cookPrev()"><i data-feather="arrow-left"></i> Previous</button>
+          <button class="cook-nav-btn cook-btn-next" id="cook-next" onclick="cookNext()">Next <i data-feather="arrow-right"></i></button>
         </div>
         <div class="cook-timer">
           <div class="cook-timer-display">
@@ -86,8 +86,8 @@
             </div>
           </div>
           <div class="cook-timer-btns">
-            <button class="cook-timer-btn cook-timer-btn-start" id="cook-timer-start" onclick="timerToggle()" title="Start / Pause">▶</button>
-            <button class="cook-timer-btn cook-timer-btn-reset" onclick="timerReset()" title="Reset">↺</button>
+            <button class="cook-timer-btn cook-timer-btn-start" id="cook-timer-start" onclick="timerToggle()" title="Start / Pause"><i data-feather="play"></i></button>
+            <button class="cook-timer-btn cook-timer-btn-reset" onclick="timerReset()" title="Reset"><i data-feather="rotate-ccw"></i></button>
           </div>
         </div>
       </div>
@@ -101,7 +101,7 @@
       <div class="cook-ingredients-handle" id="cook-ingredients-handle"></div>
       <div class="cook-ingredients-header">
         <span class="cook-ingredients-title">Ingredients</span>
-        <button class="cook-nav-btn cook-ingredients-close" onclick="closeCookIngredients()">✕ Close</button>
+        <button class="cook-nav-btn cook-ingredients-close" onclick="closeCookIngredients()"><i data-feather="x"></i> Close</button>
       </div>
       <div class="cook-ingredients-body" id="cook-ingredients-body"></div>
     </div>
@@ -117,6 +117,9 @@
     </div>
     <div class="cook-celebration-hint">Tap anywhere to finish</div>
   </div>
+
+  <!-- ── FEATHER ICONS ── -->
+  <script src="https://unpkg.com/feather-icons"></script>
 
   <!-- ── FIREBASE SDKs ── -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>

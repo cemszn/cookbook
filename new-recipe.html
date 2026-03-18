@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>New Recipe — Cookbook</title>
-  <link rel="stylesheet" href="css/styles.css?v=3"/>
+  <link rel="stylesheet" href="css/styles.css?v=4"/>
   <link rel="icon" type="image/png" sizes="64x64" href="favicon.png">
 </head>
 <body>
@@ -12,7 +12,7 @@
   <!-- ── TOOLBOX ── -->
   <div class="toolbox">
     <div class="toolbox-pill" onclick="history.back()" title="Go back">
-      <span class="toggle-label">← Back</span>
+      <i data-feather="arrow-left"></i><span class="toggle-label">Back</span>
     </div>
     <div class="toolbox-right">
       <div class="toolbox-pill" onclick="toggleTheme()" title="Toggle dark mode">
@@ -84,13 +84,13 @@
               ondrop="handleImageDrop(event)">
               <img id="image-preview" class="image-preview-img" style="display:none" alt="Dish preview" />
               <div id="image-upload-placeholder" class="image-upload-placeholder">
-                <span class="image-upload-icon">🖼</span>
+                <span class="image-upload-icon"><i data-feather="image"></i></span>
                 <span class="image-upload-text">Click to upload or drag &amp; drop</span>
                 <span class="image-upload-hint">JPG, PNG, WEBP · Max 5 MB</span>
               </div>
             </div>
             <button type="button" class="image-remove-btn" id="image-remove-btn"
-              style="display:none" onclick="removeImage()">✕ Remove photo</button>
+              style="display:none" onclick="removeImage()"><i data-feather="x"></i> Remove photo</button>
           </div>
         </div>
       </div>
@@ -142,7 +142,7 @@
 
         <div id="key-ingredients-list" class="dynamic-list"></div>
         <button type="button" class="btn-add-item" id="add-key-ingredient"
-          onclick="addKeyIngredient()">＋ Add key ingredient</button>
+          onclick="addKeyIngredient()"><i data-feather="plus"></i> Add key ingredient</button>
       </div>
 
       <!-- ══ SECTION 4: INGREDIENTS ══ -->
@@ -150,7 +150,7 @@
         <div class="section-heading"><h2>Ingredients *</h2></div>
 
         <div id="ingredients-list" class="dynamic-list"></div>
-        <button type="button" class="btn-add-item" onclick="addIngredient()">＋ Add ingredient</button>
+        <button type="button" class="btn-add-item" onclick="addIngredient()"><i data-feather="plus"></i> Add ingredient</button>
       </div>
 
       <!-- ══ SECTION 5: METHOD ══ -->
@@ -158,7 +158,7 @@
         <div class="section-heading"><h2>Method *</h2></div>
 
         <div id="steps-list" class="dynamic-list"></div>
-        <button type="button" class="btn-add-item" onclick="addStep()">＋ Add step</button>
+        <button type="button" class="btn-add-item" onclick="addStep()"><i data-feather="plus"></i> Add step</button>
       </div>
 
       <!-- ══ SECTION 6: KITCHEN NOTES ══ -->
@@ -166,7 +166,7 @@
         <div class="section-heading"><h2>Kitchen Notes <span class="section-note">(optional)</span></h2></div>
 
         <div id="notes-list" class="dynamic-list"></div>
-        <button type="button" class="btn-add-item" onclick="addNote()">＋ Add note</button>
+        <button type="button" class="btn-add-item" onclick="addNote()"><i data-feather="plus"></i> Add note</button>
       </div>
 
       <!-- ══ SECTION 7: NUTRITION FACTS ══ -->
@@ -240,7 +240,7 @@
 
         <div class="nf-form-label-group">Additional Nutrition <span class="nf-label-note">(vitamins, minerals, etc.)</span></div>
         <div id="nf-extras-list" class="dynamic-list"></div>
-        <button type="button" class="btn-add-item" onclick="addNutritionExtra()">＋ Add extra nutrition</button>
+        <button type="button" class="btn-add-item" onclick="addNutritionExtra()"><i data-feather="plus"></i> Add extra nutrition</button>
       </div>
 
       <!-- ══ FORM ACTIONS ══ -->
@@ -257,6 +257,9 @@
 
     </form>
   </div><!-- /.page -->
+
+  <!-- ── FEATHER ICONS ── -->
+  <script src="https://unpkg.com/feather-icons"></script>
 
   <!-- ── FIREBASE SDKs ── -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>

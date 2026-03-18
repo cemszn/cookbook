@@ -34,7 +34,7 @@ function renderGrid(recipes) {
         <div class="empty-state-icon">📖</div>
         <div class="empty-state-title">No recipes yet</div>
         <div class="empty-state-sub">Start building your cookbook by adding your first recipe.</div>
-        <a href="new-recipe.html" class="btn-new-recipe">＋ Add your first recipe</a>
+        <a href="new-recipe.html" class="btn-new-recipe">${feather.toSvg('plus')} Add your first recipe</a>
       </div>`;
     return;
   }

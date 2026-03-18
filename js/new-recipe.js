@@ -111,7 +111,7 @@ function addKeyIngredient() {
   div.innerHTML = `
     <div class="ki-block-header">
       <span class="ki-block-label">Key Ingredient ${list.children.length + 1}</span>
-      <button type="button" class="btn-remove" onclick="removeItem('${id}', 'key')">✕</button>
+      <button type="button" class="btn-remove" onclick="removeItem('${id}', 'key')">${feather.toSvg('x')}</button>
     </div>
     <div class="form-row two">
       <div class="form-field">
@@ -172,7 +172,7 @@ function addIngredient() {
       <input class="form-input" type="text" placeholder="Ingredient name *" required />
       <input class="form-input" type="text" placeholder="Note (optional, e.g. finely chopped)" />
     </div>
-    <button type="button" class="btn-remove" onclick="removeItem('${id}', 'ing')">✕</button>`;
+    <button type="button" class="btn-remove" onclick="removeItem('${id}', 'ing')">${feather.toSvg('x')}</button>`;
   list.appendChild(div);
 }
 
@@ -191,7 +191,7 @@ function addStep() {
       <textarea class="form-textarea" placeholder="Step instructions *" required></textarea>
       <input class="form-input" type="text" placeholder="Tip (optional — shown as a highlighted callout)" />
     </div>
-    <button type="button" class="btn-remove" onclick="removeItem('${id}', 'step')">✕</button>`;
+    <button type="button" class="btn-remove" onclick="removeItem('${id}', 'step')">${feather.toSvg('x')}</button>`;
   list.appendChild(div);
 }
 
@@ -208,7 +208,7 @@ function addNote() {
     <div class="dynamic-item-fields">
       <textarea class="form-textarea" placeholder="Kitchen note ${num} — tip, substitution, or variation…"></textarea>
     </div>
-    <button type="button" class="btn-remove" onclick="removeItem('${id}', 'note')">✕</button>`;
+    <button type="button" class="btn-remove" onclick="removeItem('${id}', 'note')">${feather.toSvg('x')}</button>`;
   list.appendChild(div);
 }
 
@@ -228,7 +228,7 @@ function addNutritionExtra(data) {
       <input class="form-input narrow" type="text" placeholder="Value (e.g. 35%, High)"
         value="${data ? escFormVal(data.value) : ''}" />
     </div>
-    <button type="button" class="btn-remove" onclick="removeItem('${id}', 'nfext')">✕</button>`;
+    <button type="button" class="btn-remove" onclick="removeItem('${id}', 'nfext')">${feather.toSvg('x')}</button>`;
   list.appendChild(div);
 }
 

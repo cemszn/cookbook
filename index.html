@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Cookbook</title>
-  <link rel="stylesheet" href="css/styles.css?v=3"/>
+  <link rel="stylesheet" href="css/styles.css?v=4"/>
   <link rel="icon" type="image/png" sizes="64x64" href="favicon.png">
   <link rel="manifest" href="manifest.json">
   <link rel="apple-touch-icon" sizes="180x180" href="icon-180.png">
@@ -43,7 +43,7 @@
     <!-- ── SEARCH + NEW RECIPE ── -->
     <div class="home-controls">
       <div class="search-wrap">
-        <span class="search-icon">⌕</span>
+        <span class="search-icon"><i data-feather="search"></i></span>
         <input
           type="text"
           class="search-input"
@@ -53,7 +53,7 @@
         />
       </div>
       <a href="new-recipe.html" class="btn-new-recipe">
-        <span>＋</span> New Recipe
+        <i data-feather="plus"></i> New Recipe
       </a>
     </div>
 
@@ -66,6 +66,9 @@
     </div>
 
   </div><!-- /.page -->
+
+  <!-- ── FEATHER ICONS ── -->
+  <script src="https://unpkg.com/feather-icons"></script>
 
   <!-- ── FIREBASE SDKs ── -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -83,7 +86,9 @@
         setTimeout(function () { screen.remove(); }, 280);
       }
       // Skip if navigating from within the app (not a fresh launch)
-      if (document.referrer && document.referrer.startsWith(window.location.origin)) {
+      var wasInApp = sessionStorage.getItem('inApp');
+      sessionStorage.setItem('inApp', '1');
+      if (wasInApp) {
         screen.remove();
         document.documentElement.classList.remove('launching');
         return;
