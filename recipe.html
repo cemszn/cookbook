@@ -81,6 +81,7 @@
 
       <div class="cook-bottombar" id="cook-bottombar">
         <div class="cook-nav-btns">
+          <button class="cook-nav-btn cook-btn-ingredients" id="cook-ingredients-btn" onclick="toggleCookIngredients()">☰ Ingredients</button>
           <button class="cook-nav-btn cook-btn-prev" id="cook-prev" onclick="cookPrev()">← Previous</button>
           <button class="cook-nav-btn cook-btn-next" id="cook-next" onclick="cookNext()">Next →</button>
         </div>
@@ -99,6 +100,19 @@
       </div>
 
     </div>
+
+    <!-- ── INGREDIENTS SHEET ── -->
+    <div class="cook-ingredients-backdrop" id="cook-ingredients-backdrop"
+         onclick="closeCookIngredients()"></div>
+    <div class="cook-ingredients-sheet" id="cook-ingredients-sheet">
+      <div class="cook-ingredients-handle" id="cook-ingredients-handle"></div>
+      <div class="cook-ingredients-header">
+        <span class="cook-ingredients-title">Ingredients</span>
+        <button class="cook-ingredients-close" onclick="closeCookIngredients()">✕</button>
+      </div>
+      <div class="cook-ingredients-body" id="cook-ingredients-body"></div>
+    </div>
+
   </div>
 
   <!-- ── FIREBASE SDKs ── -->

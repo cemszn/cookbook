@@ -1329,6 +1329,139 @@ html.dark .cook-timer-btn-reset {
   .cook-timer { display: none; }
 }
 
+/* ── Cook Ingredients Button ───────────────────────────────── */
+.cook-btn-ingredients {
+  background: linear-gradient(to bottom, #fdfaf5 0%, #eee8dc 100%);
+  border: 1px solid #c0b8a8;
+  border-bottom-color: #a8a090;
+  color: var(--text-dark);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.9) inset, 0 2px 6px rgba(0,0,0,0.10);
+  font-size: 13px;
+  padding: 0 14px;
+  letter-spacing: 0.01em;
+}
+.cook-btn-ingredients:hover { box-shadow: 0 1px 0 rgba(255,255,255,0.9) inset, 0 4px 12px rgba(0,0,0,0.13); }
+.cook-btn-ingredients:active { transform: translateY(1px); }
+html.dark .cook-btn-ingredients {
+  background: linear-gradient(to bottom, #243028 0%, #1a2320 100%);
+  border-color: #3a5040;
+  color: var(--text-mid);
+  box-shadow: none;
+}
+
+/* ── Cook Ingredients Backdrop ─────────────────────────────── */
+.cook-ingredients-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0);
+  pointer-events: none;
+  transition: background 0.3s ease;
+  z-index: 10;
+}
+.cook-ingredients-backdrop.open {
+  background: rgba(0,0,0,0.32);
+  pointer-events: auto;
+}
+
+/* ── Cook Ingredients Sheet ────────────────────────────────── */
+@keyframes sheetBounceIn {
+  0%   { transform: translateY(calc(100% + 20px)); }
+  55%  { transform: translateY(-14px); }
+  75%  { transform: translateY(7px); }
+  90%  { transform: translateY(-4px); }
+  100% { transform: translateY(0); }
+}
+@keyframes sheetSlideOut {
+  from { transform: translateY(0); }
+  to   { transform: translateY(calc(100% + 20px)); }
+}
+
+.cook-ingredients-sheet {
+  position: absolute;
+  bottom: -20px; left: 0; right: 0;
+  margin: 0 auto;
+  width: 100%; max-width: 620px;
+  height: calc(65% + 20px);
+  padding-bottom: 20px;
+  background: linear-gradient(to bottom, #faf6ee 0%, var(--warm-white) 60%);
+  border-top: 1px solid #c8bfaa;
+  border-radius: 18px 18px 0 0;
+  box-shadow: 0 -6px 28px rgba(0,0,0,0.16), 0 -1px 0 rgba(255,255,255,0.85) inset;
+  transform: translateY(calc(100% + 20px));
+  visibility: hidden;
+  transition: visibility 0s linear 0.32s;
+  z-index: 11;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.cook-ingredients-sheet.open {
+  visibility: visible;
+  animation: sheetBounceIn 0.52s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  transition: visibility 0s linear 0s;
+}
+.cook-ingredients-sheet.closing {
+  animation: sheetSlideOut 0.28s ease-in forwards;
+  transition: visibility 0s linear 0.28s;
+}
+html.dark .cook-ingredients-sheet {
+  background: linear-gradient(to bottom, #222e26 0%, #161e1a 100%);
+  border-top-color: #3a5040;
+  box-shadow: 0 -6px 28px rgba(0,0,0,0.45);
+}
+
+/* ── Handle pill ────────────────────────────────────────────── */
+.cook-ingredients-handle {
+  width: 40px; height: 5px;
+  background: #c0b8a8;
+  border-radius: 3px;
+  margin: 12px auto 0;
+  flex-shrink: 0;
+  cursor: grab;
+}
+html.dark .cook-ingredients-handle { background: #3a5040; }
+
+/* ── Sheet header ───────────────────────────────────────────── */
+.cook-ingredients-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 24px 12px;
+  border-bottom: 1px solid rgba(0,0,0,0.07);
+  flex-shrink: 0;
+}
+html.dark .cook-ingredients-header { border-bottom-color: rgba(255,255,255,0.06); }
+
+.cook-ingredients-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--text-dark);
+  letter-spacing: 0.01em;
+}
+
+.cook-ingredients-close {
+  background: none;
+  border: none;
+  font-size: 16px;
+  color: var(--text-mid);
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 8px;
+  line-height: 1;
+  transition: background 0.18s ease;
+}
+.cook-ingredients-close:hover { background: rgba(0,0,0,0.07); }
+html.dark .cook-ingredients-close:hover { background: rgba(255,255,255,0.07); }
+
+/* ── Scrollable body ────────────────────────────────────────── */
+.cook-ingredients-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px 24px 32px;
+  -webkit-overflow-scrolling: touch;
+}
+
 /* ══════════════════════════════════════════════════════════════
    NEW RECIPE FORM STYLES
 ══════════════════════════════════════════════════════════════ */

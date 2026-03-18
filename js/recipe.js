@@ -325,6 +325,35 @@ function setupCookMode() {
   document.getElementById('cook-done-sub').textContent =
     `Your ${recipe.title} is ready. Serve immediately and enjoy.`;
   buildDots();
+  initSwipeGesture();
+}
+
+// ── Swipe gesture navigation ────────────────────────────────────
+let _swipeInitialized = false;
+function initSwipeGesture() {
+  if (_swipeInitialized) return;
+  _swipeInitialized = true;
+
+  const overlay = document.getElementById('cook-overlay');
+  let startX = 0, startY = 0;
+
+  overlay.addEventListener('touchstart', e => {
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+  }, { passive: true });
+
+  overlay.addEventListener('touchend', e => {
+    // Don't trigger if the ingredients sheet is open
+    const sheet = document.getElementById('cook-ingredients-sheet');
+    if (sheet && sheet.classList.contains('open')) return;
+
+    const dx = e.changedTouches[0].clientX - startX;
+    const dy = e.changedTouches[0].clientY - startY;
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 2) {
+      if (dx < 0) cookNext();
+      else cookPrev();
+    }
+  }, { passive: true });
 }
 
 function buildDots() {
@@ -411,6 +440,7 @@ function toggleCookMode() {
 }
 
 function closeCookMode() {
+  closeCookIngredients();
   document.getElementById('cook-overlay').classList.remove('active');
   timerReset();
 }
@@ -449,6 +479,64 @@ function formatTime(s) {
   const m = Math.floor((s % 3600) / 60);
   const sec = s % 60;
   return [h, m, sec].map(n => String(n).padStart(2, '0')).join(':');
+}
+
+// ── Cook Ingredients Sheet ─────────────────────────────────────
+function renderCookIngredients() {
+  const body = document.getElementById('cook-ingredients-body');
+  if (!body || !recipe) return;
+  const ratio = servings / baseServings;
+  body.innerHTML = (recipe.ingredients || []).map((ing, i) => {
+    const scaled   = parseFloat(ing.amount || 0) * ratio;
+    const amtStr   = formatAmount(scaled);
+    const isChecked = checkedSet.has(i);
+    return `
+      <div class="ingredient-item${isChecked ? ' checked' : ''}">
+        <input type="checkbox" class="ingredient-checkbox"
+          ${isChecked ? 'checked' : ''}
+          onchange="toggleIngredient(${i}, this)">
+        <span class="ingredient-amount">${amtStr}${ing.unit ? ' ' + escHtml(ing.unit) : ''}</span>
+        <span class="ingredient-name">${escHtml(ing.name)}${ing.note
+          ? `<br><span class="ingredient-note">${escHtml(ing.note)}</span>` : ''}</span>
+      </div>`;
+  }).join('');
+
+  // Drag-to-dismiss on the handle
+  const handle  = document.getElementById('cook-ingredients-handle');
+  const sheet   = document.getElementById('cook-ingredients-sheet');
+  if (!handle || handle._dragBound) return;
+  handle._dragBound = true;
+
+  let dragStartY = 0;
+  handle.addEventListener('touchstart', e => {
+    dragStartY = e.touches[0].clientY;
+  }, { passive: true });
+  handle.addEventListener('touchend', e => {
+    const dy = e.changedTouches[0].clientY - dragStartY;
+    if (dy > 60) closeCookIngredients();
+  }, { passive: true });
+}
+
+function toggleCookIngredients() {
+  const sheet    = document.getElementById('cook-ingredients-sheet');
+  const backdrop = document.getElementById('cook-ingredients-backdrop');
+  if (sheet.classList.contains('open')) {
+    closeCookIngredients();
+  } else {
+    renderCookIngredients();
+    sheet.classList.add('open');
+    backdrop.classList.add('open');
+  }
+}
+
+function closeCookIngredients() {
+  const sheet    = document.getElementById('cook-ingredients-sheet');
+  const backdrop = document.getElementById('cook-ingredients-backdrop');
+  if (!sheet.classList.contains('open')) return;
+  sheet.classList.remove('open');
+  sheet.classList.add('closing');
+  backdrop.classList.remove('open');
+  setTimeout(() => sheet.classList.remove('closing'), 280);
 }
 
 // ── Edit ───────────────────────────────────────────────────────
