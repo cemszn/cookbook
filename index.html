@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="launching">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -15,6 +15,11 @@
   <meta name="apple-mobile-web-app-title" content="Cookbook">
 </head>
 <body>
+
+  <!-- ── LAUNCH SCREEN ── -->
+  <div id="launch-screen">
+    <div id="launch-lottie"></div>
+  </div>
 
   <!-- ── TOOLBOX ── -->
   <div class="toolbox">
@@ -67,7 +72,29 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
   <script src="js/firebase-config.js"></script>
   <script src="js/utils.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
   <script src="js/home.js"></script>
+  <script>
+    (function () {
+      var screen = document.getElementById('launch-screen');
+      var anim = lottie.loadAnimation({
+        container: document.getElementById('launch-lottie'),
+        renderer: 'svg',
+        loop: false,
+        autoplay: true,
+        path: 'assets/loading.json'
+      });
+      anim.setSpeed(2);
+      function endLaunch() {
+        screen.classList.add('fading');
+        document.documentElement.classList.remove('launching');
+        setTimeout(function () { screen.remove(); }, 280);
+      }
+      anim.addEventListener('complete', endLaunch);
+      // Fallback: never block the app for more than 4s
+      setTimeout(endLaunch, 4000);
+    })();
+  </script>
   <footer class="site-footer">
     <p>All rights reserved &copy; <span id="footer-year"></span></p>
   </footer>
