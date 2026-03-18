@@ -85,10 +85,11 @@
         document.documentElement.classList.remove('launching');
         setTimeout(function () { screen.remove(); }, 280);
       }
-      // Skip if navigating from within the app (not a fresh launch)
-      var wasInApp = sessionStorage.getItem('inApp');
-      sessionStorage.setItem('inApp', '1');
-      if (wasInApp) {
+      // Skip if navigating back/forward or reloading (not a fresh launch)
+      var navEntry = window.performance && performance.getEntriesByType('navigation')[0];
+      var navType  = navEntry ? navEntry.type : '';
+      var fromInternal = document.referrer && document.referrer.startsWith(window.location.origin);
+      if (navType === 'back_forward' || navType === 'reload' || fromInternal) {
         screen.remove();
         document.documentElement.classList.remove('launching');
         return;
