@@ -335,15 +335,31 @@ function initSwipeGesture() {
   _swipeInitialized = true;
 
   const overlay = document.getElementById('cook-overlay');
-  let startX = 0, startY = 0;
+  let startX = 0, startY = 0, isHorizontal = null;
 
   overlay.addEventListener('touchstart', e => {
     startX = e.touches[0].clientX;
     startY = e.touches[0].clientY;
+    isHorizontal = null;
   }, { passive: true });
 
+  overlay.addEventListener('touchmove', e => {
+    // Don't interfere with ingredients sheet scrolling
+    const sheet = document.getElementById('cook-ingredients-sheet');
+    if (sheet && sheet.classList.contains('open')) return;
+
+    const dx = e.touches[0].clientX - startX;
+    const dy = e.touches[0].clientY - startY;
+
+    // Determine swipe direction on first significant movement
+    if (isHorizontal === null && (Math.abs(dx) > 6 || Math.abs(dy) > 6)) {
+      isHorizontal = Math.abs(dx) > Math.abs(dy);
+    }
+    // Lock out scroll for horizontal swipes
+    if (isHorizontal) e.preventDefault();
+  }, { passive: false });
+
   overlay.addEventListener('touchend', e => {
-    // Don't trigger if the ingredients sheet is open
     const sheet = document.getElementById('cook-ingredients-sheet');
     if (sheet && sheet.classList.contains('open')) return;
 
@@ -371,61 +387,74 @@ function updateDots() {
   });
 }
 
+let cookDirection = 'left';
+
+function _applyStepContent() {
+  const step = cookSteps[cookIndex];
+  document.getElementById('cook-step-numeral').textContent =
+    String(cookIndex + 1).padStart(2, '0');
+  document.getElementById('cook-step-title').textContent  = step.title || '';
+  document.getElementById('cook-step-label').textContent  =
+    `Step ${cookIndex + 1} of ${cookSteps.length}`;
+  document.getElementById('cook-step-body').textContent   = step.text || '';
+
+  const tipEl = document.getElementById('cook-step-tip');
+  if (step.tip) {
+    tipEl.textContent = step.tip;
+    tipEl.classList.add('is-visible');
+  } else {
+    tipEl.classList.remove('is-visible');
+    tipEl.textContent = '';
+  }
+
+  document.getElementById('cook-prev').disabled = cookIndex === 0;
+  document.getElementById('cook-next').disabled = false;
+  document.getElementById('cook-next').textContent =
+    cookIndex === cookSteps.length - 1 ? 'Finish →' : 'Next →';
+}
+
 function showCookStep() {
   const wrap     = document.getElementById('cook-step-wrap');
   const doneWrap = document.getElementById('cook-done-wrap');
+  const outClass = cookDirection === 'left' ? 'slide-out-left' : 'slide-out-right';
+  const inClass  = cookDirection === 'left' ? 'slide-in-left'  : 'slide-in-right';
 
-  if (cookIndex >= cookSteps.length) {
-    // Done screen
-    wrap.classList.remove('visible');
-    doneWrap.classList.add('visible');
-    document.getElementById('cook-next').textContent = 'Finish';
-    document.getElementById('cook-next').disabled = false;
-    document.getElementById('cook-prev').disabled = false;
-    return;
-  }
-
-  doneWrap.classList.remove('visible');
-  wrap.classList.remove('visible');
+  // Slide out
+  wrap.classList.remove('visible', 'slide-in-left', 'slide-in-right');
+  wrap.classList.add(outClass);
 
   setTimeout(() => {
-    const step = cookSteps[cookIndex];
-    document.getElementById('cook-step-numeral').textContent =
-      String(cookIndex + 1).padStart(2, '0');
-    document.getElementById('cook-step-title').textContent  = step.title || '';
-    document.getElementById('cook-step-label').textContent  =
-      `Step ${cookIndex + 1} of ${cookSteps.length}`;
-    document.getElementById('cook-step-body').textContent   = step.text || '';
+    wrap.classList.remove(outClass);
+    doneWrap.classList.remove('visible');
 
-    const tipEl = document.getElementById('cook-step-tip');
-    if (step.tip) {
-      tipEl.textContent = step.tip;
-      tipEl.classList.add('is-visible');
-    } else {
-      tipEl.classList.remove('is-visible');
-      tipEl.textContent = '';
+    if (cookIndex >= cookSteps.length) {
+      doneWrap.classList.add('visible');
+      document.getElementById('cook-next').textContent = 'Finish';
+      document.getElementById('cook-next').disabled = false;
+      document.getElementById('cook-prev').disabled = false;
+      return;
     }
 
-    document.getElementById('cook-prev').disabled = cookIndex === 0;
-    document.getElementById('cook-next').disabled = false;
-    document.getElementById('cook-next').textContent =
-      cookIndex === cookSteps.length - 1 ? 'Finish →' : 'Next →';
-
-    wrap.classList.add('visible');
+    _applyStepContent();
+    wrap.classList.add('visible', inClass);
     updateDots();
-  }, 120);
+    setTimeout(() => wrap.classList.remove(inClass), 240);
+  }, 180);
 }
 
 function cookNext() {
-  if (cookIndex >= cookSteps.length) {
-    closeCookMode(); return;
-  }
+  if (cookIndex >= cookSteps.length) { closeCookMode(); return; }
+  cookDirection = 'left';
   cookIndex++;
   showCookStep();
 }
 
 function cookPrev() {
-  if (cookIndex > 0) { cookIndex--; showCookStep(); }
+  if (cookIndex > 0) {
+    cookDirection = 'right';
+    cookIndex--;
+    showCookStep();
+  }
 }
 
 function toggleCookMode() {
