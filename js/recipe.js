@@ -540,38 +540,6 @@ function renderCookIngredients() {
       </div>`;
   }).join('');
 
-  // Drag-to-dismiss on the handle
-  const handle = document.getElementById('cook-ingredients-handle');
-  const sheet  = document.getElementById('cook-ingredients-sheet');
-  if (!handle || handle._dragBound) return;
-  handle._dragBound = true;
-
-  let dragStartY = 0, dragging = false;
-
-  handle.addEventListener('touchstart', e => {
-    dragStartY = e.touches[0].clientY;
-    dragging = true;
-    sheet.style.transition = 'none';
-  }, { passive: true });
-
-  handle.addEventListener('touchmove', e => {
-    if (!dragging) return;
-    const dy = Math.max(0, e.touches[0].clientY - dragStartY);
-    sheet.style.transform = `translateY(${dy}px)`;
-  }, { passive: true });
-
-  handle.addEventListener('touchend', e => {
-    if (!dragging) return;
-    dragging = false;
-    sheet.style.transition = '';
-    const dy = e.changedTouches[0].clientY - dragStartY;
-    if (dy > 100) {
-      sheet.style.transform = '';
-      closeCookIngredients();
-    } else {
-      sheet.style.transform = ''; // snap back
-    }
-  }, { passive: true });
 }
 
 function toggleCookIngredients() {

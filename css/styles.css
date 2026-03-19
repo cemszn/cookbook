@@ -1425,31 +1425,29 @@ html.dark .cook-btn-ingredients {
   pointer-events: auto;
 }
 
-/* ── Cook Ingredients Sheet ────────────────────────────────── */
+/* ── Cook Ingredients Panel (slides in from right) ─────────── */
 @keyframes sheetBounceIn {
-  0%   { transform: translateY(calc(100% + 20px)); }
-  55%  { transform: translateY(-14px); }
-  75%  { transform: translateY(7px); }
-  90%  { transform: translateY(-4px); }
-  100% { transform: translateY(0); }
+  0%   { transform: translateX(calc(100% + 20px)); }
+  55%  { transform: translateX(-14px); }
+  75%  { transform: translateX(7px); }
+  90%  { transform: translateX(-4px); }
+  100% { transform: translateX(0); }
 }
 @keyframes sheetSlideOut {
-  from { transform: translateY(0); }
-  to   { transform: translateY(calc(100% + 20px)); }
+  from { transform: translateX(0); }
+  to   { transform: translateX(calc(100% + 20px)); }
 }
 
 .cook-ingredients-sheet {
   position: absolute;
-  bottom: -20px; left: 0; right: 0;
-  margin: 0 auto;
-  width: 100%; max-width: 620px;
-  height: calc(65% + 20px);
-  padding-bottom: 20px;
+  top: 0; right: -20px; bottom: 0;
+  width: min(340px, 85vw);
+  padding-right: 20px;
   background: linear-gradient(to bottom, #faf6ee 0%, var(--warm-white) 60%);
-  border-top: 1px solid #c8bfaa;
-  border-radius: 18px 18px 0 0;
-  box-shadow: 0 -6px 28px rgba(0,0,0,0.16), 0 -1px 0 rgba(255,255,255,0.85) inset;
-  transform: translateY(calc(100% + 20px));
+  border-left: 1px solid #c8bfaa;
+  border-radius: 18px 0 0 18px;
+  box-shadow: -8px 0 32px rgba(0,0,0,0.22), -1px 0 0 rgba(255,255,255,0.85) inset;
+  transform: translateX(calc(100% + 20px));
   visibility: hidden;
   transition: visibility 0s linear 0.32s;
   z-index: 11;
@@ -1468,20 +1466,10 @@ html.dark .cook-btn-ingredients {
 }
 html.dark .cook-ingredients-sheet {
   background: linear-gradient(to bottom, #222e26 0%, #161e1a 100%);
-  border-top-color: #3a5040;
-  box-shadow: 0 -6px 28px rgba(0,0,0,0.45);
+  border-left-color: #3a5040;
+  box-shadow: -8px 0 32px rgba(0,0,0,0.55);
 }
 
-/* ── Handle pill ────────────────────────────────────────────── */
-.cook-ingredients-handle {
-  width: 40px; height: 5px;
-  background: #c0b8a8;
-  border-radius: 3px;
-  margin: 12px auto 0;
-  flex-shrink: 0;
-  cursor: grab;
-}
-html.dark .cook-ingredients-handle { background: #3a5040; }
 
 /* ── Sheet header ───────────────────────────────────────────── */
 .cook-ingredients-header {
