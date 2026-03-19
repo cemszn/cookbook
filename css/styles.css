@@ -2100,7 +2100,8 @@ html.dark .btn-submit:hover {
 
 @media (max-width: 768px) {
   .book-logotype-main { font-size: 32px; }
-  .hero-top { grid-template-columns: 1fr; gap: 24px; }
+  .hero-top { grid-template-columns: 1fr; gap: 24px; padding-top: 4px; }
+  .dish-image-wrap { padding-top: 0; }
   .recipe-title { font-size: 42px; }
   .info-grid { grid-template-columns: repeat(2, 1fr); }
   .info-cell:nth-child(7) { border-left: 1px solid var(--rule); }
