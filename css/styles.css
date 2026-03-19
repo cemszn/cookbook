@@ -2103,7 +2103,7 @@ html.dark .btn-submit:hover {
    RESPONSIVE
 ══════════════════════════════════════════════════════════════ */
 
-@media (max-width: 900px) {
+@media (max-width: 768px) {
   .book-logotype-main { font-size: 32px; }
   .hero-top { grid-template-columns: 1fr; gap: 24px; padding-top: 4px; }
   .dish-image-wrap { padding-top: 0; }
