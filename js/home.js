@@ -54,13 +54,25 @@ function recipeCardHTML(r) {
     `<span class="card-tag">${escHtml(t)}</span>`
   ).join('');
 
-  return `
-    <a class="recipe-card" href="recipe.html?id=${r.id}">
-      <div class="card-top">
-        <div class="card-swatch swatch-dot ${escHtml(firstSwatch)}"></div>
+  const headerHTML = r.imageUrl ? `
+    <div class="card-hero">
+      <div class="card-image-wrap">
+        <img class="card-image" src="${escHtml(r.imageUrl)}" alt="${escHtml(r.title || '')}">
+      </div>
+      <div class="card-image-overlay">
         <span class="card-category">${escHtml(r.category || '')}</span>
       </div>
-      <div class="card-title">${escHtml(r.title || 'Untitled')}</div>
+    </div>
+    <div class="card-title">${escHtml(r.title || 'Untitled')}</div>` : `
+    <div class="card-top">
+      <div class="card-swatch swatch-dot ${escHtml(firstSwatch)}"></div>
+      <span class="card-category">${escHtml(r.category || '')}</span>
+    </div>
+    <div class="card-title">${escHtml(r.title || 'Untitled')}</div>`;
+
+  return `
+    <a class="recipe-card" href="recipe.html?id=${r.id}">
+      ${headerHTML}
       ${r.subtitle ? `<div class="card-subtitle">${escHtml(r.subtitle)}</div>` : ''}
       <div class="card-description">${escHtml(r.description || '')}</div>
       <div class="card-meta">
