@@ -321,7 +321,7 @@ let cookDots   = [];
 function setupCookMode() {
   cookSteps = recipe.steps || [];
   document.getElementById('cook-recipe-name').innerHTML =
-    `<strong>${escHtml(recipe.title)}</strong>${recipe.subtitle ? ' · ' + escHtml(recipe.subtitle) : ''}`;
+    `<strong>${escHtml(recipe.title)}</strong>`;
   buildDots();
   initSwipeGesture();
 }
@@ -409,8 +409,8 @@ function _applyStepContent() {
   document.getElementById('cook-next').disabled = false;
   document.getElementById('cook-next').innerHTML =
     cookIndex === cookSteps.length - 1
-      ? 'Finish ' + feather.toSvg('arrow-right')
-      : 'Next ' + feather.toSvg('arrow-right');
+      ? '<span class="btn-label">Finish </span>' + feather.toSvg('arrow-right')
+      : '<span class="btn-label">Next </span>' + feather.toSvg('arrow-right');
 }
 
 function showCookStep(skipAnimation) {

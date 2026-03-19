@@ -1155,11 +1155,7 @@ html.dark .cook-close-btn { background: linear-gradient(to bottom, #243028 0%, #
 .cook-step-wrap.slide-in-right  { animation: slideInRight  0.24s ease-out forwards; }
 
 .cook-step-label {
-  font-size: 10px;
-  letter-spacing: 0.35em;
-  text-transform: uppercase;
-  color: var(--sea);
-  margin-bottom: 20px;
+  display: none;
 }
 .cook-step-header {
   display: flex;
@@ -1409,6 +1405,10 @@ html.dark .cook-btn-ingredients {
   border-color: #3a5040;
   color: var(--text-mid);
   box-shadow: none;
+}
+
+@media (max-width: 480px) {
+  .cook-nav-btn .btn-label { display: none; }
 }
 
 /* ── Cook Ingredients Backdrop ─────────────────────────────── */

@@ -7,17 +7,20 @@
 (function () {
   const mq = window.matchMedia('(prefers-color-scheme: dark)');
 
-  function applySystemTheme(e) {
-    document.documentElement.classList.toggle('dark', e.matches);
+  // If no manual override, keep in sync with system preference
+  if (!localStorage.getItem('theme')) {
+    mq.addEventListener('change', function (e) {
+      if (!localStorage.getItem('theme')) {
+        document.documentElement.classList.toggle('dark', e.matches);
+      }
+    });
   }
-
-  applySystemTheme(mq);
-  mq.addEventListener('change', applySystemTheme);
 })();
 
 // ── Theme toggle (called from onclick in all three HTML files) ──
 function toggleTheme() {
-  document.documentElement.classList.toggle('dark');
+  const isDark = document.documentElement.classList.toggle('dark');
+  localStorage.setItem('theme', isDark ? 'dark' : 'light');
 }
 
 // ── HTML escaping (used in template strings across home/recipe) ─

@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   <title>Recipe — Cookbook</title>
   <link rel="stylesheet" href="css/styles.css?v=4"/>
+  <script>(function(){var t=localStorage.getItem('theme');if(t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark');})();</script>
   <link rel="icon" type="image/png" sizes="64x64" href="favicon.png">
 </head>
 <body>
@@ -74,9 +75,9 @@
 
       <div class="cook-bottombar" id="cook-bottombar">
         <div class="cook-nav-btns">
-          <button class="cook-nav-btn cook-btn-ingredients" id="cook-ingredients-btn" onclick="toggleCookIngredients()"><i data-feather="list"></i> Ingredients</button>
-          <button class="cook-nav-btn cook-btn-prev" id="cook-prev" onclick="cookPrev()"><i data-feather="arrow-left"></i> Previous</button>
-          <button class="cook-nav-btn cook-btn-next" id="cook-next" onclick="cookNext()">Next <i data-feather="arrow-right"></i></button>
+          <button class="cook-nav-btn cook-btn-ingredients" id="cook-ingredients-btn" onclick="toggleCookIngredients()"><i data-feather="list"></i><span class="btn-label"> Ingredients</span></button>
+          <button class="cook-nav-btn cook-btn-prev" id="cook-prev" onclick="cookPrev()"><i data-feather="arrow-left"></i><span class="btn-label"> Previous</span></button>
+          <button class="cook-nav-btn cook-btn-next" id="cook-next" onclick="cookNext()"><span class="btn-label">Next </span><i data-feather="arrow-right"></i></button>
         </div>
         <div class="cook-timer">
           <div class="cook-timer-display">
