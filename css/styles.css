@@ -239,7 +239,7 @@ html.dark .toolbox-pill .feather-moon { color: var(--green-mid); }
 }
 
 @media (max-width: 560px) {
-  .toolbox-pills { display: none; }
+  .toolbox-right .toolbox-pills { display: none; }
   .toolbox-menu-btn { display: flex; }
 }
 

@@ -629,4 +629,5 @@ loadRecipe();
 
 window.addEventListener('beforeunload', function () {
   if (timerInterval) clearInterval(timerInterval);
+  document.removeEventListener('click', _onDocumentClick);
 });
