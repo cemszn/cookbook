@@ -55,7 +55,7 @@ async function loadRecipe() {
     servings     = recipe.servings || 2;
     baseServings = recipe.servings || 2;
     renderPage();
-    document.title = `${recipe.title} — Cookbook`;
+    document.title = `${recipe.title} — The Cookbook`;
   } catch (err) {
     console.error(err);
     showError('Could not load recipe. Check your Firebase config.');
@@ -100,7 +100,7 @@ function renderPage() {
   const page = document.getElementById('recipe-page');
   page.innerHTML = `
     <header class="book-header">
-      <div class="book-logotype-main">Cookbook</div>
+      <div class="book-logotype-main"><em>The</em> <span class="logotype-shimmer">Cookbook</span></div>
     </header>
 
     <section class="hero">

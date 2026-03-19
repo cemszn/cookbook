@@ -378,7 +378,7 @@ async function loadForEdit(id) {
     // Switch UI to edit mode
     editId = id;
     document.getElementById('page-heading').textContent = 'Edit Recipe';
-    document.title = `Edit: ${r.title} — Cookbook`;
+    document.title = `Edit: ${r.title} — The Cookbook`;
     document.getElementById('submit-btn').lastChild.textContent = ' Update Recipe';
 
     // Back / Cancel both return to the recipe page, not the home page

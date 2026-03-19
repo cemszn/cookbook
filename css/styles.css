@@ -256,7 +256,7 @@ html.dark .toolbox-pill .feather-moon { color: var(--green-mid); }
 
 .book-logotype-main {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 48px;
+  font-size: 68px;
   font-weight: 300;
   letter-spacing: 0.18em;
   color: var(--green-deep);
@@ -264,9 +264,42 @@ html.dark .toolbox-pill .feather-moon { color: var(--green-mid); }
   text-transform: uppercase;
 }
 .book-logotype-main em {
-  font-style: italic;
+  font-style: normal;
   font-weight: 300;
   color: var(--green-mid);
+}
+.logotype-shimmer {
+  font-weight: 600;
+  background: linear-gradient(
+    105deg,
+    var(--green-deep) 25%,
+    #c9a84c 48%,
+    #e8cc78 52%,
+    var(--green-deep) 75%
+  );
+  background-size: 250% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: logotype-shimmer 4s linear infinite;
+}
+html.dark .logotype-shimmer {
+  background: linear-gradient(
+    105deg,
+    var(--green-deep) 25%,
+    #f5e090 48%,
+    #fff8c0 52%,
+    var(--green-deep) 75%
+  );
+  background-size: 250% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: logotype-shimmer 4s linear infinite;
+}
+@keyframes logotype-shimmer {
+  0%   { background-position: 150% center; }
+  100% { background-position: -50% center; }
 }
 /* ── SECTION HEADINGS ── */
 .section-heading {
@@ -2136,7 +2169,7 @@ html.dark .btn-submit:hover {
 ══════════════════════════════════════════════════════════════ */
 
 @media (max-width: 768px) {
-  .book-logotype-main { font-size: 32px; }
+  .book-logotype-main { font-size: 44px; }
   .hero-top { grid-template-columns: 1fr; gap: 24px; padding-top: 4px; }
   .dish-image-wrap { padding-top: 0; }
   .recipe-title { font-size: 42px; }

@@ -1,6 +1,6 @@
 {
-  "name": "Whole & Wild Cookbook",
-  "short_name": "Cookbook",
+  "name": "The Cookbook",
+  "short_name": "The Cookbook",
   "description": "Nourishing recipes collection",
   "start_url": "./index.html",
   "display": "standalone",
@@ -9,12 +9,12 @@
   "orientation": "portrait",
   "icons": [
     {
-      "src": "icon-180.png",
+      "src": "assets/icon-180.png",
       "sizes": "180x180",
       "type": "image/png"
     },
     {
-      "src": "icon-1024.png",
+      "src": "assets/icon-1024.png",
       "sizes": "1024x1024",
       "type": "image/png",
       "purpose": "any maskable"
