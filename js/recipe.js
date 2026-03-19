@@ -460,6 +460,26 @@ function cookPrev() {
   }
 }
 
+// ── Wake Lock ──────────────────────────────────────────────────
+let _wakeLock = null;
+
+async function acquireWakeLock() {
+  if (!('wakeLock' in navigator)) return;
+  try { _wakeLock = await navigator.wakeLock.request('screen'); } catch (_) {}
+}
+
+function releaseWakeLock() {
+  if (_wakeLock) { _wakeLock.release(); _wakeLock = null; }
+}
+
+// Re-acquire after tab becomes visible again (wake lock is released on hide)
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible' &&
+      document.getElementById('cook-overlay')?.classList.contains('active')) {
+    acquireWakeLock();
+  }
+});
+
 function toggleCookMode() {
   const overlay  = document.getElementById('cook-overlay');
   const isActive = overlay.classList.toggle('active');
@@ -469,8 +489,10 @@ function toggleCookMode() {
     cookIndex = 0;
     cookDirection = 'left';
     showCookStep(true); // skip animation on first load
+    acquireWakeLock();
   } else {
     document.body.style.overflow = '';
+    releaseWakeLock();
   }
 }
 
@@ -482,6 +504,7 @@ function closeCookMode() {
   document.getElementById('cook-overlay').classList.remove('active');
   document.body.style.overflow = '';
   timerReset();
+  releaseWakeLock();
 }
 
 // ── Timer ──────────────────────────────────────────────────────
