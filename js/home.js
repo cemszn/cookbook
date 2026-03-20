@@ -136,44 +136,52 @@ function _filterRecipesImpl() {
 
 const filterRecipes = debounce(_filterRecipesImpl, 250);
 
-// ── Gyroscope Tilt (touch devices) ─────────────────────────────
+// ── Gyroscope Tilt ─────────────────────────────────────────────
+let baseGamma = null;
+let baseBeta  = null;
+
+function onOrientation(e) {
+  const gamma = e.gamma ?? 0;
+  const beta  = e.beta  ?? 0;
+
+  if (baseGamma === null) { baseGamma = gamma; baseBeta = beta; }
+
+  const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+  const rotY =  clamp((gamma - baseGamma) / 20 * 4, -4, 4);
+  const rotX = -clamp((beta  - baseBeta)  / 15 * 3, -3, 3);
+
+  document.querySelectorAll('.recipe-card').forEach(card => {
+    card.style.transition = 'box-shadow 0.25s, border-color 0.25s';
+    card.style.transform  = `perspective(900px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(4px)`;
+  });
+}
+
+function startGyroListening() {
+  window.addEventListener('deviceorientation', onOrientation);
+  const btn = document.getElementById('tilt-enable-btn');
+  if (btn) btn.style.display = 'none';
+}
+
+function requestGyroPermission() {
+  if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+    DeviceOrientationEvent.requestPermission()
+      .then(state => { if (state === 'granted') startGyroListening(); })
+      .catch(console.error);
+  } else {
+    startGyroListening();
+  }
+}
+
 function initGyroscopeTilt() {
   if (!window.DeviceOrientationEvent) return;
-  if (!window.matchMedia('(pointer: coarse)').matches) return;
-
-  let baseGamma = null;
-  let baseBeta  = null;
-
-  function onOrientation(e) {
-    const gamma = e.gamma ?? 0;
-    const beta  = e.beta  ?? 0;
-
-    if (baseGamma === null) { baseGamma = gamma; baseBeta = beta; }
-
-    const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
-    const rotY =  clamp((gamma - baseGamma) / 20 * 4, -4, 4);
-    const rotX = -clamp((beta  - baseBeta)  / 15 * 3, -3, 3);
-
-    document.querySelectorAll('.recipe-card').forEach(card => {
-      card.style.transition = 'box-shadow 0.1s, border-color 0.25s';
-      card.style.transform  = `perspective(900px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(4px)`;
-    });
-  }
-
-  function startListening() {
-    window.addEventListener('deviceorientation', onOrientation);
-  }
 
   if (typeof DeviceOrientationEvent.requestPermission === 'function') {
-    // iOS 13+ requires a user gesture to grant permission
-    document.addEventListener('touchstart', function reqPerm() {
-      DeviceOrientationEvent.requestPermission()
-        .then(state => { if (state === 'granted') startListening(); })
-        .catch(console.error);
-      document.removeEventListener('touchstart', reqPerm);
-    }, { once: true });
+    // iOS 13+ — show button so user can grant permission via explicit tap
+    const btn = document.getElementById('tilt-enable-btn');
+    if (btn) btn.style.display = 'inline-flex';
   } else {
-    startListening();
+    // Android / non-restricted browsers — start immediately
+    startGyroListening();
   }
 }
 
