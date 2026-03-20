@@ -40,6 +40,29 @@ function renderGrid(recipes) {
   }
 
   grid.innerHTML = recipes.map(r => recipeCardHTML(r)).join('');
+  initCard3D(grid);
+}
+
+// ── 3D Tilt Effect ─────────────────────────────────────────────
+function initCard3D(grid) {
+  grid.querySelectorAll('.recipe-card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const cx = rect.width / 2;
+      const cy = rect.height / 2;
+      const rotY =  ((x - cx) / cx) * 4;
+      const rotX = -((y - cy) / cy) * 3;
+      card.style.transition = 'box-shadow 0.25s, border-color 0.25s';
+      card.style.transform = `perspective(900px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(6px)`;
+    });
+
+    card.addEventListener('mouseleave', () => {
+      card.style.transition = 'transform 0.45s ease-out, box-shadow 0.25s, border-color 0.25s';
+      card.style.transform = '';
+    });
+  });
 }
 
 // ── Recipe Card HTML ───────────────────────────────────────────
@@ -113,5 +136,47 @@ function _filterRecipesImpl() {
 
 const filterRecipes = debounce(_filterRecipesImpl, 250);
 
+// ── Gyroscope Tilt (touch devices) ─────────────────────────────
+function initGyroscopeTilt() {
+  if (!window.DeviceOrientationEvent) return;
+  if (!window.matchMedia('(pointer: coarse)').matches) return;
+
+  let baseGamma = null;
+  let baseBeta  = null;
+
+  function onOrientation(e) {
+    const gamma = e.gamma ?? 0;
+    const beta  = e.beta  ?? 0;
+
+    if (baseGamma === null) { baseGamma = gamma; baseBeta = beta; }
+
+    const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+    const rotY =  clamp((gamma - baseGamma) / 20 * 4, -4, 4);
+    const rotX = -clamp((beta  - baseBeta)  / 15 * 3, -3, 3);
+
+    document.querySelectorAll('.recipe-card').forEach(card => {
+      card.style.transition = 'box-shadow 0.1s, border-color 0.25s';
+      card.style.transform  = `perspective(900px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(4px)`;
+    });
+  }
+
+  function startListening() {
+    window.addEventListener('deviceorientation', onOrientation);
+  }
+
+  if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+    // iOS 13+ requires a user gesture to grant permission
+    document.addEventListener('touchstart', function reqPerm() {
+      DeviceOrientationEvent.requestPermission()
+        .then(state => { if (state === 'granted') startListening(); })
+        .catch(console.error);
+      document.removeEventListener('touchstart', reqPerm);
+    }, { once: true });
+  } else {
+    startListening();
+  }
+}
+
 // ── Init ───────────────────────────────────────────────────────
 loadRecipes();
+initGyroscopeTilt();
