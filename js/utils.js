@@ -47,6 +47,14 @@ function fadeOutVeil() {
   }));
 }
 
+// Safari bfcache: clear any lingering veil when navigating back/forward
+window.addEventListener('pageshow', function (e) {
+  if (e.persisted) {
+    const veil = document.getElementById('page-veil');
+    if (veil) veil.remove();
+  }
+});
+
 // ── Debounce ────────────────────────────────────────────────────
 function debounce(fn, delay) {
   let timer;
