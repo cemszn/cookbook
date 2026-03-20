@@ -55,6 +55,7 @@ async function loadRecipe() {
     servings     = recipe.servings || 2;
     baseServings = recipe.servings || 2;
     renderPage();
+    fadeOutVeil();
     document.title = `${recipe.title} — The Cookbook`;
   } catch (err) {
     console.error(err);
@@ -63,6 +64,7 @@ async function loadRecipe() {
 }
 
 function showError(msg) {
+  fadeOutVeil();
   document.getElementById('recipe-page').innerHTML = `
     <div class="empty-state empty-state--no-hpad">
       <div class="empty-state-icon">⚠️</div>
