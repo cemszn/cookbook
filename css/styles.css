@@ -267,15 +267,16 @@ html.dark .toolbox-pill .feather-moon { color: var(--green-mid); }
   font-style: normal;
   font-weight: 300;
   color: var(--green-mid);
+  opacity: 0.55;
 }
 .logotype-shimmer {
   font-weight: 600;
   background: linear-gradient(
     105deg,
-    var(--green-deep) 25%,
-    #c9a84c 48%,
-    #e8cc78 52%,
-    var(--green-deep) 75%
+    var(--green-deep) 38%,
+    var(--warm-white) 49%,
+    var(--warm-white) 51%,
+    var(--green-deep) 62%
   );
   background-size: 250% auto;
   -webkit-background-clip: text;
@@ -286,10 +287,10 @@ html.dark .toolbox-pill .feather-moon { color: var(--green-mid); }
 html.dark .logotype-shimmer {
   background: linear-gradient(
     105deg,
-    var(--green-deep) 25%,
-    #f5e090 48%,
-    #fff8c0 52%,
-    var(--green-deep) 75%
+    var(--green-deep) 38%,
+    var(--warm-white) 49%,
+    var(--warm-white) 51%,
+    var(--green-deep) 62%
   );
   background-size: 250% auto;
   -webkit-background-clip: text;
@@ -918,7 +919,7 @@ html.dark .servings-toggle {
 
 .ingredient-item {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 12px;
   padding: 10px 0;
   border-bottom: 1px dashed var(--rule);
