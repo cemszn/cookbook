@@ -38,7 +38,19 @@ document.addEventListener('DOMContentLoaded', function () {
   if (typeof feather !== 'undefined') feather.replace();
 });
 
-// ── Page transition veil (entry) ─────────────────────────────────
+// ── Page transition veil ──────────────────────────────────────────
+const VEIL_STYLE = 'position:fixed;inset:0;background:var(--cream);z-index:9998;pointer-events:none;transition:opacity 0.3s ease;';
+
+function createVeil(opacity) {
+  const existing = document.getElementById('page-veil');
+  if (existing) existing.remove();
+  const veil = document.createElement('div');
+  veil.id = 'page-veil';
+  veil.style.cssText = VEIL_STYLE + 'opacity:' + opacity + ';';
+  document.body.appendChild(veil);
+  return veil;
+}
+
 function fadeOutVeil() {
   const veil = document.getElementById('page-veil');
   if (!veil) return;
@@ -47,11 +59,14 @@ function fadeOutVeil() {
   }));
 }
 
-// Safari bfcache: clear any lingering veil when navigating back/forward
+// Safari bfcache: animate in when navigating back/forward
 window.addEventListener('pageshow', function (e) {
   if (e.persisted) {
-    const veil = document.getElementById('page-veil');
-    if (veil) veil.remove();
+    const veil = createVeil(1);
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      veil.style.opacity = '0';
+      setTimeout(() => veil.remove(), 350);
+    }));
   }
 });
 

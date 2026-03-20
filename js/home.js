@@ -120,10 +120,7 @@ document.getElementById('recipe-grid').addEventListener('click', e => {
   e.preventDefault();
   const href = card.getAttribute('href');
 
-  const veil = document.createElement('div');
-  veil.id = 'page-veil';
-  veil.style.opacity = '0';
-  document.body.appendChild(veil);
+  const veil = createVeil(0);
   requestAnimationFrame(() => requestAnimationFrame(() => {
     veil.style.opacity = '1';
   }));
