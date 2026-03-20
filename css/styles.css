@@ -302,6 +302,28 @@ html.dark .logotype-shimmer {
   0%   { background-position: 150% center; }
   100% { background-position: -50% center; }
 }
+/* ── GYRO TILT BUTTON ── */
+#tilt-enable-btn {
+  display: none;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 20px;
+  padding: 8px 16px;
+  background: transparent;
+  border: 1px solid var(--rule);
+  border-radius: 20px;
+  color: var(--green-mid);
+  font-family: inherit;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+#tilt-enable-btn:active {
+  background: var(--green-pale);
+  border-color: var(--green-mid);
+}
+
 /* ── SECTION HEADINGS ── */
 .section-heading {
   display: flex;
