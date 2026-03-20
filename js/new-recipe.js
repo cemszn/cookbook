@@ -5,8 +5,9 @@
 
 // ── Swatch colour options ──────────────────────────────────────
 const SWATCH_COLORS = [
-  'fish', 'lemon', 'olive', 'caper',
-  'herb', 'spice', 'meat', 'dairy', 'berry', 'citrus'
+  'crimson', 'tomato', 'coral', 'rose', 'beet',
+  'spice', 'meat', 'citrus', 'lemon', 'dairy',
+  'herb', 'olive', 'fish', 'caper', 'berry'
 ];
 
 // ── Cloudinary config ─────────────────────────────────────────

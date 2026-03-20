@@ -828,16 +828,21 @@ html.dark .dish-image-wrap {
 }
 
 /* Swatch colours */
-.swatch-dot.fish   { background: radial-gradient(circle at 35% 35%, #c7e8f5, #3a88cc); }
-.swatch-dot.lemon  { background: radial-gradient(circle at 35% 35%, #fef9c3, #c8a020); }
-.swatch-dot.olive  { background: radial-gradient(circle at 35% 35%, #d4e8a8, #4a6020); }
-.swatch-dot.caper  { background: radial-gradient(circle at 35% 35%, #e5e7eb, #94a3b8); }
-.swatch-dot.herb   { background: radial-gradient(circle at 35% 35%, #d4f0d4, #4a8a4a); }
+.swatch-dot.crimson{ background: radial-gradient(circle at 35% 35%, #f5b0b0, #8b0000); }
+.swatch-dot.tomato { background: radial-gradient(circle at 35% 35%, #ffc8c8, #cc2020); }
+.swatch-dot.coral  { background: radial-gradient(circle at 35% 35%, #ffd8c8, #e05030); }
+.swatch-dot.rose   { background: radial-gradient(circle at 35% 35%, #fde8ee, #d4507a); }
+.swatch-dot.beet   { background: radial-gradient(circle at 35% 35%, #e8c0d0, #7a1840); }
 .swatch-dot.spice  { background: radial-gradient(circle at 35% 35%, #fde8c8, #c87020); }
 .swatch-dot.meat   { background: radial-gradient(circle at 35% 35%, #f0d8c8, #8a4020); }
-.swatch-dot.dairy  { background: radial-gradient(circle at 35% 35%, #fffff0, #c8b870); }
-.swatch-dot.berry  { background: radial-gradient(circle at 35% 35%, #f0d8f8, #8040a0); }
 .swatch-dot.citrus { background: radial-gradient(circle at 35% 35%, #fef3c7, #d97706); }
+.swatch-dot.lemon  { background: radial-gradient(circle at 35% 35%, #fef9c3, #c8a020); }
+.swatch-dot.dairy  { background: radial-gradient(circle at 35% 35%, #fffff0, #c8b870); }
+.swatch-dot.herb   { background: radial-gradient(circle at 35% 35%, #d4f0d4, #4a8a4a); }
+.swatch-dot.olive  { background: radial-gradient(circle at 35% 35%, #d4e8a8, #4a6020); }
+.swatch-dot.fish   { background: radial-gradient(circle at 35% 35%, #c7e8f5, #3a88cc); }
+.swatch-dot.caper  { background: radial-gradient(circle at 35% 35%, #e5e7eb, #94a3b8); }
+.swatch-dot.berry  { background: radial-gradient(circle at 35% 35%, #f0d8f8, #8040a0); }
 
 .swatch-name {
   font-family: 'Cormorant Garamond', serif;
@@ -1309,7 +1314,7 @@ html.dark .cook-topbar-title {
   transition: background 0.3s, transform 0.3s;
 }
 .cook-dot.done   { background: var(--green-mid); border-color: var(--green-mid); }
-.cook-dot.active { background: var(--sea); border-color: var(--sea); transform: scale(1.35); }
+.cook-dot.active { background: var(--green-deep); border-color: var(--green-deep); transform: scale(1.35); }
 
 .cook-close-btn {
   display: inline-flex;
@@ -1935,16 +1940,21 @@ label {
 }
 .swatch-option:hover { transform: scale(1.15); }
 .swatch-option.selected { border-color: var(--green-deep); transform: scale(1.2); }
-.swatch-option.fish   { background: radial-gradient(circle at 35% 35%, #c7e8f5, #3a88cc); }
-.swatch-option.lemon  { background: radial-gradient(circle at 35% 35%, #fef9c3, #c8a020); }
-.swatch-option.olive  { background: radial-gradient(circle at 35% 35%, #d4e8a8, #4a6020); }
-.swatch-option.caper  { background: radial-gradient(circle at 35% 35%, #e5e7eb, #94a3b8); }
-.swatch-option.herb   { background: radial-gradient(circle at 35% 35%, #d4f0d4, #4a8a4a); }
+.swatch-option.crimson{ background: radial-gradient(circle at 35% 35%, #f5b0b0, #8b0000); }
+.swatch-option.tomato { background: radial-gradient(circle at 35% 35%, #ffc8c8, #cc2020); }
+.swatch-option.coral  { background: radial-gradient(circle at 35% 35%, #ffd8c8, #e05030); }
+.swatch-option.rose   { background: radial-gradient(circle at 35% 35%, #fde8ee, #d4507a); }
+.swatch-option.beet   { background: radial-gradient(circle at 35% 35%, #e8c0d0, #7a1840); }
 .swatch-option.spice  { background: radial-gradient(circle at 35% 35%, #fde8c8, #c87020); }
 .swatch-option.meat   { background: radial-gradient(circle at 35% 35%, #f0d8c8, #8a4020); }
-.swatch-option.dairy  { background: radial-gradient(circle at 35% 35%, #fffff0, #c8b870); }
-.swatch-option.berry  { background: radial-gradient(circle at 35% 35%, #f0d8f8, #8040a0); }
 .swatch-option.citrus { background: radial-gradient(circle at 35% 35%, #fef3c7, #d97706); }
+.swatch-option.lemon  { background: radial-gradient(circle at 35% 35%, #fef9c3, #c8a020); }
+.swatch-option.dairy  { background: radial-gradient(circle at 35% 35%, #fffff0, #c8b870); }
+.swatch-option.herb   { background: radial-gradient(circle at 35% 35%, #d4f0d4, #4a8a4a); }
+.swatch-option.olive  { background: radial-gradient(circle at 35% 35%, #d4e8a8, #4a6020); }
+.swatch-option.fish   { background: radial-gradient(circle at 35% 35%, #c7e8f5, #3a88cc); }
+.swatch-option.caper  { background: radial-gradient(circle at 35% 35%, #e5e7eb, #94a3b8); }
+.swatch-option.berry  { background: radial-gradient(circle at 35% 35%, #f0d8f8, #8040a0); }
 
 /* ── DYNAMIC LIST ITEMS ── */
 .dynamic-list { display: flex; flex-direction: column; gap: 12px; }
@@ -2267,6 +2277,7 @@ html.dark .btn-submit:hover {
   width: min(200px, 44vw);
   height: min(200px, 44vw);
 }
+
 /* Freeze page animations while launch screen plays */
 html.launching .page > * { animation: none !important; }
 
@@ -2284,3 +2295,22 @@ html.launching .page > * { animation: none !important; }
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
+
+/* ══════════════════════════════════════════════════════════════
+   CUSTOM SCROLLBAR
+══════════════════════════════════════════════════════════════ */
+
+/* Global — thin, understated */
+::-webkit-scrollbar              { width: 5px; height: 5px; }
+::-webkit-scrollbar-track        { background: transparent; }
+::-webkit-scrollbar-thumb        { background: var(--rule); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover  { background: var(--text-light); }
+
+/* Cook mode ingredient list — slightly more prominent */
+.cook-ingredients-body::-webkit-scrollbar             { width: 4px; }
+.cook-ingredients-body::-webkit-scrollbar-track       { background: transparent; }
+.cook-ingredients-body::-webkit-scrollbar-thumb       { background: var(--rule); border-radius: 99px; }
+.cook-ingredients-body::-webkit-scrollbar-thumb:hover { background: var(--text-light); }
+
+/* Firefox */
+* { scrollbar-width: thin; scrollbar-color: var(--rule) transparent; }

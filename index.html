@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   <title>The Cookbook</title>
-  <link rel="stylesheet" href="css/styles.css?v=17"/>
+  <link rel="stylesheet" href="css/styles.css?v=18"/>
   <script>(function(){var t=localStorage.getItem('theme');if(t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark');})();</script>
   <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon.png">
   <link rel="manifest" href="manifest.json">
@@ -18,6 +18,14 @@
 <body>
 
   <!-- ── LAUNCH SCREEN ── -->
+  <style>
+    @keyframes lottie-exit {
+      0%   { transform: scale(1);   opacity: 1; }
+      55%  { transform: scale(2.4); opacity: 0.7; }
+      100% { transform: scale(3);   opacity: 0; }
+    }
+    #launch-lottie.exit { animation: lottie-exit 0.22s ease-out forwards; }
+  </style>
   <div id="launch-screen">
     <div id="launch-lottie"></div>
   </div>
@@ -103,6 +111,14 @@
         path: 'assets/loading.json'
       });
       anim.setSpeed(3);
+      // Enlarge + fade the Lottie out as it approaches its final frames
+      var lottieExiting = false;
+      anim.addEventListener('enterFrame', function (e) {
+        if (!lottieExiting && e.currentTime >= anim.totalFrames * 0.8) {
+          lottieExiting = true;
+          document.getElementById('launch-lottie').classList.add('exit');
+        }
+      });
       anim.addEventListener('complete', endLaunch);
       // Fallback: never block the app for more than 4s
       setTimeout(endLaunch, 4000);
