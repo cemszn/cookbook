@@ -4,11 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   <title>Recipe — The Cookbook</title>
-  <link rel="stylesheet" href="css/styles.css?v=15"/>
+  <link rel="stylesheet" href="css/styles.css?v=17"/>
   <script>(function(){var t=localStorage.getItem('theme');if(t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark');})();</script>
   <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon.png">
 </head>
 <body>
+
+  <!-- ── PAGE VEIL (entry transition) ── -->
+  <div id="page-veil" style="position:fixed;inset:0;background:var(--cream);z-index:9998;pointer-events:none;transition:opacity 0.3s ease;opacity:1;"></div>
 
   <!-- ── TOOLBOX ── -->
   <div class="toolbox">
@@ -129,9 +132,9 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
   <script src="js/firebase-config.js"></script>
-  <script src="js/utils.js?v=4"></script>
+  <script src="js/utils.js?v=3"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
-  <script src="js/recipe.js?v=4"></script>
+  <script src="js/recipe.js?v=6"></script>
   <footer class="site-footer">
     <p>All rights reserved &copy; <span id="footer-year"></span></p>
   </footer>

@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   <title>The Cookbook</title>
-  <link rel="stylesheet" href="css/styles.css?v=15"/>
+  <link rel="stylesheet" href="css/styles.css?v=16"/>
   <script>(function(){var t=localStorage.getItem('theme');if(t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark');})();</script>
   <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon.png">
   <link rel="manifest" href="manifest.json">
@@ -62,11 +62,7 @@
     <div class="section-heading">
       <h2>All Recipes</h2>
     </div>
-    <button id="tilt-enable-btn" style="display:none" onclick="requestGyroPermission()">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10"/><polyline points="22 2 22 8 16 8"/></svg>
-      Enable tilt
-    </button>
-    <div class="recipe-grid" id="recipe-grid">
+<div class="recipe-grid" id="recipe-grid">
       <div class="loading-state">Loading recipes…</div>
     </div>
 
@@ -79,9 +75,9 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
   <script src="js/firebase-config.js"></script>
-  <script src="js/utils.js?v=4"></script>
+  <script src="js/utils.js?v=2"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
-  <script src="js/home.js?v=3"></script>
+  <script src="js/home.js?v=4"></script>
   <script>
     (function () {
       var screen = document.getElementById('launch-screen');

@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function () {
   if (typeof feather !== 'undefined') feather.replace();
 });
 
-// ── Page veil helpers (navigation transitions) ───────────────────
+// ── Page transition veil (entry) ─────────────────────────────────
 function fadeOutVeil() {
   const veil = document.getElementById('page-veil');
   if (!veil) return;
@@ -46,14 +46,6 @@ function fadeOutVeil() {
     veil.style.opacity = '0';
   }));
 }
-
-// Safari bfcache: clear any lingering veil when navigating back/forward
-window.addEventListener('pageshow', function (e) {
-  if (e.persisted) {
-    const veil = document.getElementById('page-veil');
-    if (veil) veil.remove();
-  }
-});
 
 // ── Debounce ────────────────────────────────────────────────────
 function debounce(fn, delay) {
