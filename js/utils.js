@@ -38,6 +38,15 @@ document.addEventListener('DOMContentLoaded', function () {
   if (typeof feather !== 'undefined') feather.replace();
 });
 
+// ── Page transition veil (entry) ─────────────────────────────────
+function fadeOutVeil() {
+  const veil = document.getElementById('page-veil');
+  if (!veil) return;
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    veil.style.opacity = '0';
+  }));
+}
+
 // ── Debounce ────────────────────────────────────────────────────
 function debounce(fn, delay) {
   let timer;

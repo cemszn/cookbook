@@ -57,6 +57,16 @@ html, body {
   overflow-x: hidden;
 }
 
+/* ── PAGE TRANSITIONS ── */
+#page-veil {
+  position: fixed;
+  inset: 0;
+  background: var(--cream);
+  z-index: 9998;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
 a { color: inherit; text-decoration: none; }
 
 /* ── PAGE WRAPPER ── */
@@ -302,28 +312,6 @@ html.dark .logotype-shimmer {
   0%   { background-position: 150% center; }
   100% { background-position: -50% center; }
 }
-/* ── GYRO TILT BUTTON ── */
-#tilt-enable-btn {
-  display: none;
-  align-items: center;
-  gap: 7px;
-  margin-bottom: 20px;
-  padding: 8px 16px;
-  background: transparent;
-  border: 1px solid var(--rule);
-  border-radius: 20px;
-  color: var(--green-mid);
-  font-family: inherit;
-  font-size: 13px;
-  letter-spacing: 0.04em;
-  cursor: pointer;
-  transition: background 0.2s, border-color 0.2s;
-}
-#tilt-enable-btn:active {
-  background: var(--green-pale);
-  border-color: var(--green-mid);
-}
-
 /* ── SECTION HEADINGS ── */
 .section-heading {
   display: flex;
@@ -468,7 +456,7 @@ html.dark .btn-new-recipe:hover {
   padding: 28px 28px 22px;
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-  transition: box-shadow 0.25s, border-color 0.25s;
+  transition: box-shadow 0.25s, transform 0.25s, border-color 0.25s;
   display: flex;
   flex-direction: column;
   gap: 0;
@@ -476,8 +464,6 @@ html.dark .btn-new-recipe:hover {
   overflow: hidden;
   text-decoration: none;
   color: inherit;
-  will-change: transform;
-  transform-style: preserve-3d;
 }
 .recipe-card::before {
   content: '';
@@ -489,7 +475,8 @@ html.dark .btn-new-recipe:hover {
   transition: opacity 0.25s;
 }
 .recipe-card:hover {
-  box-shadow: 0 12px 40px rgba(0,0,0,0.14);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  transform: translateY(-3px);
   border-color: var(--green-pale);
 }
 .recipe-card:hover::before { opacity: 1; }
