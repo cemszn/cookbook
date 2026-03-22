@@ -87,7 +87,7 @@
       err.style.display = 'none';
 
       signInWithEmail(email, password).catch(function(e) {
-        err.textContent = 'Incorrect email or password. Please try again.';
+        err.textContent = e.code + ': ' + e.message;
         err.style.display = 'block';
         btn.disabled = false;
         btn.textContent = 'Sign In';
