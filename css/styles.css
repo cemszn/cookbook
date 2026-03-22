@@ -763,13 +763,23 @@ html.dark .dish-image-wrap {
 }
 
 .dish-emoji {
-  width: 280px; height: 280px;
-  border-radius: 50%;
-  background: var(--green-pale);
+  width: 100%; height: 100%;
   display: flex; align-items: center; justify-content: center;
   font-size: 96px;
-  opacity: 0;
-  animation: fadeUp 0.9s ease forwards 0.4s;
+  background: var(--green-pale);
+  border-radius: 15px;
+}
+
+.dish-image-wrap:has(.dish-emoji) {
+  box-shadow: none;
+  outline: none;
+  border-color: transparent;
+}
+.dish-image-wrap:has(.dish-emoji)::after { display: none; }
+html.dark .dish-image-wrap:has(.dish-emoji) {
+  box-shadow: none;
+  outline: none;
+  border-color: transparent;
 }
 
 .hero-text {
