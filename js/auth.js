@@ -1,14 +1,13 @@
 /* ═══════════════════════════════════════════════════════════════
-   auth.js — Google Sign-In via Firebase Auth
+   auth.js — Email/Password Sign-In via Firebase Auth
    Handles auth state, toolbox pill UI, and data-auth elements.
 ═══════════════════════════════════════════════════════════════ */
 
 const auth = firebase.auth();
-const googleProvider = new firebase.auth.GoogleAuthProvider();
 
 // ── Sign in / Sign out ─────────────────────────────────────────
-function signInWithGoogle() {
-  return auth.signInWithPopup(googleProvider);
+function signInWithEmail(email, password) {
+  return auth.signInWithEmailAndPassword(email, password);
 }
 
 function signOutUser() {
@@ -33,7 +32,7 @@ function _updateAuthPill(user) {
     pill.onclick = signOutUser;
   } else {
     pill.innerHTML = `${feather.icons['log-in'].toSvg({ width: 20, height: 20 })} <span class="auth-label">Sign In</span>`;
-    pill.title = 'Sign in with Google';
+    pill.title = 'Sign in';
     pill.onclick = () => { window.location.href = 'login.html'; };
   }
 }
