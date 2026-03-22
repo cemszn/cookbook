@@ -2317,9 +2317,7 @@ html.launching .page > * { animation: none !important; }
 
 /* ── AUTH PILL ── */
 #auth-pill {
-  min-width: 44px;
   justify-content: center;
-  padding: 8px 14px;
   gap: 8px;
 }
 #auth-pill:empty { display: none !important; }
