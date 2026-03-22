@@ -992,11 +992,25 @@ html.dark .servings-toggle {
   font-size: 21px;
   font-weight: 600;
   color: var(--green-mid);
-  min-width: 58px;
+  min-width: 72px;
   flex-shrink: 0;
+  white-space: nowrap;
 }
 .ingredient-name { font-size: 15px; color: var(--text-dark); line-height: 1.45; }
 .ingredient-note { font-size: 13px; color: var(--text-light); font-style: italic; }
+
+.ingredient-group { margin-bottom: 8px; }
+.ingredient-group:last-child { margin-bottom: 0; }
+.ingredient-group-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text-light);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 12px 0 4px;
+  border-bottom: 1px solid var(--rule);
+}
 
 /* ── STEPS ── */
 .step {
@@ -1991,9 +2005,19 @@ label {
 }
 .dynamic-item-fields { flex: 1; display: flex; gap: 10px; flex-wrap: wrap; }
 .dynamic-item-fields .form-input { flex: 1; min-width: 100px; }
-.dynamic-item-fields .form-input.narrow { max-width: 80px; flex: 0 0 80px; }
+.dynamic-item-fields .form-input.narrow { max-width: 90px; flex: 0 0 90px; }
 .dynamic-item-fields .form-textarea { flex: 1; min-height: 72px; }
 .dynamic-item-fields--col { flex-direction: column; }
+
+.ing-fields-row { display: flex; gap: 10px; flex-wrap: wrap; }
+.ing-fields-row .form-input { flex: 1; min-width: 100px; }
+.ing-fields-row .form-input.narrow { max-width: 90px; flex: 0 0 90px; }
+.form-input.ing-category {
+  font-size: 12px;
+  padding: 7px 12px;
+  letter-spacing: 0.04em;
+  color: var(--text-light);
+}
 
 .dynamic-item-number {
   font-family: 'Cormorant Garamond', serif;

@@ -43,23 +43,23 @@
       <h3>Claude Instructions</h3>
       <p>Copy the prompt below and paste it into Claude along with your recipe source (text, photo, URL, etc.).</p>
 
-      <pre id="rules-prompt">You are a recipe data extractor. Given a recipe document (text, image, or URL content), produce a single JSON file that conforms exactly to the schema below. Output ONLY the raw JSON — no markdown fences, no commentary.
+      <pre id="rules-prompt">You are a recipe data extractor. Given a recipe document (text, image, or URL content), produce a single JSON file that conforms exactly to the schema below. Output ONLY the raw JSON — no markdown fences, no commentary. Provide the output as a downloadable .json file attachment when possible.
 
 SCHEMA:
 {
   "title": "string (required) — recipe name",
-  "subtitle": "string — short tagline, e.g. 'Golden &amp; Silky'",
-  "category": "string — separated by ' · ', e.g. 'Italian · Rice · Vegetarian'",
+  "subtitle": "string (required) — short tagline, e.g. 'Golden &amp; Silky'",
+  "category": "string (required) — separated by ' · ', e.g. 'Italian · Rice · Vegetarian'",
   "description": "string (required) — 1-3 sentence appetising description",
   "prepTime": "number (required) — minutes",
   "cookTime": "number (required) — minutes",
   "servings": "number (required)",
   "difficulty": "string (required) — one of: Easy, Medium, Hard",
-  "tags": ["array of strings — e.g. 'Gluten-free', 'One-pan'"],
-  "keyIngredients": [
+  "tags": ["array of strings (required) — e.g. 'Gluten-free', 'One-pan'"],
+  "keyIngredients": "(required) — up to 4" [
     {
-      "name": "string — ingredient name, e.g. 'White Fish'",
-      "role": "string — brief description, e.g. 'Sea bass, bream or halibut'",
+      "name": "string (required) — ingredient name, e.g. 'White Fish'",
+      "role": "string (required) — brief description, e.g. 'Sea bass, bream or halibut'",
       "color": "string — one of: crimson, tomato, coral, rose, beet, spice, meat, citrus, lemon, dairy, herb, olive, fish, caper, berry"
     }
   ],
@@ -68,7 +68,8 @@ SCHEMA:
       "amount": "string — e.g. '2', '½', '200'",
       "unit": "string — e.g. 'tbsp', 'g', 'ml', 'cloves'",
       "name": "string (required) — ingredient name",
-      "note": "string — e.g. 'finely chopped', 'room temperature'"
+      "note": "string — e.g. 'finely chopped', 'room temperature'",
+      "category": "string — optional ingredient group, e.g. 'For the Sauce', 'For the Dough'"
     }
   ],
   "steps": [
@@ -78,19 +79,19 @@ SCHEMA:
       "tip": "string — optional pro-tip or callout"
     }
   ],
-  "notes": ["array of strings — kitchen tips, variations, substitutions"],
-  "nutrition": {
-    "servingSize": "string — e.g. '1 fillet', '1 cup', '200g'",
-    "calories": "number",
-    "totalFat": "number (grams)",
-    "saturatedFat": "number (grams)",
-    "transFat": "number (grams)",
-    "cholesterol": "number (mg)",
-    "sodium": "number (mg)",
-    "totalCarb": "number (grams)",
-    "dietaryFiber": "number (grams)",
-    "totalSugars": "number (grams)",
-    "protein": "number (grams)",
+  "notes": ["array of strings (required) — kitchen tips, variations, substitutions"],
+  "nutrition": "(required)" {
+    "servingSize": "string (required) — e.g. '1 fillet', '1 cup', '200g'",
+    "calories": "number (required)",
+    "totalFat": "number (required, grams)",
+    "saturatedFat": "number (required, grams)",
+    "transFat": "number (required, grams)",
+    "cholesterol": "number (required, mg)",
+    "sodium": "number (required, mg)",
+    "totalCarb": "number (required, grams)",
+    "dietaryFiber": "number (required, grams)",
+    "totalSugars": "number (required, grams)",
+    "protein": "number (required, grams)",
     "extras": [
       { "name": "string — e.g. 'Vitamin D', 'Iron'", "value": "string — e.g. '35%', 'High'" }
     ]
@@ -100,10 +101,10 @@ SCHEMA:
 RULES:
 1. All fields marked (required) must be present.
 2. "keyIngredients" — pick up to 4 hero ingredients. Choose a "color" that visually matches each ingredient (e.g. fish → fish, tomato → tomato, herbs → herb, cheese → dairy, beef → meat).
-3. "ingredients" — list every ingredient. Separate amount, unit, name, and note into their own fields. Do not combine them into a single string.
+3. "ingredients" — list every ingredient. Separate amount, unit, name, and note into their own fields. Do not combine them into a single string. If the recipe says "1 small onion", put "1" in amount, "small" in unit, and "onion" in name. Size words (small, medium, large) go into the unit field when no other unit is specified. If the recipe has distinct ingredient sections (e.g. "For the Sauce", "For the Dough"), set the "category" field on each ingredient. Omit "category" if ingredients are not sectioned.
 4. "steps" — break the method into clear, numbered steps. Each step needs a short title and detailed instructions. Add a tip only when genuinely helpful.
-5. "notes" — include any useful tips, variations, or storage instructions from the source. Omit if none.
-6. "nutrition" — include only if nutritional data is available in the source. Omit the entire object if not. Do not guess or fabricate nutrition values.
+5. "notes" — always include this field. Add useful tips, variations, storage instructions, or serving suggestions from the source. If the source has no explicit notes, generate 3-4 helpful kitchen notes (e.g. make-ahead tips, substitutions, technique advice, serving ideas).
+6. "nutrition" — always include this object. Use values from the source when available. If not provided, estimate reasonable values based on the ingredients and quantities. Mark estimated values as approximate by rounding to the nearest whole number.
 7. Omit any optional field entirely (do not include it as null or empty string) if the source does not provide information for it.
 8. Output valid JSON only. No trailing commas, no comments.</pre>
 

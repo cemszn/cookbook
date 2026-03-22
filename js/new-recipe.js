@@ -216,14 +216,32 @@ function addIngredient() {
   div.id = id;
   div.innerHTML = `
     <span class="dynamic-item-number">${num}</span>
-    <div class="dynamic-item-fields">
-      <input class="form-input narrow" type="text" placeholder="Amount" title="Amount (e.g. 2, ½, 200)" />
-      <input class="form-input narrow" type="text" placeholder="Unit" title="Unit (e.g. tbsp, g, ml, cloves)" />
-      <input class="form-input" type="text" placeholder="Ingredient name *" required />
-      <input class="form-input" type="text" placeholder="Note (optional, e.g. finely chopped)" />
+    <div class="dynamic-item-fields dynamic-item-fields--col">
+      <input class="form-input ing-category" type="text"
+        placeholder="Category (optional, e.g. For the Sauce)"
+        list="ing-categories" onblur="updateIngCategoryList()" />
+      <div class="ing-fields-row">
+        <input class="form-input narrow" type="text" placeholder="Amount" title="Amount (e.g. 2, ½, 200)" />
+        <input class="form-input narrow" type="text" placeholder="Unit" title="Unit (e.g. tbsp, g, ml, cloves)" />
+        <input class="form-input" type="text" placeholder="Ingredient name *" required />
+        <input class="form-input" type="text" placeholder="Note (optional, e.g. finely chopped)" />
+      </div>
     </div>
     <button type="button" class="btn-remove" onclick="removeItem('${id}', 'ing')">${feather.toSvg('x')}</button>`;
   list.appendChild(div);
+}
+
+function updateIngCategoryList() {
+  const datalist = document.getElementById('ing-categories');
+  if (!datalist) return;
+  const cats = new Set();
+  document.querySelectorAll('#ingredients-list .ing-category').forEach(el => {
+    const v = el.value.trim();
+    if (v) cats.add(v);
+  });
+  datalist.innerHTML = Array.from(cats).map(c =>
+    `<option value="${c.replace(/"/g, '&quot;')}">`
+  ).join('');
 }
 
 // ── STEPS ──────────────────────────────────────────────────────
@@ -335,7 +353,9 @@ function addIngredientWithData(ing) {
   addIngredient();
   const list   = document.getElementById('ingredients-list');
   const item   = list.lastElementChild;
-  const inputs = item.querySelectorAll('.form-input');
+  const catEl  = item.querySelector('.ing-category');
+  if (catEl) catEl.value = ing.category || '';
+  const inputs = item.querySelectorAll('.ing-fields-row .form-input');
   inputs[0].value = ing.amount || '';
   inputs[1].value = ing.unit   || '';
   inputs[2].value = ing.name   || '';
@@ -469,12 +489,14 @@ function collectFormData() {
   // Ingredients
   const ingredients = [];
   document.querySelectorAll('#ingredients-list .dynamic-item').forEach(item => {
-    const inputs = item.querySelectorAll('.form-input');
-    const amount = inputs[0]?.value.trim() || '';
-    const unit   = inputs[1]?.value.trim() || '';
-    const name   = inputs[2]?.value.trim() || '';
-    const note   = inputs[3]?.value.trim() || '';
-    if (name) ingredients.push({ amount, unit, name, note });
+    const catEl    = item.querySelector('.ing-category');
+    const category = catEl?.value.trim() || '';
+    const inputs   = item.querySelectorAll('.ing-fields-row .form-input');
+    const amount   = inputs[0]?.value.trim() || '';
+    const unit     = inputs[1]?.value.trim() || '';
+    const name     = inputs[2]?.value.trim() || '';
+    const note     = inputs[3]?.value.trim() || '';
+    if (name) ingredients.push({ amount, unit, name, note, ...(category ? { category } : {}) });
   });
 
   // Steps

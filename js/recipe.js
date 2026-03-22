@@ -188,27 +188,62 @@ function renderPage() {
 }
 
 // ── Ingredients ────────────────────────────────────────────────
+function groupIngredientsByCategory(ingredients) {
+  const groups = [];
+  const map = new Map();
+  for (const ing of ingredients) {
+    const cat = ing.category || '';
+    if (!map.has(cat)) {
+      const group = { category: cat, items: [] };
+      map.set(cat, group);
+      groups.push(group);
+    }
+    map.get(cat).items.push(ing);
+  }
+  return groups;
+}
+
+function buildIngredientHTML(ingredients, ratio) {
+  const groups = groupIngredientsByCategory(ingredients);
+  const hasCategories = !(groups.length === 1 && groups[0].category === '');
+  let globalIndex = 0;
+  let html = '';
+
+  for (const group of groups) {
+    if (hasCategories) {
+      html += `<div class="ingredient-group">`;
+      if (group.category) {
+        html += `<div class="ingredient-group-title">${escHtml(group.category)}</div>`;
+      }
+    }
+    for (const ing of group.items) {
+      const i = globalIndex++;
+      const scaled    = parseFloat(ing.amount || 0) * ratio;
+      const amtStr    = formatAmount(scaled);
+      const isChecked = checkedSet.has(i);
+      html += `
+        <div class="ingredient-item${isChecked ? ' checked' : ''}">
+          <input type="checkbox" class="ingredient-checkbox"
+            ${isChecked ? 'checked' : ''}
+            onchange="toggleIngredient(${i}, this)">
+          <span class="ingredient-amount">${amtStr}${ing.unit ? ' ' + escHtml(ing.unit) : ''}</span>
+          <span class="ingredient-name">${escHtml(ing.name)}${ing.note
+            ? `<br><span class="ingredient-note">${escHtml(ing.note)}</span>`
+            : ''}</span>
+        </div>`;
+    }
+    if (hasCategories) html += `</div>`;
+  }
+  return html;
+}
+
 function renderIngredients() {
   if (!recipe) return;
   const ratio     = servings / baseServings;
   const container = document.getElementById('ingredients-list');
   if (!container) return;
 
-  container.innerHTML = (recipe.ingredients || []).map((ing, i) => {
-    const scaled    = parseFloat(ing.amount || 0) * ratio;
-    const amtStr    = formatAmount(scaled);
-    const isChecked = checkedSet.has(i);
-    return `
-      <div class="ingredient-item${isChecked ? ' checked' : ''}">
-        <input type="checkbox" class="ingredient-checkbox"
-          ${isChecked ? 'checked' : ''}
-          onchange="toggleIngredient(${i}, this)">
-        <span class="ingredient-amount">${amtStr}${ing.unit ? ' ' + escHtml(ing.unit) : ''}</span>
-        <span class="ingredient-name">${escHtml(ing.name)}${ing.note
-          ? `<br><span class="ingredient-note">${escHtml(ing.note)}</span>`
-          : ''}</span>
-      </div>`;
-  }).join('');
+  container.innerHTML = buildIngredientHTML(recipe.ingredients || [], ratio);
 
   // keep servings counter in sync
   const sc = document.getElementById('servings-count');
@@ -550,21 +585,7 @@ function renderCookIngredients() {
   const body = document.getElementById('cook-ingredients-body');
   if (!body || !recipe) return;
   const ratio = servings / baseServings;
-  body.innerHTML = (recipe.ingredients || []).map((ing, i) => {
-    const scaled   = parseFloat(ing.amount || 0) * ratio;
-    const amtStr   = formatAmount(scaled);
-    const isChecked = checkedSet.has(i);
-    return `
-      <div class="ingredient-item${isChecked ? ' checked' : ''}">
-        <input type="checkbox" class="ingredient-checkbox"
-          ${isChecked ? 'checked' : ''}
-          onchange="toggleIngredient(${i}, this)">
-        <span class="ingredient-amount">${amtStr}${ing.unit ? ' ' + escHtml(ing.unit) : ''}</span>
-        <span class="ingredient-name">${escHtml(ing.name)}${ing.note
-          ? `<br><span class="ingredient-note">${escHtml(ing.note)}</span>` : ''}</span>
-      </div>`;
-  }).join('');
-
+  body.innerHTML = buildIngredientHTML(recipe.ingredients || [], ratio);
 }
 
 function toggleCookIngredients() {
