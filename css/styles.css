@@ -2339,6 +2339,8 @@ html.launching .page > * { animation: none !important; }
   white-space: nowrap;
 }
 
+.toolbox-pill .auth-label { display: none; }
+
 /* ── LOGIN PAGE ── */
 .login-page {
   display: flex;
