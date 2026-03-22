@@ -28,6 +28,55 @@ let stepCount  = 0;
 let noteCount  = 0;
 let nfExtCount = 0;
 
+// ── JSON IMPORT ─────────────────────────────────────────────────
+function handleJsonSelect(input) {
+  const file = input.files[0];
+  if (file) importJsonFile(file);
+}
+
+function handleJsonDrop(event) {
+  event.preventDefault();
+  document.getElementById('json-import-zone').classList.remove('drag-over');
+  const file = event.dataTransfer.files[0];
+  if (file) importJsonFile(file);
+}
+
+function importJsonFile(file) {
+  const statusEl = document.getElementById('json-import-status');
+  statusEl.textContent = '';
+  statusEl.className = 'json-import-status';
+
+  if (!file.name.endsWith('.json') && file.type !== 'application/json') {
+    statusEl.textContent = 'Please upload a .json file.';
+    statusEl.className = 'json-import-status error';
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const data = JSON.parse(e.target.result);
+      populateForm(data);
+      statusEl.textContent = 'Recipe imported successfully!';
+      statusEl.className = 'json-import-status success';
+      // Scroll to basics section
+      document.getElementById('f-title').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    } catch (err) {
+      console.error('JSON parse error:', err);
+      statusEl.textContent = 'Invalid JSON file. Check the format and try again.';
+      statusEl.className = 'json-import-status error';
+    }
+  };
+  reader.onerror = () => {
+    statusEl.textContent = 'Could not read the file.';
+    statusEl.className = 'json-import-status error';
+  };
+  reader.readAsText(file);
+
+  // Reset input so the same file can be re-imported
+  document.getElementById('f-json').value = '';
+}
+
 // ── IMAGE UPLOAD ───────────────────────────────────────────────
 function handleImageSelect(input) {
   const file = input.files[0];

@@ -1894,6 +1894,7 @@ html.dark .cook-ingredients-close {
 .form-section:nth-child(6) { animation-delay: 0.7s; }
 .form-section:nth-child(7) { animation-delay: 0.8s; }
 .form-section:nth-child(8) { animation-delay: 0.9s; }
+.form-section:nth-child(9) { animation-delay: 1.0s; }
 
 .form-row {
   display: grid;
@@ -2445,3 +2446,147 @@ html.dark .login-error {
 @media (max-width: 480px) {
   .login-card { padding: 36px 24px; }
 }
+
+/* ── JSON IMPORT ZONE ── */
+.json-import-zone {
+  border: 1px dashed var(--rule);
+  border-radius: 8px;
+  background: var(--warm-white);
+  cursor: pointer;
+  padding: 24px 32px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  transition: border-color 0.2s, background 0.2s;
+}
+.json-import-zone:hover,
+.json-import-zone.drag-over {
+  border-color: var(--green-mid);
+  background: var(--cream);
+}
+.json-import-icon {
+  color: var(--text-light);
+  opacity: 0.55;
+  flex-shrink: 0;
+}
+.json-import-icon svg.feather { width: 22px; height: 22px; }
+.json-import-text {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-mid);
+  letter-spacing: 0.04em;
+}
+.json-import-hint {
+  font-size: 11px;
+  color: var(--text-light);
+  letter-spacing: 0.04em;
+  margin-left: auto;
+}
+.form-section:has(.json-import-zone) { margin-bottom: 20px; }
+.json-import-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+  min-height: 18px;
+}
+.json-import-status {
+  font-size: 12px;
+  letter-spacing: 0.04em;
+}
+.json-rules-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-light);
+  transition: color 0.2s;
+}
+.json-rules-link:hover { color: var(--green-mid); }
+.json-rules-link svg.feather { width: 13px; height: 13px; }
+.json-import-status.error   { color: #c0392b; }
+.json-import-status.success { color: var(--green-mid); }
+html.dark .json-import-status.error { color: #ff7c7c; }
+
+@media (max-width: 600px) {
+  .json-import-zone { flex-wrap: wrap; gap: 6px; padding: 18px 20px; }
+  .json-import-hint { margin-left: 0; flex-basis: 100%; }
+}
+
+/* ── RULES PAGE ── */
+.rules-page { max-width: min(820px, 92vw); }
+.rules-page .section-heading { margin-bottom: 24px; }
+.rules-block {
+  background: var(--warm-white);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 28px 32px;
+  margin-bottom: 28px;
+  opacity: 0;
+  animation: fadeUp 0.9s ease forwards;
+}
+.rules-block:nth-child(2) { animation-delay: 0.15s; }
+.rules-block:nth-child(3) { animation-delay: 0.25s; }
+.rules-block:nth-child(4) { animation-delay: 0.35s; }
+.rules-block:nth-child(5) { animation-delay: 0.45s; }
+.rules-block h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 14px;
+}
+.rules-block p,
+.rules-block li {
+  font-size: 13.5px;
+  color: var(--text-mid);
+  line-height: 1.8;
+}
+.rules-block ul { padding-left: 20px; margin: 8px 0; }
+.rules-block li { margin-bottom: 4px; }
+.rules-block code {
+  font-size: 12px;
+  background: var(--cream);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-family: 'DM Sans', monospace;
+  color: var(--text-dark);
+}
+.rules-block pre {
+  background: var(--cream);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 18px 20px;
+  margin: 14px 0;
+  overflow-x: auto;
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--text-dark);
+  font-family: 'DM Sans', monospace;
+}
+.rules-copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  padding: 7px 14px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-mid);
+  background: var(--cream);
+  border: 1px solid var(--rule);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+.rules-copy-btn:hover {
+  border-color: var(--green-mid);
+  color: var(--green-mid);
+}
+.rules-copy-btn svg.feather { width: 13px; height: 13px; }

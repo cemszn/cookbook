@@ -41,6 +41,25 @@
 
     <form id="recipe-form" onsubmit="submitRecipe(event)">
 
+      <!-- ══ IMPORT FROM JSON ══ -->
+      <div class="form-section">
+        <div class="json-import-zone" id="json-import-zone"
+          onclick="document.getElementById('f-json').click()"
+          ondragover="event.preventDefault(); this.classList.add('drag-over')"
+          ondragleave="this.classList.remove('drag-over')"
+          ondrop="handleJsonDrop(event)">
+          <input id="f-json" type="file" accept=".json,application/json" style="display:none"
+            onchange="handleJsonSelect(this)" />
+          <span class="json-import-icon"><i data-feather="upload"></i></span>
+          <span class="json-import-text">Import from JSON</span>
+          <span class="json-import-hint">Drop a recipe .json file here or click to browse</span>
+        </div>
+        <div class="json-import-footer">
+          <div class="json-import-status" id="json-import-status"></div>
+          <a href="rules.html" class="json-rules-link"><i data-feather="book-open"></i> View JSON rules</a>
+        </div>
+      </div>
+
       <!-- ══ SECTION 1: BASICS ══ -->
       <div class="form-section">
         <div class="section-heading"><h2>The Basics</h2></div>
