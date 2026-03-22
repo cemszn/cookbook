@@ -235,9 +235,29 @@ html.dark .toggle-track.theme-track { background: var(--green-mid); }
 }
 html.dark .toggle-thumb.theme-thumb { transform: translateX(16px); background: #141a16; }
 
-/* Moon icon in theme pill — lit up in dark mode */
-.toolbox-pill .feather-moon { color: var(--text-light); }
-html.dark .toolbox-pill .feather-moon { color: var(--green-mid); }
+/* Theme icon wrapper — sun/moon cross-fade with rotation */
+.theme-icon-wrapper {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+.theme-icon {
+  position: absolute;
+  top: 0; left: 0;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.theme-icon-sun svg.feather { color: var(--text-mid); }
+.theme-icon-moon svg.feather { color: var(--text-light); }
+
+/* Light mode: sun visible, moon hidden */
+.theme-icon-sun { opacity: 1; transform: rotate(0deg); }
+.theme-icon-moon { opacity: 0; transform: rotate(90deg); }
+
+/* Dark mode: moon visible, sun hidden */
+html.dark .theme-icon-sun { opacity: 0; transform: rotate(-90deg); }
+html.dark .theme-icon-moon { opacity: 1; transform: rotate(0deg); }
+html.dark .theme-icon-moon svg.feather { color: var(--green-mid); }
 
 .toggle-label {
   font-size: 10px;
