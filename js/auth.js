@@ -22,13 +22,8 @@ function _updateAuthPill(user) {
   if (!pill) return;
 
   if (user) {
-    const photo = user.photoURL;
-    if (photo) {
-      pill.innerHTML = `<img class="auth-avatar" src="${escHtml(photo)}" alt="Account" referrerpolicy="no-referrer">`;
-    } else {
-      pill.innerHTML = feather.icons['user'].toSvg({ width: 20, height: 20 });
-    }
-    pill.title = `Signed in as ${user.displayName || user.email} — click to sign out`;
+    pill.innerHTML = `${feather.icons['log-out'].toSvg({ width: 20, height: 20 })} <span class="auth-label">Sign Out</span>`;
+    pill.title = `Signed in as ${user.email} — click to sign out`;
     pill.onclick = signOutUser;
   } else {
     pill.innerHTML = `${feather.icons['log-in'].toSvg({ width: 20, height: 20 })} <span class="auth-label">Sign In</span>`;
