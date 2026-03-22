@@ -25,10 +25,11 @@
     </div>
     <div class="toolbox-right">
       <div class="toolbox-pills">
+        <div class="toolbox-pill" id="auth-pill" title="Sign in"></div>
         <div class="toolbox-pill" onclick="toggleCookMode()" title="Cook Mode" id="cook-mode-pill">
           <i data-feather="maximize-2"></i>
         </div>
-        <div class="toolbox-pill" onclick="editRecipe()" title="Edit this recipe" id="edit-pill">
+        <div class="toolbox-pill" onclick="editRecipe()" title="Edit this recipe" id="edit-pill" data-auth="show" style="display:none;">
           <i data-feather="edit-3"></i>
         </div>
         <div class="toolbox-pill" onclick="toggleTheme()" title="Toggle dark mode">
@@ -43,7 +44,7 @@
       </div>
       <div class="toolbox-menu" id="toolbox-menu">
         <div class="toolbox-menu-item" onclick="toggleCookMode();closeToolboxMenu()"><i data-feather="maximize-2"></i>Cook</div>
-        <div class="toolbox-menu-item" onclick="editRecipe();closeToolboxMenu()"><i data-feather="edit-3"></i>Edit</div>
+        <div class="toolbox-menu-item" onclick="editRecipe();closeToolboxMenu()" data-auth="show" style="display:none;"><i data-feather="edit-3"></i>Edit</div>
         <div class="toolbox-menu-item" onclick="toggleTheme();closeToolboxMenu()">
           <div class="toggle-track theme-track"><div class="toggle-thumb theme-thumb"></div></div>
           Dark
@@ -131,8 +132,10 @@
   <!-- ── FIREBASE SDKs ── -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
   <script src="js/firebase-config.js"></script>
   <script src="js/utils.js?v=6"></script>
+  <script src="js/auth.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
   <script src="js/recipe.js?v=6"></script>
   <footer class="site-footer">

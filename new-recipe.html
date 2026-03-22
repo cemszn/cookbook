@@ -10,6 +10,9 @@
 </head>
 <body>
 
+  <!-- ── AUTH GUARD OVERLAY (removed once auth confirms user) ── -->
+  <div id="auth-guard" style="position:fixed;inset:0;background:var(--cream);z-index:9999;"></div>
+
   <!-- ── TOOLBOX ── -->
   <div class="toolbox">
     <div class="toolbox-pill" onclick="history.back()" title="Go back">
@@ -265,8 +268,22 @@
   <!-- ── FIREBASE SDKs ── -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
   <script src="js/firebase-config.js"></script>
   <script src="js/utils.js?v=6"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    // Auth guard — redirect to login if not signed in
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (!user) {
+        var redirect = encodeURIComponent('new-recipe.html' + window.location.search);
+        window.location.replace('login.html?redirect=' + redirect);
+      } else {
+        var guard = document.getElementById('auth-guard');
+        if (guard) guard.remove();
+      }
+    });
+  </script>
   <script src="js/new-recipe.js"></script>
   <footer class="site-footer">
     <p>All rights reserved &copy; <span id="footer-year"></span></p>
