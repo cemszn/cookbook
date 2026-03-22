@@ -218,7 +218,7 @@ function buildIngredientHTML(ingredients, ratio) {
     }
     for (const ing of group.items) {
       const i = globalIndex++;
-      const scaled    = parseFloat(ing.amount || 0) * ratio;
+      const scaled    = parseAmount(ing.amount) * ratio;
       const amtStr    = formatAmount(scaled);
       const isChecked = checkedSet.has(i);
       html += `
@@ -277,6 +277,24 @@ function toggleIngredient(index, el) {
   const item = el.closest('.ingredient-item');
   if (el.checked) { checkedSet.add(index);    item.classList.add('checked'); }
   else            { checkedSet.delete(index);  item.classList.remove('checked'); }
+}
+
+function parseAmount(str) {
+  if (!str) return 0;
+  const fracs = { '¼': 0.25, '½': 0.5, '¾': 0.75, '⅓': 0.33, '⅔': 0.67,
+                  '⅛': 0.125, '⅜': 0.375, '⅝': 0.625, '⅞': 0.875 };
+  const s = str.trim();
+  // Check if string contains a unicode fraction character
+  const fracChar = Object.keys(fracs).find(ch => s.includes(ch));
+  if (fracChar) {
+    // Extract leading whole number if present (e.g. "2 ½" or "2½")
+    const wholeMatch = s.match(/^(\d+)\s*/);
+    const whole = wholeMatch ? parseInt(wholeMatch[1]) : 0;
+    return whole + fracs[fracChar];
+  }
+  // Plain number
+  const num = parseFloat(s);
+  return isNaN(num) ? 0 : num;
 }
 
 function formatAmount(val) {
