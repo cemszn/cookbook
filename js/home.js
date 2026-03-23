@@ -169,11 +169,11 @@ function _filterRecipesImpl() {
   const query = document.getElementById('search-input').value.toLowerCase().trim();
   const fc = document.getElementById('featured-recipe-container');
   if (!query) {
-    if (fc) fc.style.display = '';
+    if (fc) fc.classList.remove('hidden');
     renderGrid(allRecipes);
     return;
   }
-  if (fc) fc.style.display = 'none';
+  if (fc) fc.classList.add('hidden');
   const filtered = allRecipes.filter(r => {
     const searchable = [
       r.title, r.subtitle, r.category, r.description,

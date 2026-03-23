@@ -700,6 +700,20 @@ html.dark .card-image-overlay {
 }
 
 /* ── FEATURED CARD ── */
+#featured-recipe-container {
+  max-height: 600px;
+  opacity: 1;
+  overflow: hidden;
+  transition: max-height 0.4s ease, opacity 0.3s ease, margin-bottom 0.4s ease;
+  margin-bottom: 0;
+}
+#featured-recipe-container.hidden {
+  max-height: 0;
+  opacity: 0;
+  margin-bottom: 0;
+  pointer-events: none;
+}
+
 .featured-card {
   display: flex;
   flex-direction: row;
