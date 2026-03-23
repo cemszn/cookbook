@@ -516,7 +516,7 @@ html.dark .btn-new-recipe:hover {
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 28px;
   opacity: 0;
-  animation: fadeUp 0.9s ease forwards 0.5s;
+  animation: fadeUp 0.9s ease forwards 0.6s;
 }
 
 /* ── RECIPE CARD ── */
@@ -702,16 +702,19 @@ html.dark .card-image-overlay {
 /* ── FEATURED CARD ── */
 #featured-recipe-container {
   max-height: 600px;
-  opacity: 1;
-  overflow: hidden;
-  transition: max-height 0.4s ease, opacity 0.3s ease, margin-bottom 0.4s ease;
+  overflow: visible;
   margin-bottom: 0;
+  opacity: 0;
+  animation: fadeUp 0.9s ease forwards 0.35s;
+  transition: max-height 0.4s ease, opacity 0.3s ease, margin-bottom 0.4s ease;
 }
 #featured-recipe-container.hidden {
   max-height: 0;
   opacity: 0;
+  overflow: hidden;
   margin-bottom: 0;
   pointer-events: none;
+  animation: none;
 }
 
 .featured-card {
