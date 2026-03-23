@@ -4,6 +4,13 @@
    and renders the full page including cook mode.
 ═══════════════════════════════════════════════════════════════ */
 
+// ── Cloudinary Optimization ────────────────────────────────────
+function cloudinaryUrl(url, width) {
+  if (!url || !url.includes('res.cloudinary.com')) return url;
+  const transforms = `f_auto,q_auto${width ? ',w_' + width : ''}`;
+  return url.replace('/upload/', '/upload/' + transforms + '/');
+}
+
 function toolboxBack() {
   const overlay = document.getElementById('cook-overlay');
   if (overlay && overlay.classList.contains('active')) {
@@ -96,7 +103,7 @@ function renderPage() {
         <div class="hero-image-col">
           <div class="dish-image-wrap">
             ${r.imageUrl
-              ? `<img src="${escHtml(r.imageUrl)}" class="dish-image" alt="${escHtml(r.title)}" />`
+              ? `<img src="${escHtml(cloudinaryUrl(r.imageUrl, 1200))}" class="dish-image" alt="${escHtml(r.title)}" />`
               : `<div class="dish-emoji">🍽️</div>`}
           </div>
         </div>
