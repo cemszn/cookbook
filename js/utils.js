@@ -70,6 +70,20 @@ window.addEventListener('pageshow', function (e) {
   }
 });
 
+// ── Toolbox mobile menu (shared across pages with hamburger) ────
+function toggleToolboxMenu(e) {
+  e.stopPropagation();
+  var menu = document.getElementById('toolbox-menu');
+  if (menu) menu.classList.toggle('open');
+}
+function closeToolboxMenu() {
+  var menu = document.getElementById('toolbox-menu');
+  if (menu) menu.classList.remove('open');
+}
+document.addEventListener('click', function (e) {
+  if (!e.target.closest('.toolbox-right')) closeToolboxMenu();
+});
+
 // ── Debounce ────────────────────────────────────────────────────
 function debounce(fn, delay) {
   let timer;

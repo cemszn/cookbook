@@ -13,20 +13,6 @@ function toolboxBack() {
   }
 }
 
-function toggleToolboxMenu(e) {
-  e.stopPropagation();
-  document.getElementById('toolbox-menu').classList.toggle('open');
-}
-
-function closeToolboxMenu() {
-  document.getElementById('toolbox-menu').classList.remove('open');
-}
-
-function _onDocumentClick(e) {
-  if (!e.target.closest('.toolbox-right')) closeToolboxMenu();
-}
-document.addEventListener('click', _onDocumentClick);
-
 // ── Globals ────────────────────────────────────────────────────
 let recipe         = null;
 let servings       = 2;

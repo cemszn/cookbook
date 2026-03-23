@@ -449,11 +449,15 @@ async function loadForEdit(id) {
     editId = id;
     document.getElementById('page-heading').textContent = 'Edit Recipe';
     document.title = `Edit: ${r.title} — The Cookbook`;
-    document.getElementById('submit-btn').lastChild.textContent = ' Update Recipe';
+    document.getElementById('submit-label').textContent = 'Update';
+    if (document.getElementById('submit-label-mobile'))
+      document.getElementById('submit-label-mobile').textContent = 'Update';
 
     // Back / Cancel both return to the recipe page, not the home page
     const recipeUrl = `recipe.html?id=${id}`;
     document.getElementById('cancel-btn').href = recipeUrl;
+    if (document.getElementById('cancel-btn-mobile'))
+      document.getElementById('cancel-btn-mobile').href = recipeUrl;
 
     populateForm(r);
   } catch (err) {
@@ -572,9 +576,10 @@ function validate(data) {
 async function submitRecipe(e) {
   e.preventDefault();
 
-  const statusEl  = document.getElementById('form-status');
-  const submitBtn = document.getElementById('submit-btn');
-  const spinner   = document.getElementById('submit-spinner');
+  const statusEl     = document.getElementById('form-status');
+  const submitBtn    = document.getElementById('submit-btn');
+  const submitMobile = document.getElementById('submit-btn-mobile');
+  const spinner      = document.getElementById('submit-spinner');
 
   statusEl.textContent = '';
   statusEl.className   = 'form-status';
@@ -590,6 +595,7 @@ async function submitRecipe(e) {
 
   // Loading state
   submitBtn.disabled      = true;
+  if (submitMobile) submitMobile.disabled = true;
   spinner.style.display   = 'inline-block';
 
   try {
@@ -617,6 +623,7 @@ async function submitRecipe(e) {
       if (imageWarn) {
         spinner.style.display  = 'none';
         submitBtn.disabled     = false;
+        if (submitMobile) submitMobile.disabled = false;
         statusEl.textContent   = imageWarn;
         statusEl.className     = 'form-status error';
         return;
@@ -647,6 +654,7 @@ async function submitRecipe(e) {
         if (imageWarn) {
           spinner.style.display  = 'none';
           submitBtn.disabled     = false;
+          if (submitMobile) submitMobile.disabled = false;
           statusEl.textContent   = imageWarn;
           statusEl.className     = 'form-status error';
           return;
@@ -659,6 +667,7 @@ async function submitRecipe(e) {
   } catch (err) {
     console.error(err);
     submitBtn.disabled     = false;
+    if (submitMobile) submitMobile.disabled = false;
     spinner.style.display  = 'none';
     statusEl.textContent   = 'Error saving recipe. Check your Firebase config and try again.';
     statusEl.className     = 'form-status error';

@@ -19,11 +19,36 @@
       <i data-feather="arrow-left"></i>
     </div>
     <div class="toolbox-right">
-      <div class="toolbox-pill" onclick="toggleTheme()" title="Toggle dark mode">
-        <div class="toggle-track theme-track">
-          <div class="toggle-thumb theme-thumb"></div>
+      <div class="toolbox-pills">
+        <a href="index.html" class="toolbox-pill" id="cancel-btn" title="Cancel">
+          <i data-feather="x"></i>
+        </a>
+        <button type="submit" form="recipe-form" class="toolbox-pill toolbox-pill-save" id="submit-btn" title="Save Recipe">
+          <span id="submit-spinner" style="display:none;" class="spinner"></span>
+          <i data-feather="check" id="submit-icon"></i>
+          <span class="toggle-label" id="submit-label">Save</span>
+        </button>
+        <div class="toolbox-pill" onclick="toggleTheme()" title="Toggle dark mode">
+          <div class="toggle-track theme-track">
+            <div class="toggle-thumb theme-thumb"></div>
+          </div>
+          <div class="theme-icon-wrapper"><i data-feather="sun" class="theme-icon theme-icon-sun"></i><i data-feather="moon" class="theme-icon theme-icon-moon"></i></div>
         </div>
-        <div class="theme-icon-wrapper"><i data-feather="sun" class="theme-icon theme-icon-sun"></i><i data-feather="moon" class="theme-icon theme-icon-moon"></i></div>
+      </div>
+      <div class="toolbox-pill toolbox-menu-btn" onclick="toggleToolboxMenu(event)">
+        <i data-feather="menu"></i>
+      </div>
+      <div class="toolbox-menu" id="toolbox-menu">
+        <a href="index.html" class="toolbox-menu-item" id="cancel-btn-mobile">
+          <i data-feather="x"></i>Cancel
+        </a>
+        <button type="submit" form="recipe-form" class="toolbox-menu-item toolbox-menu-item-save" id="submit-btn-mobile">
+          <i data-feather="check"></i><span id="submit-label-mobile">Save</span>
+        </button>
+        <div class="toolbox-menu-item" onclick="toggleTheme();closeToolboxMenu()">
+          <div class="toggle-track theme-track"><div class="toggle-thumb theme-thumb"></div></div>
+          Dark
+        </div>
       </div>
     </div>
   </div>
@@ -267,16 +292,9 @@
         <button type="button" class="btn-add-item" onclick="addNutritionExtra()"><i data-feather="plus"></i> Add extra nutrition</button>
       </div>
 
-      <!-- ══ FORM ACTIONS ══ -->
+      <!-- ══ FORM STATUS ══ -->
       <div class="form-section">
-        <div class="form-actions">
-          <button type="submit" class="btn-submit" id="submit-btn">
-            <span id="submit-spinner" style="display:none;" class="spinner"></span>
-            Save Recipe
-          </button>
-          <a href="index.html" class="btn-cancel" id="cancel-btn">Cancel</a>
-          <span class="form-status" id="form-status"></span>
-        </div>
+        <span class="form-status" id="form-status"></span>
       </div>
 
     </form>
@@ -290,7 +308,7 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
   <script src="js/firebase-config.js"></script>
-  <script src="js/utils.js?v=6"></script>
+  <script src="js/utils.js?v=7"></script>
   <script src="js/auth.js"></script>
   <script>
     // Auth guard — redirect to login if not signed in

@@ -171,6 +171,57 @@ html.dark .toolbox-pill:hover {
   height: 20px;
 }
 
+/* Save pill accent */
+.toolbox-pill-save {
+  background: linear-gradient(to bottom, #3a8f68 0%, #2d6b4f 100%);
+  border-color: #265c42;
+  color: #e8f5ec;
+}
+.toolbox-pill-save svg.feather { color: #e8f5ec; }
+.toolbox-pill-save .toggle-label { color: #e8f5ec; }
+.toolbox-pill-save {
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.22),
+    inset 0 -1px 0 rgba(0,0,0,0.2),
+    0 2px 4px rgba(45,107,79,0.3),
+    0 6px 18px rgba(45,107,79,0.45);
+}
+.toolbox-pill-save:hover {
+  background: linear-gradient(to bottom, #44a878 0%, #357a5a 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.22),
+    inset 0 -1px 0 rgba(0,0,0,0.2),
+    0 4px 8px rgba(45,107,79,0.35),
+    0 10px 28px rgba(45,107,79,0.55);
+}
+.toolbox-pill-save:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+html.dark .toolbox-pill-save {
+  background: linear-gradient(to bottom, #50c48e 0%, #3a9668 100%);
+  border-color: #2d8a5c;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.25),
+    inset 0 -1px 0 rgba(0,0,0,0.25),
+    0 2px 4px rgba(0,0,0,0.5),
+    0 6px 20px rgba(40,160,90,0.4);
+}
+html.dark .toolbox-pill-save:hover {
+  background: linear-gradient(to bottom, #60d49e 0%, #44a878 100%);
+}
+
+/* Save menu item accent */
+.toolbox-menu-item-save {
+  color: var(--green-mid);
+  font-weight: 600;
+}
+button.toolbox-menu-item {
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+}
+a.toolbox-menu-item { text-decoration: none; }
+
 /* Hamburger — hidden on desktop, shown on mobile */
 .toolbox-menu-btn {
   display: none;
