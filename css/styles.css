@@ -3,7 +3,7 @@
    Shared Stylesheet · All three pages
 ═══════════════════════════════════════════════════════════════ */
 
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+/* Fonts loaded via <link> in each HTML page's <head> for better performance */
 
 /* ── CSS VARIABLES ── */
 :root {
@@ -775,12 +775,14 @@ html.dark .card-image-overlay {
 
 /* ── FEATURED CARD ── */
 #featured-recipe-container {
-  max-height: 600px;
+  max-height: 1200px;
   overflow: visible;
   margin-bottom: 0;
   opacity: 0;
   animation: fadeUp 0.9s ease forwards 0.35s;
   transition: max-height 0.4s ease, opacity 0.3s ease, margin-bottom 0.4s ease;
+  position: relative;
+  z-index: 1;
 }
 #featured-recipe-container.hidden {
   max-height: 0;
@@ -2972,6 +2974,92 @@ html.dark .json-import-status.error { color: #ff7c7c; }
 .rules-copy-btn:hover {
   border-color: var(--green-mid);
   color: var(--green-mid);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   PWA · SAFE-AREA INSETS
+   Handles notched iPhones (Dynamic Island, Face ID cutout) and
+   the home-bar indicator at the bottom in standalone PWA mode.
+   Requires viewport-fit=cover on each HTML page.
+══════════════════════════════════════════════════════════════ */
+
+/* Toolbox: clear the notch / Dynamic Island at the top */
+.toolbox {
+  top:   max(20px, calc(env(safe-area-inset-top)   + 12px));
+  left:  max(24px, calc(env(safe-area-inset-left)  + 16px));
+  right: max(24px, calc(env(safe-area-inset-right) + 16px));
+}
+
+/* Cook mode topbar: same top clearance inside the overlay */
+.cook-topbar {
+  padding-top: max(20px, calc(env(safe-area-inset-top) + 12px));
+}
+
+/* Cook mode bottombar: clear the home-bar indicator — critical
+   for "Next" button not being obscured on iPhone */
+.cook-bottombar {
+  padding-bottom: max(28px, calc(env(safe-area-inset-bottom) + 16px));
+}
+
+/* Ingredients sheet: scrollable body needs bottom clearance too */
+.cook-ingredients-body {
+  padding-bottom: max(32px, calc(env(safe-area-inset-bottom) + 20px));
+}
+
+/* Site footer: clear the home bar on scrollable pages */
+.site-footer {
+  padding-bottom: max(32px, calc(env(safe-area-inset-bottom) + 16px));
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   PHONE IN THE KITCHEN — COOK MODE
+   Larger text and taller touch targets at phone widths.
+   These are the most important screens to read at arm's length
+   with one floury hand.
+══════════════════════════════════════════════════════════════ */
+
+@media (max-width: 480px) {
+  /* Step body — bump to comfortable reading size */
+  .cook-step-body {
+    font-size: 18px;
+    line-height: 1.9;
+  }
+
+  /* Nav buttons — meet 44 px tap target minimum */
+  .cook-nav-btn {
+    padding: 14px 20px;
+    min-height: 48px;
+  }
+
+  /* Step label ("Step 3 of 8") — show on small screens
+     for orientation since progress dots are easy to miss */
+  .cook-step-label {
+    display: block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    margin-bottom: 10px;
+  }
+
+  /* Slightly reduce the oversized step numerals to make room */
+  .cook-step-number-large { font-size: 44px; }
+  .cook-step-title-large  { font-size: 26px; }
+
+  /* Progress dots: bigger tap comfort zone */
+  .cook-dot {
+    width: 8px;
+    height: 8px;
+  }
+
+  /* Give the close button full pill feel on small screens */
+  .cook-close-btn {
+    padding: 10px 16px;
+    font-size: 11px;
+  }
 }
 .rules-copy-btn svg.feather { width: 13px; height: 13px; }
 

@@ -7,6 +7,13 @@
 let allRecipes = [];
 let featuredRecipeId = null;
 
+// ── Cloudinary Optimization ────────────────────────────────────
+function cloudinaryUrl(url, width) {
+  if (!url || !url.includes('res.cloudinary.com')) return url;
+  const transforms = `f_auto,q_auto${width ? ',w_' + width : ''}`;
+  return url.replace('/upload/', '/upload/' + transforms + '/');
+}
+
 // ── Load Recipes ───────────────────────────────────────────────
 async function loadRecipes() {
   const grid = document.getElementById('recipe-grid');
@@ -59,7 +66,7 @@ function recipeCardHTML(r) {
   const headerHTML = r.imageUrl ? `
     <div class="card-hero">
       <div class="card-image-wrap">
-        <img class="card-image" src="${escHtml(r.imageUrl)}" alt="${escHtml(r.title || '')}">
+        <img class="card-image" src="${escHtml(cloudinaryUrl(r.imageUrl, 600))}" alt="${escHtml(r.title || '')}" loading="lazy">
       </div>
       <div class="card-image-overlay">
         <span class="card-category">${escHtml(r.category || '')}</span>
@@ -110,7 +117,7 @@ function featuredCardHTML(r) {
 
   const imageSide = r.imageUrl ? `
     <div class="featured-card-image-side">
-      <img src="${escHtml(r.imageUrl)}" alt="${escHtml(r.title || '')}">
+      <img src="${escHtml(cloudinaryUrl(r.imageUrl, 900))}" alt="${escHtml(r.title || '')}">
     </div>` : (() => {
       const firstColor = (r.keyIngredients && r.keyIngredients[0]) ? r.keyIngredients[0].color : 'herb';
       return `
