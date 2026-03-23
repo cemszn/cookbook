@@ -211,5 +211,17 @@ document.getElementById('recipe-grid').addEventListener('click', e => {
   setTimeout(() => { window.location.href = href; }, 320);
 });
 
+// ── Time-of-day greeting ───────────────────────────────────────
+(function () {
+  const h = new Date().getHours();
+  const greeting = h < 5  ? 'A late night in the kitchen?'
+                 : h < 12 ? 'Good morning — what are we making today?'
+                 : h < 17 ? 'Good afternoon — something to cook tonight?'
+                 : h < 21 ? 'Good evening — time to cook.'
+                 :          'A late night in the kitchen?';
+  const el = document.getElementById('book-greeting');
+  if (el) el.textContent = greeting;
+})();
+
 // ── Init ───────────────────────────────────────────────────────
 loadRecipes();

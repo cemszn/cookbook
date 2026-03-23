@@ -2,9 +2,9 @@
 <html lang="en" class="launching">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>The Cookbook</title>
-  <link rel="stylesheet" href="css/styles.css?v=19"/>
+  <link rel="stylesheet" href="css/styles.css?v=24"/>
   <script>(function(){var t=localStorage.getItem('theme');if(t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark');})();</script>
   <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon.png">
   <link rel="manifest" href="manifest.json">
@@ -50,6 +50,7 @@
     <!-- ── HEADER ── -->
     <header class="book-header">
       <div class="book-logotype-main"><em>The</em> <span class="logotype-shimmer">Cookbook</span></div>
+      <div class="book-greeting" id="book-greeting"></div>
     </header>
 
     <!-- ── SEARCH + NEW RECIPE ── -->
@@ -93,7 +94,7 @@
   <script src="js/utils.js?v=7"></script>
   <script src="js/auth.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
-  <script src="js/home.js?v=5"></script>
+  <script src="js/home.js?v=6"></script>
   <script>
     (function () {
       var screen = document.getElementById('launch-screen');
