@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Test — Delete Button</title>
+  <link rel="stylesheet" href="css/styles.css?v=17" />
+  <script>(function(){var t=localStorage.getItem('theme');if(t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark');})();</script>
+  <script src="https://unpkg.com/feather-icons"></script>
+  <style>
+    body { padding: 80px 32px 32px; font-family: 'DM Sans', sans-serif; }
+    h2 { color: var(--text-mid); margin: 32px 0 12px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; }
+    .row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 8px; }
+    .note { font-size: 12px; color: var(--text-light); margin-top: 4px; }
+    .result { padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 500; }
+    .pass { background: var(--green-pale); color: var(--green-deep); }
+    .fail { background: #fde8e8; color: #8f3030; }
+    hr { border: none; border-top: 1px solid var(--rule); margin: 32px 0; }
+  </style>
+</head>
+<body>
+  <!-- Toolbox replica for visual testing -->
+  <div class="toolbox">
+    <div class="toolbox-pill" title="Back">
+      <i data-feather="arrow-left"></i>
+    </div>
+    <div class="toolbox-right">
+      <div class="toolbox-pills">
+        <a href="#" class="toolbox-pill" title="Cancel">
+          <i data-feather="x"></i>
+        </a>
+        <!-- DELETE BUTTON (visible in edit mode) -->
+        <button type="button" class="toolbox-pill toolbox-pill-delete" id="delete-btn" title="Delete Recipe" onclick="testDelete()">
+          <i data-feather="trash-2"></i>
+          <span class="toggle-label">Delete</span>
+        </button>
+        <!-- SAVE/UPDATE BUTTON -->
+        <button type="button" class="toolbox-pill toolbox-pill-save" title="Update Recipe">
+          <i data-feather="check"></i>
+          <span class="toggle-label">Update</span>
+        </button>
+        <div class="toolbox-pill" onclick="toggleTheme()" title="Toggle dark mode">
+          <div class="toggle-track theme-track">
+            <div class="toggle-thumb theme-thumb"></div>
+          </div>
+          <div class="theme-icon-wrapper">
+            <i data-feather="sun" class="theme-icon theme-icon-sun"></i>
+            <i data-feather="moon" class="theme-icon theme-icon-moon"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h2>Visual check — toolbox in edit mode</h2>
+  <p class="note">The toolbox above shows the full edit-mode state: Cancel · <strong style="color:#b84848">Delete</strong> · Update · Theme toggle.</p>
+
+  <hr />
+
+  <h2>Automated checks</h2>
+  <div id="results"></div>
+
+  <script>
+    function toggleTheme() {
+      document.documentElement.classList.toggle('dark');
+    }
+
+    function testDelete() {
+      alert('deleteRecipe() would fire here (Firebase not loaded in test page).');
+    }
+
+    function run() {
+      const checks = [];
+
+      // 1. Delete button exists
+      const btn = document.getElementById('delete-btn');
+      checks.push({ label: 'Delete button rendered in DOM', pass: !!btn });
+
+      // 2. Has correct classes
+      checks.push({ label: 'Has toolbox-pill class', pass: btn?.classList.contains('toolbox-pill') });
+      checks.push({ label: 'Has toolbox-pill-delete class', pass: btn?.classList.contains('toolbox-pill-delete') });
+
+      // 3. Has trash icon
+      const icon = btn?.querySelector('svg.feather-trash-2');
+      checks.push({ label: 'Trash-2 feather icon present', pass: !!icon });
+
+      // 4. Label text
+      const label = btn?.querySelector('.toggle-label');
+      checks.push({ label: 'Label reads "Delete"', pass: label?.textContent.trim() === 'Delete' });
+
+      // 5. CSS — background is reddish (computed)
+      if (btn) {
+        const bg = getComputedStyle(btn).background || getComputedStyle(btn).backgroundImage;
+        // Should contain gradient with red-ish colour values
+        checks.push({ label: 'Background is a gradient (not plain)', pass: bg.includes('gradient') });
+      }
+
+      // 6. Save button still present and green
+      const saveBtn = document.querySelector('.toolbox-pill-save');
+      checks.push({ label: 'Save/Update button still present alongside delete', pass: !!saveBtn });
+
+      const out = document.getElementById('results');
+      checks.forEach(c => {
+        const div = document.createElement('div');
+        div.className = 'row';
+        div.innerHTML = `<span class="result ${c.pass ? 'pass' : 'fail'}">${c.pass ? '✓ PASS' : '✗ FAIL'}</span> ${c.label}`;
+        out.appendChild(div);
+      });
+
+      const allPass = checks.every(c => c.pass);
+      const summary = document.createElement('p');
+      summary.style.marginTop = '16px';
+      summary.style.fontWeight = '600';
+      summary.style.color = allPass ? 'var(--green-mid)' : '#b84848';
+      summary.textContent = allPass
+        ? `All ${checks.length} checks passed.`
+        : `${checks.filter(c => !c.pass).length} of ${checks.length} checks failed.`;
+      out.appendChild(summary);
+    }
+
+    // Wait for feather to render icons before running checks
+    document.addEventListener('DOMContentLoaded', () => {
+      feather.replace();
+      setTimeout(run, 100);
+    });
+  </script>
+</body>
+</html>
