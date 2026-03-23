@@ -5,6 +5,7 @@
 
 // ── State ──────────────────────────────────────────────────────
 let allRecipes = [];
+let featuredRecipeId = null;
 
 // ── Load Recipes ───────────────────────────────────────────────
 async function loadRecipes() {
@@ -12,6 +13,7 @@ async function loadRecipes() {
   try {
     const snapshot = await db.collection('recipes').orderBy('createdAt', 'desc').get();
     allRecipes = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    renderFeaturedCard(allRecipes);
     renderGrid(allRecipes);
   } catch (err) {
     console.error('Error loading recipes:', err);
@@ -93,6 +95,75 @@ function recipeCardHTML(r) {
     </a>`;
 }
 
+// ── Featured Card ──────────────────────────────────────────────
+function renderFeaturedCard(recipes) {
+  if (!recipes.length) return;
+  const r = recipes[Math.floor(Math.random() * recipes.length)];
+  featuredRecipeId = r.id;
+  document.getElementById('featured-recipe-container').innerHTML = featuredCardHTML(r);
+}
+
+function featuredCardHTML(r) {
+  const totalTime = (r.prepTime || 0) + (r.cookTime || 0);
+
+  const clipHTML = `<span class="featured-clip-label">Featured</span>`;
+
+  const imageSide = r.imageUrl ? `
+    <div class="featured-card-image-side">
+      <img src="${escHtml(r.imageUrl)}" alt="${escHtml(r.title || '')}">
+    </div>` : (() => {
+      const firstColor = (r.keyIngredients && r.keyIngredients[0]) ? r.keyIngredients[0].color : 'herb';
+      return `
+    <div class="featured-card-image-side featured-card-image-side--swatch">
+      <div class="featured-card-swatch-bg">
+        <div class="swatch-dot ${escHtml(firstColor)} featured-card-swatch-dot"></div>
+      </div>
+    </div>`;
+    })();
+
+  const ingredients = (r.keyIngredients || []).slice(0, 4);
+  const ingredientsHTML = ingredients.length ? `
+    <div class="featured-ingredients">
+      ${ingredients.map(ki => `
+        <div class="featured-ingredient">
+          <div class="swatch-dot ${escHtml(ki.color || 'herb')}"></div>
+          <span class="featured-ingredient-name">${escHtml(ki.name || '')}</span>
+        </div>`).join('')}
+    </div>` : '';
+
+  const tagsHTML = (r.tags || []).slice(0, 4).map(t =>
+    `<span class="card-tag">${escHtml(t)}</span>`
+  ).join('');
+
+  return `
+    <a class="featured-card" href="recipe.html?id=${r.id}">
+      ${clipHTML}
+      ${imageSide}
+      <div class="featured-card-content">
+        <span class="card-category featured-card-category">${escHtml(r.category || '')}</span>
+        <div class="featured-card-title">${escHtml(r.title || 'Untitled')}</div>
+        ${r.subtitle ? `<div class="featured-card-subtitle">${escHtml(r.subtitle)}</div>` : ''}
+        <div class="featured-card-description">${escHtml(r.description || '')}</div>
+        ${ingredientsHTML}
+        <div class="card-meta featured-card-meta">
+          <div class="card-meta-item">
+            <span class="card-meta-label">Total Time</span>
+            <span class="card-meta-value">${totalTime} <span class="card-meta-unit">min</span></span>
+          </div>
+          <div class="card-meta-item">
+            <span class="card-meta-label">Serves</span>
+            <span class="card-meta-value">${r.servings || '—'}</span>
+          </div>
+          <div class="card-meta-item">
+            <span class="card-meta-label">Difficulty</span>
+            <span class="card-meta-value card-meta-value--small">${escHtml(r.difficulty || '—')}</span>
+          </div>
+        </div>
+        ${tagsHTML ? `<div class="card-tags">${tagsHTML}</div>` : ''}
+      </div>
+    </a>`;
+}
+
 // ── Search / Filter ────────────────────────────────────────────
 function _filterRecipesImpl() {
   const query = document.getElementById('search-input').value.toLowerCase().trim();
@@ -114,6 +185,16 @@ function _filterRecipesImpl() {
 const filterRecipes = debounce(_filterRecipesImpl, 250);
 
 // ── Card navigation transition ─────────────────────────────────
+document.getElementById('featured-recipe-container').addEventListener('click', e => {
+  const card = e.target.closest('.featured-card');
+  if (!card) return;
+  e.preventDefault();
+  const href = card.getAttribute('href');
+  const veil = createVeil(0);
+  requestAnimationFrame(() => requestAnimationFrame(() => { veil.style.opacity = '1'; }));
+  setTimeout(() => { window.location.href = href; }, 320);
+});
+
 document.getElementById('recipe-grid').addEventListener('click', e => {
   const card = e.target.closest('.recipe-card');
   if (!card) return;
