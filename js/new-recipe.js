@@ -572,6 +572,23 @@ function validate(data) {
   return null;
 }
 
+// ── SAVE SUCCESS FLASH ─────────────────────────────────────────
+function navigateWithSuccess(url) {
+  const submitBtn    = document.getElementById('submit-btn');
+  const submitMobile = document.getElementById('submit-btn-mobile');
+  const submitLabel  = document.getElementById('submit-label');
+  const submitLabelM = document.getElementById('submit-label-mobile');
+  const spinner      = document.getElementById('submit-spinner');
+
+  spinner.style.display = 'none';
+  submitBtn.classList.add('save-success');
+  if (submitMobile) submitMobile.classList.add('save-success');
+  if (submitLabel)  submitLabel.textContent  = '✓ Saved';
+  if (submitLabelM) submitLabelM.textContent = '✓ Saved';
+
+  setTimeout(() => { window.location.href = url; }, 600);
+}
+
 // ── SUBMIT ─────────────────────────────────────────────────────
 async function submitRecipe(e) {
   e.preventDefault();
@@ -628,7 +645,7 @@ async function submitRecipe(e) {
         statusEl.className     = 'form-status error';
         return;
       }
-      window.location.href = `recipe.html?id=${recipeId}`;
+      navigateWithSuccess(`recipe.html?id=${recipeId}`);
 
     } else {
       // ── Create new recipe — create doc first to get an ID for the image path ──
@@ -661,7 +678,7 @@ async function submitRecipe(e) {
         }
       }
 
-      window.location.href = `recipe.html?id=${recipeId}`;
+      navigateWithSuccess(`recipe.html?id=${recipeId}`);
     }
 
   } catch (err) {
