@@ -1314,7 +1314,6 @@ html.dark .step-number { background: var(--green-mid); color: var(--cream); }
   color: var(--green-deep);
   font-style: italic;
   border-radius: 0 4px 4px 0;
-  max-width: 520px;
 }
 html.dark .step-tip { color: var(--text-dark); }
 
@@ -1546,7 +1545,7 @@ html.dark .step-tip { color: var(--text-dark); }
   display: flex;
   flex-direction: column;
   height: 100%;
-  max-width: min(1040px, 92vw);
+  max-width: min(1250px, 92vw);
   margin: 0 auto;
   width: 100%;
   padding: 0 clamp(24px, 5vw, 80px);

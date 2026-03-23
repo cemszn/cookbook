@@ -167,10 +167,13 @@ function featuredCardHTML(r) {
 // ── Search / Filter ────────────────────────────────────────────
 function _filterRecipesImpl() {
   const query = document.getElementById('search-input').value.toLowerCase().trim();
+  const fc = document.getElementById('featured-recipe-container');
   if (!query) {
+    if (fc) fc.style.display = '';
     renderGrid(allRecipes);
     return;
   }
+  if (fc) fc.style.display = 'none';
   const filtered = allRecipes.filter(r => {
     const searchable = [
       r.title, r.subtitle, r.category, r.description,
