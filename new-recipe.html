@@ -23,6 +23,10 @@
         <a href="index.html" class="toolbox-pill" id="cancel-btn" title="Cancel">
           <i data-feather="x"></i>
         </a>
+        <button type="button" class="toolbox-pill toolbox-pill-delete" id="delete-btn" title="Delete Recipe" style="display:none" onclick="deleteRecipe()">
+          <i data-feather="trash-2"></i>
+          <span class="toggle-label">Delete</span>
+        </button>
         <button type="submit" form="recipe-form" class="toolbox-pill toolbox-pill-save" id="submit-btn" title="Save Recipe">
           <span id="submit-spinner" style="display:none;" class="spinner"></span>
           <i data-feather="check" id="submit-icon"></i>
@@ -44,6 +48,9 @@
         </a>
         <button type="submit" form="recipe-form" class="toolbox-menu-item toolbox-menu-item-save" id="submit-btn-mobile">
           <i data-feather="check"></i><span id="submit-label-mobile">Save</span>
+        </button>
+        <button type="button" class="toolbox-menu-item toolbox-menu-item-delete" id="delete-btn-mobile" style="display:none" onclick="deleteRecipe();closeToolboxMenu()">
+          <i data-feather="trash-2"></i>Delete
         </button>
         <div class="toolbox-menu-item" onclick="toggleTheme();closeToolboxMenu()">
           <div class="toggle-track theme-track"><div class="toggle-thumb theme-thumb"></div></div>

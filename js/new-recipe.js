@@ -460,9 +460,40 @@ async function loadForEdit(id) {
       document.getElementById('cancel-btn-mobile').href = recipeUrl;
 
     populateForm(r);
+
+    // Show delete buttons (edit mode only)
+    const deleteBtn = document.getElementById('delete-btn');
+    if (deleteBtn) deleteBtn.style.display = '';
+    const deleteBtnMobile = document.getElementById('delete-btn-mobile');
+    if (deleteBtnMobile) deleteBtnMobile.style.display = '';
   } catch (err) {
     console.error(err);
     alert('Could not load recipe for editing.');
+  }
+}
+
+// ── DELETE RECIPE ───────────────────────────────────────────────
+async function deleteRecipe() {
+  if (!editId) return;
+  if (!confirm('Delete this recipe? This cannot be undone.')) return;
+
+  const deleteBtn       = document.getElementById('delete-btn');
+  const deleteBtnMobile = document.getElementById('delete-btn-mobile');
+  const label           = deleteBtn?.querySelector('.toggle-label');
+
+  if (deleteBtn)       { deleteBtn.disabled = true; }
+  if (label)           { label.textContent = 'Deleting…'; }
+  if (deleteBtnMobile) { deleteBtnMobile.disabled = true; }
+
+  try {
+    await db.collection('recipes').doc(editId).delete();
+    window.location.href = 'index.html';
+  } catch (err) {
+    console.error(err);
+    alert('Could not delete the recipe. Please try again.');
+    if (deleteBtn)       { deleteBtn.disabled = false; }
+    if (label)           { label.textContent = 'Delete'; }
+    if (deleteBtnMobile) { deleteBtnMobile.disabled = false; }
   }
 }
 
