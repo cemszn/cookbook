@@ -83,7 +83,6 @@ html, body {
   background: var(--cream);
   z-index: 9998;
   pointer-events: none;
-  transition: opacity 0.3s ease;
 }
 
 a { color: inherit; text-decoration: none; }
@@ -396,8 +395,6 @@ html.dark .theme-icon-moon svg.feather { color: var(--green-mid); }
   margin-bottom: 36px;
   padding: 20px 0;
   border-bottom: 1px solid var(--rule);
-  opacity: 0;
-  animation: fadeUp 0.9s ease forwards 0.1s;
 }
 
 .book-logotype-main {
@@ -498,8 +495,6 @@ html.dark .logotype-shimmer {
   align-items: center;
   gap: 16px;
   margin-bottom: 48px;
-  opacity: 0;
-  animation: fadeUp 0.9s ease forwards 0.3s;
   flex-wrap: wrap;
 }
 
@@ -589,8 +584,6 @@ html.dark .btn-new-recipe:hover {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 28px;
-  opacity: 0;
-  animation: fadeUp 0.9s ease forwards 0.6s;
 }
 
 /* ── RECIPE CARD ── */
@@ -778,8 +771,6 @@ html.dark .card-image-overlay {
   max-height: 1200px;
   overflow: visible;
   margin-bottom: 0;
-  opacity: 0;
-  animation: fadeUp 0.9s ease forwards 0.35s;
   transition: max-height 0.4s ease, opacity 0.3s ease, margin-bottom 0.4s ease;
   position: relative;
   z-index: 1;
@@ -1621,13 +1612,14 @@ html.dark .step-tip { color: var(--text-dark); }
 /* ── COOK MODE OVERLAY ── */
 .cook-overlay {
   display: none;
+  flex-direction: column;
   position: fixed;
   inset: 0;
   z-index: 500;
   background: var(--cream);
   overflow: hidden;
 }
-.cook-overlay.active { display: flex; flex-direction: column; touch-action: none; }
+.cook-overlay.active { display: flex; touch-action: none; }
 .cook-overlay::before {
   content: '';
   position: absolute;
@@ -1755,19 +1747,9 @@ html.dark .cook-close-btn {
   position: relative;
 }
 
-@keyframes slideOutLeft  { from { transform: translateX(0);     opacity: 1; } to { transform: translateX(-60px); opacity: 0; } }
-@keyframes slideOutRight { from { transform: translateX(0);     opacity: 1; } to { transform: translateX(60px);  opacity: 0; } }
-@keyframes slideInLeft   { from { transform: translateX(60px);  opacity: 0; } to { transform: translateX(0);     opacity: 1; } }
-@keyframes slideInRight  { from { transform: translateX(-60px); opacity: 0; } to { transform: translateX(0);     opacity: 1; } }
-
 .cook-step-wrap {
-  opacity: 0;
+  opacity: 0; /* GSAP sets this to 1 on first showCookStep */
 }
-.cook-step-wrap.visible { opacity: 1; }
-.cook-step-wrap.slide-out-left  { animation: slideOutLeft  0.18s ease-in  forwards; }
-.cook-step-wrap.slide-out-right { animation: slideOutRight 0.18s ease-in  forwards; }
-.cook-step-wrap.slide-in-left   { animation: slideInLeft   0.24s ease-out forwards; }
-.cook-step-wrap.slide-in-right  { animation: slideInRight  0.24s ease-out forwards; }
 
 .cook-step-label {
   display: none;

@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 // ── Page transition veil ──────────────────────────────────────────
-const VEIL_STYLE = 'position:fixed;inset:0;background:var(--cream);z-index:9998;pointer-events:none;transition:opacity 0.3s ease;';
+const VEIL_STYLE = 'position:fixed;inset:0;background:var(--cream);z-index:9998;pointer-events:none;';
 
 function createVeil(opacity) {
   const existing = document.getElementById('page-veil');
@@ -54,19 +54,20 @@ function createVeil(opacity) {
 function fadeOutVeil() {
   const veil = document.getElementById('page-veil');
   if (!veil) return;
-  requestAnimationFrame(() => requestAnimationFrame(() => {
-    veil.style.opacity = '0';
-  }));
+  gsap.to(veil, { opacity: 0, duration: 0.5, ease: 'power2.out', onComplete: () => veil.remove() });
+}
+
+function navigateWithVeil(href) {
+  const veil = createVeil(0);
+  gsap.to(veil, { opacity: 1, duration: 0.3, ease: 'power2.in' });
+  setTimeout(() => { window.location.href = href; }, 320);
 }
 
 // Safari bfcache: animate in when navigating back/forward
 window.addEventListener('pageshow', function (e) {
   if (e.persisted) {
     const veil = createVeil(1);
-    requestAnimationFrame(() => requestAnimationFrame(() => {
-      veil.style.opacity = '0';
-      setTimeout(() => veil.remove(), 350);
-    }));
+    gsap.to(veil, { opacity: 0, duration: 0.45, ease: 'power2.out', delay: 0.05, onComplete: () => veil.remove() });
   }
 });
 

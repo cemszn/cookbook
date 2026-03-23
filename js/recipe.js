@@ -43,6 +43,10 @@ async function loadRecipe() {
     renderPage();
     fadeOutVeil();
     document.title = `${recipe.title} — The Cookbook`;
+    // Staggered entrance for recipe page sections
+    gsap.from(['#recipe-page .hero', '#recipe-page .info-grid', '#recipe-page .two-col'], {
+      opacity: 0, y: 22, duration: 0.65, stagger: 0.1, ease: 'power2.out', delay: 0.18, clearProps: 'all'
+    });
   } catch (err) {
     console.error(err);
     showError('Could not load recipe. Check your Firebase config.');
@@ -455,35 +459,27 @@ function _applyStepContent() {
 }
 
 function showCookStep(skipAnimation) {
-  const wrap     = document.getElementById('cook-step-wrap');
-  const outClass = cookDirection === 'left' ? 'slide-out-left' : 'slide-out-right';
-  const inClass  = cookDirection === 'left' ? 'slide-in-left'  : 'slide-in-right';
+  const wrap = document.getElementById('cook-step-wrap');
 
   if (skipAnimation) {
-    wrap.classList.remove('slide-in-left', 'slide-in-right', 'slide-out-left', 'slide-out-right');
     _applyStepContent();
-    wrap.classList.add('visible');
+    gsap.set(wrap, { opacity: 1, x: 0 });
     updateDots();
     return;
   }
 
-  // Slide out
-  wrap.classList.remove('visible', 'slide-in-left', 'slide-in-right');
-  wrap.classList.add(outClass);
+  const outX = cookDirection === 'left' ? -60 : 60;
+  const inX  = cookDirection === 'left' ? 60 : -60;
 
-  setTimeout(() => {
-    wrap.classList.remove(outClass);
-
-    if (cookIndex >= cookSteps.length) {
-      showCelebration();
-      return;
+  gsap.to(wrap, {
+    x: outX, opacity: 0, duration: 0.2, ease: 'power2.in',
+    onComplete() {
+      if (cookIndex >= cookSteps.length) { showCelebration(); return; }
+      _applyStepContent();
+      updateDots();
+      gsap.fromTo(wrap, { x: inX, opacity: 0 }, { x: 0, opacity: 1, duration: 0.3, ease: 'power3.out' });
     }
-
-    _applyStepContent();
-    wrap.classList.add('visible', inClass);
-    updateDots();
-    setTimeout(() => wrap.classList.remove(inClass), 240);
-  }, 180);
+  });
 }
 
 function cookNext() {
@@ -522,30 +518,53 @@ document.addEventListener('visibilitychange', () => {
 });
 
 function toggleCookMode() {
-  const overlay  = document.getElementById('cook-overlay');
-  const isActive = overlay.classList.toggle('active');
+  const overlay = document.getElementById('cook-overlay');
+  if (overlay.classList.contains('active')) { closeCookMode(); return; }
 
-  if (isActive) {
-    document.body.style.overflow = 'hidden';
-    cookIndex = 0;
-    cookDirection = 'left';
-    showCookStep(true); // skip animation on first load
-    acquireWakeLock();
-  } else {
-    document.body.style.overflow = '';
-    releaseWakeLock();
-  }
+  document.body.style.overflow = 'hidden';
+  cookIndex = 0;
+  cookDirection = 'left';
+  acquireWakeLock();
+
+  // Prepare step content before revealing
+  _applyStepContent();
+  updateDots();
+
+  // Set starting state before class change (prevents flash)
+  const wrap = document.getElementById('cook-step-wrap');
+  gsap.killTweensOf([overlay, wrap]);
+  gsap.set(overlay, { opacity: 0, scale: 0.97 });
+  gsap.set(wrap, { opacity: 0, y: 12 });
+
+  overlay.classList.add('active'); // CSS applies display:flex now
+
+  const tl = gsap.timeline();
+  tl.to(overlay, { opacity: 1, scale: 1, duration: 0.5, ease: 'power3.out' })
+    .from('#cook-topbar',    { opacity: 0, y: -18, duration: 0.38, ease: 'power2.out', clearProps: 'all' }, '-=0.3')
+    .from('#cook-bottombar', { opacity: 0, y:  18, duration: 0.38, ease: 'power2.out', clearProps: 'all' }, '<')
+    .to(wrap, { opacity: 1, y: 0, duration: 0.32, ease: 'power2.out' }, '-=0.12');
 }
 
 function closeCookMode() {
+  const overlay = document.getElementById('cook-overlay');
+  if (!overlay.classList.contains('active')) return;
+
   const cel = document.getElementById('cook-celebration');
   if (cel) cel.classList.remove('active');
   if (_lottieInstance) { _lottieInstance.destroy(); _lottieInstance = null; }
   closeCookIngredients();
-  document.getElementById('cook-overlay').classList.remove('active');
-  document.body.style.overflow = '';
   timerReset();
   releaseWakeLock();
+
+  gsap.killTweensOf(overlay);
+  gsap.to(overlay, {
+    opacity: 0, scale: 0.97, duration: 0.3, ease: 'power2.in',
+    onComplete: () => {
+      overlay.classList.remove('active');
+      gsap.set(overlay, { clearProps: 'opacity,scale' });
+      document.body.style.overflow = '';
+    }
+  });
 }
 
 // ── Timer ──────────────────────────────────────────────────────

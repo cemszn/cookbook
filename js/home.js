@@ -7,16 +7,29 @@
 let allRecipes = [];
 let featuredRecipeId = null;
 
+// Hide all home elements before first paint so GSAP controls the reveal
+gsap.set(['.book-header', '.home-controls', '#featured-recipe-container', '.section-heading', '.site-footer'], { opacity: 0, y: 20 });
 
 // ── Load Recipes ───────────────────────────────────────────────
 async function loadRecipes() {
   const grid = document.getElementById('recipe-grid');
+
+  // Show "Loading…" only if Firestore takes more than 400ms
+  const loadingTimer = setTimeout(() => {
+    if (!grid.hasChildNodes()) {
+      grid.innerHTML = '<div class="loading-state">Loading recipes…</div>';
+    }
+  }, 400);
+
   try {
     const snapshot = await db.collection('recipes').orderBy('createdAt', 'desc').get();
+    clearTimeout(loadingTimer);
     allRecipes = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
     renderFeaturedCard(allRecipes);
     renderGrid(allRecipes);
+    animatePageIn(grid);
   } catch (err) {
+    clearTimeout(loadingTimer);
     console.error('Error loading recipes:', err);
     grid.innerHTML = `
       <div class="empty-state">
@@ -24,11 +37,29 @@ async function loadRecipes() {
         <div class="empty-state-title">Couldn't load recipes</div>
         <div class="empty-state-sub">Check your Firebase configuration in js/firebase-config.js and ensure Firestore is enabled.</div>
       </div>`;
+    animatePageIn(grid);
   }
 }
 
+// ── Coordinated top-to-bottom entrance ─────────────────────────
+function animatePageIn(grid) {
+  const cards = grid.querySelectorAll('.recipe-card');
+  const tl = gsap.timeline({ defaults: { ease: 'power2.out' } });
+
+  tl.to('.book-header',             { opacity: 1, y: 0, duration: 0.55, clearProps: 'all' })
+    .to('.home-controls',           { opacity: 1, y: 0, duration: 0.5,  clearProps: 'all' }, '-=0.3')
+    .to('#featured-recipe-container', { opacity: 1, y: 0, duration: 0.5, clearProps: 'all' }, '-=0.3')
+    .to('.section-heading',         { opacity: 1, y: 0, duration: 0.4,  clearProps: 'all' }, '-=0.25');
+
+  if (cards.length) {
+    tl.from(cards, { opacity: 0, y: 20, duration: 0.5, stagger: 0.05, clearProps: 'all' }, '-=0.2');
+  }
+
+  tl.to('.site-footer', { opacity: 1, y: 0, duration: 0.4, clearProps: 'all' }, '-=0.1');
+}
+
 // ── Render Grid ────────────────────────────────────────────────
-function renderGrid(recipes) {
+function renderGrid(recipes, animate = false) {
   const grid = document.getElementById('recipe-grid');
 
   if (recipes.length === 0) {
@@ -43,6 +74,12 @@ function renderGrid(recipes) {
   }
 
   grid.innerHTML = recipes.map(r => recipeCardHTML(r)).join('');
+
+  if (animate) {
+    gsap.from(grid.querySelectorAll('.recipe-card'), {
+      opacity: 0, y: 20, duration: 0.45, stagger: 0.045, ease: 'power2.out', clearProps: 'all'
+    });
+  }
 }
 
 // ── Recipe Card HTML ───────────────────────────────────────────
@@ -171,7 +208,7 @@ function _filterRecipesImpl() {
   const fc = document.getElementById('featured-recipe-container');
   if (!query) {
     if (fc) fc.classList.remove('hidden');
-    renderGrid(allRecipes);
+    renderGrid(allRecipes, true);
     return;
   }
   if (fc) fc.classList.add('hidden');
@@ -183,7 +220,7 @@ function _filterRecipesImpl() {
     ].join(' ').toLowerCase();
     return searchable.includes(query);
   });
-  renderGrid(filtered);
+  renderGrid(filtered, true);
 }
 
 const filterRecipes = debounce(_filterRecipesImpl, 250);
@@ -193,23 +230,14 @@ document.getElementById('featured-recipe-container').addEventListener('click', e
   const card = e.target.closest('.featured-card');
   if (!card) return;
   e.preventDefault();
-  const href = card.getAttribute('href');
-  const veil = createVeil(0);
-  requestAnimationFrame(() => requestAnimationFrame(() => { veil.style.opacity = '1'; }));
-  setTimeout(() => { window.location.href = href; }, 320);
+  navigateWithVeil(card.getAttribute('href'));
 });
 
 document.getElementById('recipe-grid').addEventListener('click', e => {
   const card = e.target.closest('.recipe-card');
   if (!card) return;
   e.preventDefault();
-  const href = card.getAttribute('href');
-
-  const veil = createVeil(0);
-  requestAnimationFrame(() => requestAnimationFrame(() => {
-    veil.style.opacity = '1';
-  }));
-  setTimeout(() => { window.location.href = href; }, 320);
+  navigateWithVeil(card.getAttribute('href'));
 });
 
 // ── Time-of-day greeting ───────────────────────────────────────
