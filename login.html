@@ -18,26 +18,27 @@
   <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon.png">
 </head>
 <body>
+  <a href="#main-content" class="skip-link">Skip to content</a>
 
   <!-- ── PAGE VEIL ── -->
   <div id="page-veil" style="position:fixed;inset:0;background:var(--cream);z-index:9998;pointer-events:none;opacity:1;"></div>
 
   <!-- ── TOOLBOX ── -->
   <div class="toolbox">
-    <div class="toolbox-pill" onclick="history.back()" title="Go back">
+    <button type="button" class="toolbox-pill" onclick="history.back()" title="Go back" aria-label="Go back">
       <i data-feather="arrow-left"></i>
-    </div>
+    </button>
     <div class="toolbox-right">
-      <div class="toolbox-pill" onclick="toggleTheme()" title="Toggle dark mode">
+      <button type="button" class="toolbox-pill" onclick="toggleTheme()" title="Toggle dark mode" aria-label="Toggle dark mode">
         <div class="toggle-track theme-track">
           <div class="toggle-thumb theme-thumb"></div>
         </div>
         <div class="theme-icon-wrapper"><i data-feather="sun" class="theme-icon theme-icon-sun"></i><i data-feather="moon" class="theme-icon theme-icon-moon"></i></div>
-      </div>
+      </button>
     </div>
   </div>
 
-  <div class="page login-page">
+  <main class="page login-page" id="main-content">
     <header class="book-header">
       <div class="book-logotype-main"><em>The</em> <span class="logotype-shimmer">Cookbook</span></div>
     </header>
@@ -49,18 +50,18 @@
       <form id="login-form" onsubmit="handleSignIn(event)">
         <div class="form-field" style="margin-bottom:1rem;">
           <label for="login-email">Email</label>
-          <input type="email" id="login-email" placeholder="you@example.com" required autocomplete="email" />
+          <input type="email" id="login-email" class="form-input" placeholder="you@example.com" required autocomplete="email" />
         </div>
         <div class="form-field" style="margin-bottom:1.5rem;">
           <label for="login-password">Password</label>
-          <input type="password" id="login-password" placeholder="••••••••" required autocomplete="current-password" />
+          <input type="password" id="login-password" class="form-input" placeholder="••••••••" required autocomplete="current-password" />
         </div>
         <button class="btn-primary" id="btn-signin" type="submit" style="width:100%;">Sign In</button>
       </form>
 
-      <p class="login-error" id="login-error" style="display:none;margin-top:1rem;"></p>
+      <p class="login-error" id="login-error" role="alert" aria-live="assertive" style="display:none;margin-top:1rem;"></p>
     </div>
-  </div>
+  </main>
 
   <!-- ── FEATHER ICONS ── -->
   <script src="https://unpkg.com/feather-icons"></script>
@@ -97,7 +98,16 @@
       err.style.display = 'none';
 
       signInWithEmail(email, password).catch(function(e) {
-        err.textContent = e.code + ': ' + e.message;
+        var messages = {
+          'auth/invalid-email':        'Please enter a valid email address.',
+          'auth/user-not-found':       'No account found with that email address.',
+          'auth/wrong-password':       'Incorrect password. Please try again.',
+          'auth/invalid-credential':   'Incorrect email or password. Please try again.',
+          'auth/too-many-requests':    'Too many attempts. Please wait a moment before trying again.',
+          'auth/user-disabled':        'This account has been disabled.',
+          'auth/network-request-failed': 'Network error. Check your connection and try again.'
+        };
+        err.textContent = messages[e.code] || 'Sign in failed. Please try again.';
         err.style.display = 'block';
         btn.disabled = false;
         btn.textContent = 'Sign In';

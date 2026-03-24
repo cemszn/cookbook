@@ -18,15 +18,16 @@
   <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon.png">
 </head>
 <body>
+  <a href="#main-content" class="skip-link">Skip to content</a>
 
   <!-- ── AUTH GUARD OVERLAY (removed once auth confirms user) ── -->
   <div id="auth-guard" style="position:fixed;inset:0;background:var(--cream);z-index:9999;"></div>
 
   <!-- ── TOOLBOX ── -->
   <div class="toolbox">
-    <div class="toolbox-pill" onclick="history.back()" title="Go back">
+    <button type="button" class="toolbox-pill" onclick="history.back()" title="Go back" aria-label="Go back">
       <i data-feather="arrow-left"></i>
-    </div>
+    </button>
     <div class="toolbox-right">
       <div class="toolbox-pills">
         <a href="index.html" class="toolbox-pill" id="cancel-btn" title="Cancel">
@@ -41,35 +42,35 @@
           <i data-feather="check" id="submit-icon"></i>
           <span class="toggle-label" id="submit-label">Save</span>
         </button>
-        <div class="toolbox-pill" onclick="toggleTheme()" title="Toggle dark mode">
+        <button type="button" class="toolbox-pill" onclick="toggleTheme()" title="Toggle dark mode" aria-label="Toggle dark mode">
           <div class="toggle-track theme-track">
             <div class="toggle-thumb theme-thumb"></div>
           </div>
           <div class="theme-icon-wrapper"><i data-feather="sun" class="theme-icon theme-icon-sun"></i><i data-feather="moon" class="theme-icon theme-icon-moon"></i></div>
-        </div>
+        </button>
       </div>
-      <div class="toolbox-pill toolbox-menu-btn" onclick="toggleToolboxMenu(event)">
+      <button type="button" class="toolbox-pill toolbox-menu-btn" onclick="toggleToolboxMenu(event)" aria-label="Open menu" aria-expanded="false" aria-haspopup="true">
         <i data-feather="menu"></i>
-      </div>
-      <div class="toolbox-menu" id="toolbox-menu">
-        <a href="index.html" class="toolbox-menu-item" id="cancel-btn-mobile">
+      </button>
+      <div class="toolbox-menu" id="toolbox-menu" role="menu">
+        <a href="index.html" class="toolbox-menu-item" id="cancel-btn-mobile" role="menuitem">
           <i data-feather="x"></i>Cancel
         </a>
-        <button type="submit" form="recipe-form" class="toolbox-menu-item toolbox-menu-item-save" id="submit-btn-mobile">
+        <button type="submit" form="recipe-form" class="toolbox-menu-item toolbox-menu-item-save" id="submit-btn-mobile" role="menuitem">
           <i data-feather="check"></i><span id="submit-label-mobile">Save</span>
         </button>
-        <button type="button" class="toolbox-menu-item toolbox-menu-item-delete" id="delete-btn-mobile" style="display:none" onclick="deleteRecipe();closeToolboxMenu()">
+        <button type="button" class="toolbox-menu-item toolbox-menu-item-delete" id="delete-btn-mobile" style="display:none" onclick="deleteRecipe();closeToolboxMenu()" role="menuitem">
           <i data-feather="trash-2"></i>Delete
         </button>
-        <div class="toolbox-menu-item" onclick="toggleTheme();closeToolboxMenu()">
+        <button type="button" class="toolbox-menu-item" onclick="toggleTheme();closeToolboxMenu()" role="menuitem">
           <div class="toggle-track theme-track"><div class="toggle-thumb theme-thumb"></div></div>
           Dark
-        </div>
+        </button>
       </div>
     </div>
   </div>
 
-  <div class="page form-page">
+  <main class="page form-page" id="main-content">
 
     <!-- ── HEADER ── -->
     <header class="book-header">
@@ -310,11 +311,11 @@
 
       <!-- ══ FORM STATUS ══ -->
       <div class="form-section">
-        <span class="form-status" id="form-status"></span>
+        <span class="form-status" id="form-status" role="status" aria-live="polite"></span>
       </div>
 
     </form>
-  </div><!-- /.page -->
+  </main><!-- /.page -->
 
   <!-- ── FEATHER ICONS ── -->
   <script src="https://unpkg.com/feather-icons"></script>

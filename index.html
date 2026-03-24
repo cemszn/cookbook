@@ -23,6 +23,7 @@
   <meta name="apple-mobile-web-app-title" content="The Cookbook">
 </head>
 <body>
+  <a href="#main-content" class="skip-link">Skip to content</a>
 
   <!-- ── LAUNCH SCREEN ── -->
   <style>
@@ -40,19 +41,19 @@
   <!-- ── TOOLBOX ── -->
   <div class="toolbox">
     <div class="toolbox-left">
-      <div class="toolbox-pill" id="auth-pill" title="Sign in"></div>
+      <button type="button" class="toolbox-pill" id="auth-pill" title="Sign in"></button>
     </div>
     <div class="toolbox-right">
-      <div class="toolbox-pill" onclick="toggleTheme()" title="Toggle dark mode">
+      <button type="button" class="toolbox-pill" onclick="toggleTheme()" title="Toggle dark mode" aria-label="Toggle dark mode">
         <div class="toggle-track theme-track">
           <div class="toggle-thumb theme-thumb"></div>
         </div>
         <div class="theme-icon-wrapper"><i data-feather="sun" class="theme-icon theme-icon-sun"></i><i data-feather="moon" class="theme-icon theme-icon-moon"></i></div>
-      </div>
+      </button>
     </div>
   </div>
 
-  <div class="page">
+  <main class="page" id="main-content">
 
     <!-- ── HEADER ── -->
     <header class="book-header">
@@ -64,6 +65,7 @@
     <div class="home-controls">
       <div class="search-wrap">
         <span class="search-icon"><i data-feather="search"></i></span>
+        <label for="search-input" class="sr-only">Search recipes</label>
         <input
           type="text"
           class="search-input"
@@ -86,7 +88,7 @@
     </div>
 <div class="recipe-grid" id="recipe-grid"></div>
 
-  </div><!-- /.page -->
+  </main><!-- /.page -->
 
   <!-- ── FEATHER ICONS ── -->
   <script src="https://unpkg.com/feather-icons"></script>

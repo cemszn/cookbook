@@ -18,6 +18,7 @@
   <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon.png">
 </head>
 <body>
+  <a href="#main-content" class="skip-link">Skip to content</a>
 
   <!-- ── PAGE VEIL (entry transition) ── -->
   <div id="page-veil" style="position:fixed;inset:0;background:var(--cream);z-index:9998;pointer-events:none;opacity:1;"></div>
@@ -25,57 +26,62 @@
   <!-- ── TOOLBOX ── -->
   <div class="toolbox">
     <div class="toolbox-pills">
-      <div class="toolbox-pill" onclick="toolboxBack()" title="Go back" id="toolbox-back">
+      <button type="button" class="toolbox-pill" onclick="toolboxBack()" title="Go back" id="toolbox-back" aria-label="Go back">
         <i data-feather="arrow-left"></i>
-      </div>
-      <div class="toolbox-pill" onclick="window.location.href='index.html'" title="Home">
+      </button>
+      <a href="index.html" class="toolbox-pill" title="Home" aria-label="Home">
         <i data-feather="home"></i>
-      </div>
+      </a>
     </div>
     <div class="toolbox-right">
       <div class="toolbox-pills">
-        <div class="toolbox-pill" id="auth-pill" title="Sign in"></div>
-        <div class="toolbox-pill" onclick="toggleCookMode()" title="Cook Mode" id="cook-mode-pill">
+        <button type="button" class="toolbox-pill" id="auth-pill" title="Sign in"></button>
+        <button type="button" class="toolbox-pill" onclick="toggleCookMode()" title="Cook Mode" id="cook-mode-pill" aria-label="Enter cook mode">
           <i data-feather="maximize-2"></i>
-        </div>
-        <div class="toolbox-pill" onclick="editRecipe()" title="Edit this recipe" id="edit-pill" data-auth="show" style="display:none;">
+        </button>
+        <button type="button" class="toolbox-pill" onclick="editRecipe()" title="Edit this recipe" id="edit-pill" data-auth="show" style="display:none;" aria-label="Edit recipe">
           <i data-feather="edit-3"></i>
-        </div>
-        <div class="toolbox-pill" onclick="toggleTheme()" title="Toggle dark mode">
+        </button>
+        <button type="button" class="toolbox-pill" onclick="toggleTheme()" title="Toggle dark mode" aria-label="Toggle dark mode">
           <div class="toggle-track theme-track">
             <div class="toggle-thumb theme-thumb"></div>
           </div>
           <div class="theme-icon-wrapper"><i data-feather="sun" class="theme-icon theme-icon-sun"></i><i data-feather="moon" class="theme-icon theme-icon-moon"></i></div>
-        </div>
+        </button>
       </div>
-      <div class="toolbox-pill toolbox-menu-btn" id="toolbox-menu-btn" onclick="toggleToolboxMenu(event)">
+      <button type="button" class="toolbox-pill toolbox-menu-btn" id="toolbox-menu-btn" onclick="toggleToolboxMenu(event)" aria-label="Open menu" aria-expanded="false" aria-haspopup="true">
         <i data-feather="menu"></i><span class="toggle-label">Menu</span>
-      </div>
-      <div class="toolbox-menu" id="toolbox-menu">
-        <div class="toolbox-menu-item" onclick="toggleCookMode();closeToolboxMenu()"><i data-feather="maximize-2"></i>Cook</div>
-        <div class="toolbox-menu-item" onclick="editRecipe();closeToolboxMenu()" data-auth="show" style="display:none;"><i data-feather="edit-3"></i>Edit</div>
-        <div class="toolbox-menu-item" onclick="signOutUser();closeToolboxMenu()" data-auth="show" style="display:none;"><i data-feather="log-out"></i>Sign Out</div>
-        <div class="toolbox-menu-item" onclick="toggleTheme();closeToolboxMenu()">
+      </button>
+      <div class="toolbox-menu" id="toolbox-menu" role="menu">
+        <button type="button" class="toolbox-menu-item" onclick="toggleCookMode();closeToolboxMenu()" role="menuitem"><i data-feather="maximize-2"></i>Cook</button>
+        <button type="button" class="toolbox-menu-item" onclick="editRecipe();closeToolboxMenu()" data-auth="show" style="display:none;" role="menuitem"><i data-feather="edit-3"></i>Edit</button>
+        <button type="button" class="toolbox-menu-item" onclick="signOutUser();closeToolboxMenu()" data-auth="show" style="display:none;" role="menuitem"><i data-feather="log-out"></i>Sign Out</button>
+        <button type="button" class="toolbox-menu-item" onclick="toggleTheme();closeToolboxMenu()" role="menuitem">
           <div class="toggle-track theme-track"><div class="toggle-thumb theme-thumb"></div></div>
           Dark
-        </div>
+        </button>
       </div>
     </div>
   </div>
 
-  <div class="page" id="recipe-page">
-    <!-- Content injected by recipe.js -->
-  </div>
+  <!-- Hidden live region for screen reader step announcements (cook mode) -->
+  <div id="cook-step-live" aria-live="polite" aria-atomic="true" class="sr-only"></div>
+
+  <main class="page" id="main-content">
+    <div id="recipe-page">
+      <!-- Content injected by recipe.js -->
+    </div>
+  </main>
 
   <!-- ── COOK MODE OVERLAY ── -->
-  <div class="cook-overlay" id="cook-overlay">
+  <div class="cook-overlay" id="cook-overlay" role="dialog" aria-modal="true" aria-label="Cook mode">
     <div class="cook-inner">
 
       <div class="cook-topbar">
         <div class="cook-topbar-title" id="cook-recipe-name"></div>
         <div class="cook-topbar-controls">
-          <div class="cook-progress-dots" id="cook-dots"></div>
-          <button class="cook-close-btn" onclick="closeCookMode()"><i data-feather="x"></i>&nbsp;Exit</button>
+          <div class="cook-progress-dots" id="cook-dots" role="list" aria-label="Recipe progress"></div>
+          <button class="cook-close-btn" onclick="closeCookMode()" aria-label="Exit cook mode"><i data-feather="x"></i>&nbsp;Exit</button>
         </div>
       </div>
 
@@ -127,13 +133,15 @@
   </div>
 
   <!-- ── CELEBRATION SCREEN ── -->
-  <div class="cook-celebration" id="cook-celebration" onclick="closeCelebration()">
-    <div class="cook-celebration-lottie" id="cook-lottie"></div>
+  <div class="cook-celebration" id="cook-celebration" role="dialog" aria-modal="true" aria-labelledby="cook-celeb-title" aria-describedby="cook-celebration-sub">
+    <div class="cook-celebration-lottie" id="cook-lottie" aria-hidden="true"></div>
     <div class="cook-celebration-text">
-      <div class="cook-celebration-title">Bon <em>Appétit</em></div>
+      <div class="cook-celebration-title" id="cook-celeb-title">Bon <em>Appétit</em></div>
       <p class="cook-celebration-sub" id="cook-celebration-sub"></p>
     </div>
-    <div class="cook-celebration-hint">Tap anywhere to finish</div>
+    <button type="button" class="cook-celebration-close-btn" onclick="closeCelebration()" aria-label="Finish cooking">
+      <div class="cook-celebration-hint">Tap anywhere to finish</div>
+    </button>
   </div>
 
   <!-- ── FEATHER ICONS ── -->

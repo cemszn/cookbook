@@ -75,11 +75,16 @@ window.addEventListener('pageshow', function (e) {
 function toggleToolboxMenu(e) {
   e.stopPropagation();
   var menu = document.getElementById('toolbox-menu');
-  if (menu) menu.classList.toggle('open');
+  var btn  = document.getElementById('toolbox-menu-btn');
+  if (!menu) return;
+  var isOpen = menu.classList.toggle('open');
+  if (btn) btn.setAttribute('aria-expanded', String(isOpen));
 }
 function closeToolboxMenu() {
   var menu = document.getElementById('toolbox-menu');
+  var btn  = document.getElementById('toolbox-menu-btn');
   if (menu) menu.classList.remove('open');
+  if (btn) btn.setAttribute('aria-expanded', 'false');
 }
 document.addEventListener('click', function (e) {
   if (!e.target.closest('.toolbox-right')) closeToolboxMenu();

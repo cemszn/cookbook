@@ -417,16 +417,24 @@ function initSwipeGesture() {
 
 function buildDots() {
   const container = document.getElementById('cook-dots');
+  const total = cookSteps.length;
   container.innerHTML = cookSteps.map((_, i) =>
-    `<div class="cook-dot" id="cook-dot-${i}"></div>`
+    `<div class="cook-dot" id="cook-dot-${i}" role="listitem" aria-label="Step ${i + 1} of ${total}"></div>`
   ).join('');
   cookDots = Array.from(container.children);
 }
 
 function updateDots() {
+  const total = cookSteps.length;
   cookDots.forEach((dot, i) => {
     dot.className = 'cook-dot' +
       (i < cookIndex ? ' done' : i === cookIndex ? ' active' : '');
+    dot.setAttribute('aria-label', `Step ${i + 1} of ${total}${i < cookIndex ? ' (done)' : i === cookIndex ? ' (current)' : ''}`);
+    if (i === cookIndex) {
+      dot.setAttribute('aria-current', 'step');
+    } else {
+      dot.removeAttribute('aria-current');
+    }
   });
 }
 
@@ -434,11 +442,12 @@ let cookDirection = 'left';
 
 function _applyStepContent() {
   const step = cookSteps[cookIndex];
+  const total = cookSteps.length;
   document.getElementById('cook-step-numeral').textContent =
     String(cookIndex + 1).padStart(2, '0');
   document.getElementById('cook-step-title').textContent  = step.title || '';
   document.getElementById('cook-step-label').textContent  =
-    `Step ${cookIndex + 1} of ${cookSteps.length}`;
+    `Step ${cookIndex + 1} of ${total}`;
   document.getElementById('cook-step-body').textContent   = step.text || '';
 
   const tipEl = document.getElementById('cook-step-tip');
@@ -453,9 +462,18 @@ function _applyStepContent() {
   document.getElementById('cook-prev').disabled = cookIndex === 0;
   document.getElementById('cook-next').disabled = false;
   document.getElementById('cook-next').innerHTML =
-    cookIndex === cookSteps.length - 1
+    cookIndex === total - 1
       ? '<span class="btn-label">Finish </span>' + feather.toSvg('arrow-right')
       : '<span class="btn-label">Next </span>' + feather.toSvg('arrow-right');
+
+  // Announce step to screen readers via the live region
+  const live = document.getElementById('cook-step-live');
+  if (live) {
+    live.textContent = '';
+    requestAnimationFrame(() => {
+      live.textContent = `Step ${cookIndex + 1} of ${total}: ${step.title || ''}. ${step.text || ''}`;
+    });
+  }
 }
 
 function showCookStep(skipAnimation) {
@@ -515,6 +533,22 @@ document.addEventListener('visibilitychange', () => {
       document.getElementById('cook-overlay')?.classList.contains('active')) {
     acquireWakeLock();
   }
+});
+
+// ── Keyboard handling for cook mode and celebration ─────────────
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'Escape') {
+    const cel = document.getElementById('cook-celebration');
+    if (cel && cel.classList.contains('active')) { closeCelebration(); return; }
+    const overlay = document.getElementById('cook-overlay');
+    if (overlay && overlay.classList.contains('active')) { closeCookMode(); return; }
+  }
+  const overlay = document.getElementById('cook-overlay');
+  if (!overlay || !overlay.classList.contains('active')) return;
+  const sheet = document.getElementById('cook-ingredients-sheet');
+  if (sheet && sheet.classList.contains('open')) return;
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); cookNext(); }
+  if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   { e.preventDefault(); cookPrev(); }
 });
 
 function toggleCookMode() {

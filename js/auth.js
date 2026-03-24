@@ -24,10 +24,12 @@ function _updateAuthPill(user) {
   if (user) {
     pill.innerHTML = `${feather.icons['log-out'].toSvg({ width: 20, height: 20 })} <span class="auth-label">Sign Out</span>`;
     pill.title = `Signed in as ${user.email} — click to sign out`;
+    pill.setAttribute('aria-label', `Signed in as ${user.email}. Click to sign out.`);
     pill.onclick = signOutUser;
   } else {
     pill.innerHTML = `${feather.icons['log-in'].toSvg({ width: 20, height: 20 })} <span class="auth-label">Sign In</span>`;
     pill.title = 'Sign in';
+    pill.setAttribute('aria-label', 'Sign in');
     pill.onclick = () => { window.location.href = 'login.html'; };
   }
 }
