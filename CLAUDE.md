@@ -1,4 +1,64 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
 # The Cookbook — Project Instructions
+
+## Architecture
+
+**No build process.** This is a static site — vanilla JS, vanilla CSS, no npm, no bundler. To develop locally, open any `.html` file in a browser or run `python -m http.server`.
+
+**Four pages:**
+- `index.html` + `js/home.js` — Recipe grid, search, featured recipe
+- `recipe.html` + `js/recipe.js` — Single recipe view, cook mode, servings scaling
+- `new-recipe.html` + `js/new-recipe.js` — Create/edit form, image upload
+- `login.html` — Firebase email/password authentication
+
+**Shared files:**
+- `js/firebase-config.js` — Firebase credentials and SDK initialization
+- `js/auth.js` — `onAuthStateChanged()` listener; shows/hides elements via `data-auth="show|hide"` attributes
+- `js/utils.js` — Theme toggle, page transition (`navigateWithVeil()`), `debounce()`
+- `css/styles.css` — All styles; ~70+ CSS custom properties; dark mode via `html.dark` selector
+
+**Data layer:** Firebase Firestore (compat SDK 9.23.0). Recipes live at `/recipes/{docId}`. Images are uploaded to Cloudinary (unsigned preset `cookbook_unsigned`, cloud `dfmqt92eh`) and the URL is stored in Firestore.
+
+**Firestore recipe schema:**
+```
+title, subtitle, category, description, prepTime, cookTime, servings, difficulty,
+imageUrl, tags[], keyIngredients[{name, role, color}],
+ingredients[{amount, unit, name, note, category}],
+steps[{title, text, tip}], notes[], nutrition{...}, createdAt, updatedAt
+```
+
+**Recipe ID** is passed between pages via `?id=` query param.
+
+**External dependencies (all via CDN, no install needed):**
+- Firebase 9.23.0 compat (Auth + Firestore)
+- GSAP 3.12.5 (animations)
+- Lottie 5.12.2 (`assets/loading.json`, `assets/cooking.json`)
+- Feather Icons (replaced at runtime via `feather.replace()`)
+- Google Fonts: Cormorant Garamond, DM Sans
+
+**Cache busting:** CSS/JS files use manual `?v=N` query strings. Bump the version number when making changes to cached files.
+
+## CSS Conventions
+
+All design tokens are CSS custom properties at the top of `styles.css`. Key ones:
+- Colors: `--cream`, `--green-deep`, `--sea`, `--lemon`
+- Dark mode counterparts under `html.dark`
+- Type scale: `--text-3xl` through `--text-2xs`
+- Shadows, border radii, spacing defined as variables
+
+Class naming is BEM-lite: `recipe-card`, `card-title`, `card-meta`. Dark mode always handled via `html.dark` ancestor selector, not `prefers-color-scheme` media query.
+
+## JavaScript Conventions
+
+- XSS prevention: always pass user/db content through `escHtml()` (defined in `utils.js`) before inserting into HTML
+- State is module-level globals (`allRecipes`, `recipe`, `servings`, etc.) — no state management library
+- Page navigation uses `navigateWithVeil()` for the fade transition; don't use `window.location.href` directly for internal navigation
+- Auth guard at top of protected pages: redirect to `/login.html` if no user
+
+---
 
 ## Design Context
 

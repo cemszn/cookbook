@@ -699,6 +699,91 @@ function closeCelebration() {
   closeCookMode();
 }
 
+// ── Print ──────────────────────────────────────────────────────
+function printRecipe() {
+  if (!recipe) return;
+  const r = recipe;
+  const ratio = servings / baseServings;
+
+  // Ingredients (no checkboxes)
+  const groups = groupIngredientsByCategory(r.ingredients || []);
+  const hasCategories = !(groups.length === 1 && groups[0].category === '');
+  let ingredientsHTML = '';
+  for (const group of groups) {
+    if (hasCategories && group.category) {
+      ingredientsHTML += `<div class="print-ing-group-title">${escHtml(group.category)}</div>`;
+    }
+    for (const ing of group.items) {
+      const scaled = parseAmount(ing.amount) * ratio;
+      const amtStr = formatAmount(scaled);
+      ingredientsHTML += `
+        <div class="print-ing-item">
+          <span class="print-ing-amount">${amtStr}${ing.unit ? ' ' + escHtml(ing.unit) : ''}</span>
+          <span class="print-ing-name">${escHtml(ing.name)}${ing.note ? `, <em>${escHtml(ing.note)}</em>` : ''}</span>
+        </div>`;
+    }
+  }
+
+  // Steps
+  const stepsHTML = (r.steps || []).map((step, i) => `
+    <div class="print-step">
+      <div class="print-step-num">${i + 1}</div>
+      <div class="print-step-content">
+        ${step.title ? `<div class="print-step-title">${escHtml(step.title)}</div>` : ''}
+        <p class="print-step-text">${escHtml(step.text || '')}</p>
+        ${step.tip ? `<div class="print-step-tip">${escHtml(step.tip)}</div>` : ''}
+      </div>
+    </div>`).join('');
+
+  // Notes
+  const notesHTML = (r.notes || []).length > 0 ? `
+    <section class="print-notes">
+      <h3>Kitchen Notes</h3>
+      <ul>${(r.notes || []).map(n => `<li>${escHtml(n)}</li>`).join('')}</ul>
+    </section>` : '';
+
+
+  const printedOn = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+  const layout = document.getElementById('print-layout');
+  layout.innerHTML = `
+    <div class="print-page">
+      <header class="print-header">
+        <div class="print-logotype"><em>The</em> Cookbook</div>
+        ${r.category ? `<div class="print-chapter">${escHtml(r.category)}</div>` : ''}
+        <h1 class="print-title">${escHtml(r.title || '')}</h1>
+        ${r.subtitle ? `<div class="print-subtitle">${escHtml(r.subtitle)}</div>` : ''}
+        <div class="print-header-bottom">
+          ${r.description ? `<p class="print-description">${escHtml(r.description)}</p>` : '<div></div>'}
+          <div class="print-meta-bar">
+            ${r.prepTime ? `<div class="print-meta-item"><span class="print-meta-label">Prep</span><span class="print-meta-val">${r.prepTime} min</span></div>` : ''}
+            ${r.cookTime ? `<div class="print-meta-item"><span class="print-meta-label">Cook</span><span class="print-meta-val">${r.cookTime} min</span></div>` : ''}
+            <div class="print-meta-item"><span class="print-meta-label">Servings</span><span class="print-meta-val">${servings}</span></div>
+            ${r.difficulty ? `<div class="print-meta-item"><span class="print-meta-label">Difficulty</span><span class="print-meta-val">${escHtml(r.difficulty)}</span></div>` : ''}
+          </div>
+        </div>
+      </header>
+
+      <div class="print-body">
+        <div class="print-ingredients-col">
+          <h2>Ingredients</h2>
+          ${ingredientsHTML}
+        </div>
+        <div class="print-steps-col">
+          <h2>Method</h2>
+          ${stepsHTML}
+        </div>
+      </div>
+
+      ${notesHTML}
+
+      <footer class="print-footer">The Cookbook &middot; ${printedOn}</footer>
+    </div>
+  `;
+
+  window.print();
+}
+
 // ── Edit ───────────────────────────────────────────────────────
 function editRecipe() {
   const id = getRecipeId();

@@ -2637,9 +2637,279 @@ label {
   .cook-step-title-large  { font-size: 2rem; }
 }
 
+/* ── Print layout (hidden on screen) ── */
+#print-layout { display: none; }
+
 @media print {
-  * { animation: none !important; opacity: 1 !important; }
-  .toolbox, .cook-overlay { display: none !important; }
+  /* Hide all screen chrome */
+  .toolbox,
+  .site-footer,
+  main.page,
+  #page-veil,
+  #cook-step-live,
+  .cook-overlay,
+  .cook-celebration { display: none !important; }
+
+  /* Reveal print layout */
+  #print-layout {
+    display: block !important;
+  }
+
+  * { animation: none !important; transition: none !important; }
+
+  @page {
+    margin: 18mm 16mm;
+    size: A4;
+  }
+
+  body {
+    background: #fff;
+    color: #111;
+  }
+
+  /* ── Print page wrapper ── */
+  .print-page {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 9.5pt;
+    color: #111;
+    background: #fff;
+  }
+
+  /* ── Header ── */
+  .print-header {
+    border-bottom: 1.5pt solid #1e3828;
+    padding-bottom: 10pt;
+    margin-bottom: 12pt;
+  }
+
+  .print-logotype {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 7pt;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #1e3828;
+    margin-bottom: 5pt;
+  }
+
+  .print-chapter {
+    font-size: 6pt;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 4pt;
+  }
+
+  .print-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26pt;
+    font-weight: 300;
+    line-height: 1.1;
+    margin: 0 0 4pt;
+    color: #0d1f14;
+  }
+
+  .print-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 11pt;
+    color: #555;
+    margin-bottom: 6pt;
+  }
+
+  /* ── Header bottom: description + meta side by side ── */
+  .print-header-bottom {
+    display: flex;
+    gap: 16pt;
+    align-items: flex-start;
+    margin-top: 6pt;
+  }
+
+  .print-description {
+    font-size: 9pt;
+    color: #444;
+    line-height: 1.6;
+    margin: 0;
+    flex: 1;
+  }
+
+  /* ── Meta bar (right column) ── */
+  .print-meta-bar {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14pt 22pt;
+    flex-shrink: 0;
+    border-left: 0.75pt solid #ccc;
+    padding-left: 20pt;
+  }
+
+  .print-meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2pt;
+  }
+
+  .print-meta-label {
+    font-size: 5.5pt;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #999;
+  }
+
+  .print-meta-val {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 12pt;
+    font-weight: 600;
+    color: #1e3828;
+    line-height: 1;
+  }
+
+  /* ── Two-column body ── */
+  .print-body {
+    display: grid;
+    grid-template-columns: 1.2fr 3fr;
+    gap: 20pt;
+    align-items: start;
+    margin-top: 14pt;
+  }
+
+  .print-ingredients-col h2,
+  .print-steps-col h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 8pt;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #1e3828;
+    border-bottom: 0.75pt solid #1e3828;
+    padding-bottom: 4pt;
+    margin: 0 0 9pt;
+  }
+
+  /* ── Ingredients ── */
+  .print-ing-group-title {
+    font-size: 5.5pt;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #999;
+    margin: 8pt 0 3pt;
+  }
+
+  .print-ing-item {
+    display: flex;
+    gap: 6pt;
+    padding: 3.5pt 0;
+    border-bottom: 0.4pt solid #efefef;
+    line-height: 1.4;
+    break-inside: avoid;
+  }
+
+  .print-ing-amount {
+    min-width: 38pt;
+    color: #1e3828;
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+
+  .print-ing-name { color: #222; }
+
+  /* ── Steps ── */
+  .print-step {
+    display: flex;
+    gap: 8pt;
+    margin-bottom: 10pt;
+    break-inside: avoid;
+  }
+
+  .print-step-num {
+    width: 14pt;
+    height: 14pt;
+    border-radius: 50%;
+    background: #1e3828;
+    color: #fff;
+    font-size: 6pt;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1pt;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .print-step-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 10pt;
+    font-weight: 600;
+    color: #1e3828;
+    margin-bottom: 2pt;
+    line-height: 1.2;
+  }
+
+  .print-step-text {
+    font-size: 8.5pt;
+    line-height: 1.6;
+    color: #222;
+    margin: 0;
+  }
+
+  .print-step-tip {
+    font-size: 7.5pt;
+    color: #666;
+    font-style: italic;
+    margin-top: 4pt;
+    padding-left: 6pt;
+    border-left: 1.5pt solid #ccc;
+  }
+
+  /* ── Notes ── */
+  .print-notes {
+    margin-top: 14pt;
+    padding-top: 10pt;
+    border-top: 0.5pt solid #ccc;
+    break-inside: avoid;
+  }
+
+  .print-notes h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 8pt;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #1e3828;
+    margin: 0 0 6pt;
+  }
+
+  .print-notes ul { margin: 0; padding-left: 14pt; }
+  .print-notes li { font-size: 8.5pt; line-height: 1.6; margin-bottom: 3pt; color: #333; }
+
+  /* ── Tags ── */
+  .print-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4pt;
+    margin-top: 10pt;
+  }
+
+  .print-tags span {
+    font-size: 5.5pt;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: 0.5pt solid #bbb;
+    padding: 2pt 5pt;
+    color: #777;
+  }
+
+  /* ── Footer ── */
+  .print-footer {
+    margin-top: 18pt;
+    padding-top: 6pt;
+    border-top: 0.4pt solid #ddd;
+    font-size: 6pt;
+    color: #bbb;
+    text-align: right;
+    letter-spacing: 0.08em;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
