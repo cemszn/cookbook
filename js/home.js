@@ -43,6 +43,7 @@ async function loadRecipes() {
 
 // ── Coordinated top-to-bottom entrance ─────────────────────────
 function animatePageIn(grid) {
+  fadeOutVeil();
   const cards = grid.querySelectorAll('.recipe-card');
   const tl = gsap.timeline({ defaults: { ease: 'power2.out' } });
 

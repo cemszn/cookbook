@@ -104,7 +104,7 @@
   <script src="js/auth.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="js/home.js?v=6"></script>
+  <script src="js/home.js?v=7"></script>
   <script>
     (function () {
       var screen = document.getElementById('launch-screen');
@@ -120,6 +120,7 @@
       if (navType === 'back_forward' || navType === 'reload' || fromInternal) {
         screen.remove();
         document.documentElement.classList.remove('launching');
+        if (fromInternal) createVeil(1);
         return;
       }
       var anim = lottie.loadAnimation({
