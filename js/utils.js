@@ -90,58 +90,6 @@ document.addEventListener('click', function (e) {
   if (!e.target.closest('.toolbox-right')) closeToolboxMenu();
 });
 
-// ── Book header animation (shared — recipe + home pages) ────────
-function animateBookHeader() {
-  const theEl      = document.querySelector('.book-logotype-main em');
-  const shimmerEl  = document.querySelector('.logotype-shimmer');
-  const ruleEl     = document.querySelector('.book-header-rule');
-  const greetingEl = document.querySelector('.book-greeting');
-  if (!theEl || !shimmerEl) return gsap.timeline();
-
-  shimmerEl.style.animationPlayState = 'paused';
-
-  gsap.set(theEl,     { clipPath: 'inset(0 102% 0 0 round 2px)', opacity: 0 });
-  gsap.set(shimmerEl, { clipPath: 'inset(0 102% 0 0 round 2px)', opacity: 0 });
-  if (ruleEl)     gsap.set(ruleEl,     { scaleX: 0 });
-  if (greetingEl) gsap.set(greetingEl, { opacity: 0, y: 6 });
-
-  const tl = gsap.timeline({ delay: 0.08 });
-
-  // "The" — clips in left to right
-  tl.to(theEl, {
-    clipPath: 'inset(0 0% 0 0 round 2px)', opacity: 0.55,
-    duration: 0.65, ease: 'power2.inOut',
-    onComplete() { gsap.set(theEl, { clearProps: 'clipPath' }); }
-  });
-
-  // "Cookbook" — clips in left to right, slightly overlapping
-  tl.to(shimmerEl, {
-    clipPath: 'inset(0 0% 0 0 round 2px)', opacity: 1,
-    duration: 1.1, ease: 'power2.inOut',
-    onComplete() {
-      gsap.set(shimmerEl, { clearProps: 'clipPath,opacity' });
-      // Restart the CSS animation fresh with a delay so the first shimmer
-      // doesn't fire immediately after the GSAP entrance
-      shimmerEl.style.animation = 'none';
-      requestAnimationFrame(function () {
-        shimmerEl.style.animation = 'logotype-shimmer 14s ease-out 3s infinite';
-      });
-    }
-  }, '-=0.2');
-
-  // Rule — expands from centre
-  if (ruleEl) {
-    tl.to(ruleEl, { scaleX: 1, duration: 0.65, ease: 'power2.inOut' }, '-=0.45');
-  }
-
-  // Greeting — fades up after the rule
-  if (greetingEl) {
-    tl.to(greetingEl, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out', clearProps: 'all' }, '-=0.3');
-  }
-
-  return tl;
-}
-
 // ── Debounce ────────────────────────────────────────────────────
 function debounce(fn, delay) {
   let timer;

@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://unpkg.com">
   <link rel="preconnect" href="https://res.cloudinary.com" crossorigin>
   <link rel="preconnect" href="https://api.cloudinary.com">
-  <link rel="stylesheet" href="css/styles.css?v=34"/>
+  <link rel="stylesheet" href="css/styles.css?v=35"/>
   <script>(function(){var t=localStorage.getItem('theme');if(t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark');})();</script>
   <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon.png">
 </head>
@@ -81,7 +81,7 @@
       <div class="book-header-rule"></div>
     </header>
 
-<div class="section-heading" style="opacity:0; animation: fadeUp 0.9s ease forwards 0.1s;">
+<div class="section-heading">
       <h2 id="page-heading">New Recipe</h2>
     </div>
 
@@ -341,6 +341,9 @@
       } else {
         var guard = document.getElementById('auth-guard');
         if (guard) guard.remove();
+        gsap.from(['.toolbox', '.book-header', '.section-heading', '.form-section'], {
+          opacity: 0, y: 20, duration: 0.5, stagger: 0.07, ease: 'power2.out', clearProps: 'all', delay: 0.05
+        });
       }
     });
   </script>

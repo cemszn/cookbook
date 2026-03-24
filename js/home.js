@@ -8,9 +8,8 @@ let allRecipes = [];
 let featuredRecipeId = null;
 
 // Hide all home elements before first paint so GSAP controls the reveal
+gsap.set('.toolbox', { y: -56, opacity: 0 });
 gsap.set(['.book-header', '.home-controls', '#featured-recipe-container', '.section-heading', '.site-footer'], { opacity: 0, y: 20 });
-// Pre-hide title elements so the header container can reveal instantly without flashing title
-gsap.set(['.book-logotype-main em', '.logotype-shimmer'], { opacity: 0 });
 
 // Gate: resolves when the Lottie launch animation finishes (or is skipped)
 let _resolveLottie;
@@ -55,19 +54,17 @@ function animatePageIn(grid) {
   fadeOutVeil();
   const cards = grid.querySelectorAll('.recipe-card');
 
-  // Show the header container immediately — title animation handles its own reveal
-  gsap.set('.book-header', { opacity: 1, y: 0 });
-
   const tl = gsap.timeline({ defaults: { ease: 'power2.out' } });
 
-  // Title animates first, then content flows in behind it
-  tl.add(animateBookHeader())
-    .to('.home-controls',             { opacity: 1, y: 0, duration: 0.5, clearProps: 'all' }, '-=0.65')
-    .to('#featured-recipe-container', { opacity: 1, y: 0, duration: 0.5, clearProps: 'all' }, '-=0.3')
-    .to('.section-heading',           { opacity: 1, y: 0, duration: 0.4, clearProps: 'all' }, '-=0.25');
+  // Toolbox drops in from top (home page only)
+  tl.to('.toolbox',                   { y: 0, opacity: 1, duration: 0.55, ease: 'power3.out', clearProps: 'all' })
+    .to('.book-header',               { opacity: 1, y: 0, duration: 0.5,  clearProps: 'all' }, '-=0.3')
+    .to('.home-controls',             { opacity: 1, y: 0, duration: 0.45, clearProps: 'all' }, '-=0.3')
+    .to('#featured-recipe-container', { opacity: 1, y: 0, duration: 0.45, clearProps: 'all' }, '-=0.25')
+    .to('.section-heading',           { opacity: 1, y: 0, duration: 0.4,  clearProps: 'all' }, '-=0.2');
 
   if (cards.length) {
-    tl.from(cards, { opacity: 0, y: 20, duration: 0.5, stagger: 0.05, clearProps: 'all' }, '-=0.2');
+    tl.from(cards, { opacity: 0, y: 16, duration: 0.45, stagger: 0.05, clearProps: 'all' }, '-=0.15');
   }
 
   tl.to('.site-footer', { opacity: 1, y: 0, duration: 0.4, clearProps: 'all' }, '-=0.1');

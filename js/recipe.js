@@ -43,10 +43,14 @@ async function loadRecipe() {
     renderPage();
     fadeOutVeil();
     document.title = `${recipe.title} — The Cookbook`;
-    // Staggered entrance for recipe page sections
-    gsap.from(['#recipe-page .hero', '#recipe-page .info-grid', '#recipe-page .two-col'], {
-      opacity: 0, y: 22, duration: 0.65, stagger: 0.1, ease: 'power2.out', delay: 0.18, clearProps: 'all'
-    });
+    // Staggered entrance for recipe page sections (top to bottom)
+    gsap.from([
+      '#recipe-page .hero',
+      '#recipe-page .info-grid',
+      '#recipe-page .two-col',
+      '#recipe-page .notes-nutrition-row',
+      '#recipe-page .recipe-footer'
+    ], { opacity: 0, y: 20, duration: 0.6, stagger: 0.1, ease: 'power2.out', delay: 0.15, clearProps: 'all' });
   } catch (err) {
     console.error(err);
     showError('Could not load recipe. Check your Firebase config.');

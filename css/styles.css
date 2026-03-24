@@ -1063,8 +1063,6 @@ html.dark .featured-clip-label {
   display: flex;
   flex-direction: column;
   margin-bottom: 0;
-  opacity: 0;
-  animation: fadeUp 0.9s ease forwards 0.3s;
 }
 
 .hero-top {
@@ -1087,8 +1085,6 @@ html.dark .featured-clip-label {
   overflow: hidden;
   border-radius: 16px;
   border: 1px solid rgba(255,255,255,0.85);
-  opacity: 0;
-  animation: fadeUp 0.9s ease forwards 0.4s;
   outline: 1px solid rgba(0,0,0,0.08);
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,0.6),
@@ -1197,8 +1193,6 @@ html.dark .dish-image-wrap:has(.dish-emoji) {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   margin-bottom: 64px;
-  opacity: 0;
-  animation: fadeUp 0.9s ease forwards 0.5s;
 }
 
 .info-cell {
@@ -1271,8 +1265,6 @@ html.dark .dish-image-wrap:has(.dish-emoji) {
   grid-template-columns: 260px 1fr;
   gap: 64px;
   margin-bottom: 72px;
-  opacity: 0;
-  animation: fadeUp 0.9s ease forwards 0.7s;
 }
 
 /* ── INGREDIENTS ── */
@@ -1485,8 +1477,6 @@ html.dark .step-tip { color: var(--text-dark); }
   grid-template-columns: 1fr;
   gap: 32px;
   margin-bottom: 48px;
-  opacity: 0;
-  animation: fadeUp 0.9s ease forwards 0.9s;
 }
 
 .notes-card {
@@ -1662,8 +1652,6 @@ html.dark .step-tip { color: var(--text-dark); }
 .recipe-footer {
   padding-top: 48px;
   border-top: 1px solid var(--rule);
-  opacity: 0;
-  animation: fadeUp 0.9s ease forwards 1.1s;
 }
 .footer-tags { display: flex; flex-wrap: wrap; gap: 10px; }
 .footer-tag {
@@ -2279,18 +2267,7 @@ html.dark .cook-ingredients-close {
 
 .form-section {
   margin-bottom: 56px;
-  opacity: 0;
-  animation: fadeUp 0.9s ease forwards;
 }
-.form-section:nth-child(1) { animation-delay: 0.2s; }
-.form-section:nth-child(2) { animation-delay: 0.3s; }
-.form-section:nth-child(3) { animation-delay: 0.4s; }
-.form-section:nth-child(4) { animation-delay: 0.5s; }
-.form-section:nth-child(5) { animation-delay: 0.6s; }
-.form-section:nth-child(6) { animation-delay: 0.7s; }
-.form-section:nth-child(7) { animation-delay: 0.8s; }
-.form-section:nth-child(8) { animation-delay: 0.9s; }
-.form-section:nth-child(9) { animation-delay: 1.0s; }
 
 .form-row {
   display: grid;
