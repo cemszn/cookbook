@@ -9,6 +9,13 @@ let featuredRecipeId = null;
 
 // Hide all home elements before first paint so GSAP controls the reveal
 gsap.set(['.book-header', '.home-controls', '#featured-recipe-container', '.section-heading', '.site-footer'], { opacity: 0, y: 20 });
+// Pre-hide title elements so the header container can reveal instantly without flashing title
+gsap.set(['.book-logotype-main em', '.logotype-shimmer'], { opacity: 0 });
+
+// Gate: resolves when the Lottie launch animation finishes (or is skipped)
+let _resolveLottie;
+const _lottieReady = new Promise(function (resolve) { _resolveLottie = resolve; });
+function onLottieComplete() { _resolveLottie(); }
 
 // ── Load Recipes ───────────────────────────────────────────────
 async function loadRecipes() {
@@ -27,6 +34,7 @@ async function loadRecipes() {
     allRecipes = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
     renderFeaturedCard(allRecipes);
     renderGrid(allRecipes);
+    await _lottieReady;
     animatePageIn(grid);
   } catch (err) {
     clearTimeout(loadingTimer);
@@ -37,6 +45,7 @@ async function loadRecipes() {
         <div class="empty-state-title">Couldn't load recipes</div>
         <div class="empty-state-sub">Check your Firebase configuration in js/firebase-config.js and ensure Firestore is enabled.</div>
       </div>`;
+    await _lottieReady;
     animatePageIn(grid);
   }
 }
@@ -45,12 +54,17 @@ async function loadRecipes() {
 function animatePageIn(grid) {
   fadeOutVeil();
   const cards = grid.querySelectorAll('.recipe-card');
+
+  // Show the header container immediately — title animation handles its own reveal
+  gsap.set('.book-header', { opacity: 1, y: 0 });
+
   const tl = gsap.timeline({ defaults: { ease: 'power2.out' } });
 
-  tl.to('.book-header',             { opacity: 1, y: 0, duration: 0.55, clearProps: 'all' })
-    .to('.home-controls',           { opacity: 1, y: 0, duration: 0.5,  clearProps: 'all' }, '-=0.3')
+  // Title animates first, then content flows in behind it
+  tl.add(animateBookHeader())
+    .to('.home-controls',             { opacity: 1, y: 0, duration: 0.5, clearProps: 'all' }, '-=0.65')
     .to('#featured-recipe-container', { opacity: 1, y: 0, duration: 0.5, clearProps: 'all' }, '-=0.3')
-    .to('.section-heading',         { opacity: 1, y: 0, duration: 0.4,  clearProps: 'all' }, '-=0.25');
+    .to('.section-heading',           { opacity: 1, y: 0, duration: 0.4, clearProps: 'all' }, '-=0.25');
 
   if (cards.length) {
     tl.from(cards, { opacity: 0, y: 20, duration: 0.5, stagger: 0.05, clearProps: 'all' }, '-=0.2');

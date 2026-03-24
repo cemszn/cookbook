@@ -458,7 +458,11 @@ html.dark .theme-icon-moon svg.feather { color: var(--green-mid); }
   text-align: center;
   margin-bottom: 36px;
   padding: 20px 0;
-  border-bottom: 1px solid var(--rule);
+}
+.book-header-rule {
+  height: 1px;
+  background: var(--rule);
+  transform-origin: center;
 }
 
 .book-logotype-main {
@@ -471,6 +475,7 @@ html.dark .theme-icon-moon svg.feather { color: var(--green-mid); }
   text-transform: uppercase;
 }
 .book-logotype-main em {
+  display: inline-block;
   font-style: normal;
   font-weight: 300;
   color: var(--green-mid);
@@ -486,6 +491,7 @@ html.dark .theme-icon-moon svg.feather { color: var(--green-mid); }
   min-height: 1.2em;
 }
 .logotype-shimmer {
+  display: inline-block;
   font-weight: 600;
   background: linear-gradient(
     105deg,
@@ -498,12 +504,12 @@ html.dark .theme-icon-moon svg.feather { color: var(--green-mid); }
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: logotype-shimmer 4s linear infinite;
-  will-change: background-position;
+  animation: logotype-shimmer 14s ease-out infinite;
 }
 
 @keyframes logotype-shimmer {
   0%   { background-position: 150% center; }
+  12%  { background-position: -50% center; }
   100% { background-position: -50% center; }
 }
 /* ── SECTION HEADINGS ── */

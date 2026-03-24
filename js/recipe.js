@@ -94,6 +94,7 @@ function renderPage() {
   page.innerHTML = `
     <header class="book-header">
       <div class="book-logotype-main"><em>The</em> <span class="logotype-shimmer">Cookbook</span></div>
+      <div class="book-header-rule"></div>
     </header>
 
     <section class="hero">
