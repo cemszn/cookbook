@@ -1287,6 +1287,37 @@ html.dark .servings-toggle {
   border-bottom-color: #1a2a1e;
   box-shadow: 0 2px 8px rgba(0,0,0,0.3);
 }
+.reminders-btn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 18px;
+  padding: 9px 14px;
+  width: 100%;
+  background: none;
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  color: var(--text-light);
+  cursor: pointer;
+  transition: border-color 0.18s, color 0.18s, background 0.18s;
+}
+.reminders-btn svg { flex-shrink: 0; opacity: 0.7; }
+.reminders-btn:hover {
+  border-color: var(--green-mid);
+  color: var(--green-deep);
+  background: var(--green-pale);
+}
+.reminders-btn:hover svg { opacity: 1; }
+html.dark .reminders-btn:hover {
+  border-color: var(--green-mid);
+  color: var(--cream);
+  background: rgba(255,255,255,0.05);
+}
+
 .servings-toggle-label {
   font-size: 0.625rem;
   letter-spacing: 0.22em;

@@ -145,6 +145,10 @@ function renderPage() {
           <button class="servings-btn" onclick="changeServings(1)">+</button>
         </div>
         <div id="ingredients-list"></div>
+        <button class="reminders-btn" onclick="exportToReminders()" title="Export to Apple Reminders">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          Export to Reminders
+        </button>
       </div>
 
       <!-- STEPS -->
@@ -697,6 +701,20 @@ function closeCelebration() {
   if (cel) cel.classList.remove('active');
   if (_lottieInstance) { _lottieInstance.destroy(); _lottieInstance = null; }
   closeCookMode();
+}
+
+// ── Export to Reminders ────────────────────────────────────────
+function exportToReminders() {
+  if (!recipe) return;
+  const ratio = servings / baseServings;
+  const lines = (recipe.ingredients || []).map(ing => {
+    const scaled = parseAmount(ing.amount) * ratio;
+    const amtStr = formatAmount(scaled);
+    const parts = [amtStr, ing.unit, ing.name].filter(Boolean);
+    return parts.join(' ');
+  });
+  const text = encodeURIComponent(lines.join('\n'));
+  window.location.href = `shortcuts://run-shortcut?name=Cookbook%20Grocery%20List&input=text&text=${text}`;
 }
 
 // ── Print ──────────────────────────────────────────────────────
