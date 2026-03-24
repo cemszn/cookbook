@@ -499,6 +499,7 @@ html.dark .theme-icon-moon svg.feather { color: var(--green-mid); }
   background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: logotype-shimmer 4s linear infinite;
+  will-change: background-position;
 }
 
 @keyframes logotype-shimmer {
@@ -633,6 +634,7 @@ html.dark .theme-icon-moon svg.feather { color: var(--green-mid); }
   overflow: hidden;
   text-decoration: none;
   color: inherit;
+  contain: layout style paint;
 }
 .recipe-card::before {
   content: '';
@@ -1310,6 +1312,7 @@ html.dark .servings-toggle {
 }
 .servings-btn:hover { background: linear-gradient(to bottom, var(--action-hover-start) 0%, var(--action-hover-end) 100%); }
 .servings-btn:active { transform: translateY(1px); }
+.servings-btn:focus-visible { outline: 2px solid var(--green-mid); outline-offset: 2px; }
 
 .servings-count {
   font-family: 'Cormorant Garamond', serif;
@@ -1940,6 +1943,7 @@ html.dark .cook-step-tip { color: var(--text-dark); }
 }
 .cook-nav-btn:active:not(:disabled) { transform: translateY(1px); }
 .cook-nav-btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none; }
+.cook-nav-btn:focus-visible { outline: 2px solid var(--green-mid); outline-offset: 2px; }
 
 .cook-btn-prev {
   background: linear-gradient(to bottom, #fdfaf5 0%, #eee8dc 100%);
@@ -2028,6 +2032,7 @@ html.dark .cook-timer-digits { color: var(--green-deep); text-shadow: none; }
   transition: box-shadow 0.15s, transform 0.1s;
 }
 .cook-timer-btn:active { transform: translateY(1px); }
+.cook-timer-btn:focus-visible { outline: 2px solid var(--green-mid); outline-offset: 2px; }
 .cook-timer-btn-start {
   background: linear-gradient(to bottom, var(--action-start) 0%, var(--action-end) 100%);
   border: 1px solid var(--action-border); color: var(--action-fg);
@@ -2380,6 +2385,7 @@ label {
   flex-shrink: 0;
 }
 .btn-remove:hover { color: var(--danger); }
+.btn-remove:focus-visible { outline: 2px solid var(--danger); outline-offset: 2px; border-radius: 3px; }
 
 .btn-add-item {
   display: inline-flex;
@@ -2399,6 +2405,7 @@ label {
   margin-top: 4px;
 }
 .btn-add-item:hover { border-color: var(--green-mid); color: var(--green-mid); }
+.btn-add-item:focus-visible { outline: 2px solid var(--green-mid); outline-offset: 2px; }
 .btn-add-item--disabled { opacity: 0.4; pointer-events: none; }
 
 /* ── KEY INGREDIENT BLOCKS ── */
@@ -2727,7 +2734,7 @@ html.launching .page > * { animation: none !important; }
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 100vh;
+  min-height: 100dvh;
   padding-top: 80px;
 }
 
@@ -2786,11 +2793,15 @@ html.dark .login-card {
 }
 .btn-primary:hover  { opacity: 0.85; }
 .btn-primary:active { transform: translateY(1px); opacity: 0.75; }
+.btn-primary:focus-visible { outline: 2px solid var(--green-mid); outline-offset: 3px; }
 .btn-primary:disabled {
   opacity: 0.5;
   cursor: not-allowed;
   transform: none;
 }
+
+.login-card .form-field { margin-bottom: 1rem; }
+.login-card .form-field:nth-last-child(2) { margin-bottom: 1.5rem; }
 
 .login-error {
   margin-top: 16px;
@@ -3034,11 +3045,103 @@ html.dark .login-card {
 }
 .rules-copy-btn svg.feather { width: 13px; height: 13px; }
 
-/* ── REDUCED MOTION ── */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+/* ══════════════════════════════════════════════════════════════
+   LANDSCAPE PHONE — COOK MODE
+   Phones rotated sideways in the kitchen have ~390px of height.
+   Collapse vertical chrome so the step content stays readable.
+══════════════════════════════════════════════════════════════ */
+
+@media (max-height: 500px) and (orientation: landscape) {
+  /* Topbar: much less top padding — the notch is left/right now */
+  .cook-topbar {
+    padding-top: max(10px, calc(env(safe-area-inset-top) + 6px));
+    padding-bottom: 6px;
+  }
+
+  /* Widen the inner pad to use the extra horizontal space */
+  .cook-inner {
+    padding-left:  max(20px, calc(env(safe-area-inset-left)  + 16px));
+    padding-right: max(20px, calc(env(safe-area-inset-right) + 16px));
+  }
+
+  /* Stage: trim vertical breathing room */
+  .cook-stage { padding-top: 10px; padding-bottom: 6px; }
+
+  /* Bottombar: minimal above the home indicator */
+  .cook-bottombar {
+    padding-top: 8px;
+    padding-bottom: max(10px, calc(env(safe-area-inset-bottom) + 6px));
+  }
+
+  /* Step numbers: scale down from the giant desktop sizes */
+  .cook-step-number-large { font-size: 2.75rem; }
+  .cook-step-title-large  { font-size: 1.625rem; }
+
+  /* Step body: slightly tighter line-height to save vertical space */
+  .cook-step-body { font-size: 0.9375rem; line-height: 1.7; }
+
+  /* Step header: tighten vertical gap */
+  .cook-step-header { margin-bottom: 12px; }
+
+  /* Show step label for orientation in compact view */
+  .cook-step-label {
+    display: block;
+    font-size: 9px;
+    margin-bottom: 6px;
+  }
+
+  /* Hide timer — no vertical room */
+  .cook-timer { display: none; }
+
+  /* Close button: slim down */
+  .cook-close-btn { padding: 8px 14px; font-size: 0.5625rem; }
+
+  /* Nav buttons: keep ≥44px tap target via min-height, reduce padding */
+  .cook-nav-btn { padding: 10px 18px; min-height: 44px; }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   TOUCH DEVICE ADAPTATIONS
+   @media (hover: none) catches touchscreens.
+   Hover transforms that "stick" on iOS tap are removed;
+   :active states provide tactile feedback instead.
+══════════════════════════════════════════════════════════════ */
+
+@media (hover: none) {
+  /* Recipe cards: the lift sticks after tap on iOS — remove it */
+  .recipe-card:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    transform: none;
+    border-color: var(--rule);
+  }
+  .recipe-card:hover::before { opacity: 0; }
+  .recipe-card:active {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.09);
+  }
+
+  /* Footer tags: suppress hover color change */
+  .footer-tag:hover { border-color: var(--rule); color: var(--text-mid); }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   COARSE POINTER (FINGER) REFINEMENTS
+   @media (pointer: coarse) covers all touch-primary devices.
+   Key fix: inputs must be ≥16px font to prevent iOS auto-zoom.
+══════════════════════════════════════════════════════════════ */
+
+@media (pointer: coarse) {
+  /* 16px prevents iOS from zooming in on focus */
+  .search-input,
+  .form-input,
+  .form-textarea,
+  .form-select { font-size: 1rem; }
+
+  /* Taller search bar — easier to tap with one hand in the kitchen */
+  .search-input { padding-top: 14px; padding-bottom: 14px; }
+
+  /* Form-row.four collapses further on small phones */
+  @media (max-width: 480px) {
+    .form-row.four { grid-template-columns: 1fr; }
   }
 }

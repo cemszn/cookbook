@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap">
   <link rel="preconnect" href="https://www.gstatic.com">
   <link rel="preconnect" href="https://unpkg.com">
-  <link rel="stylesheet" href="css/styles.css?v=25"/>
+  <link rel="stylesheet" href="css/styles.css?v=27"/>
   <script>(function(){var t=localStorage.getItem('theme');if(t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark');})();</script>
   <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon.png">
 </head>
@@ -48,18 +48,18 @@
       <p class="login-sub">Sign in to add and edit recipes.</p>
 
       <form id="login-form" onsubmit="handleSignIn(event)">
-        <div class="form-field" style="margin-bottom:1rem;">
+        <div class="form-field">
           <label for="login-email">Email</label>
           <input type="email" id="login-email" class="form-input" placeholder="you@example.com" required autocomplete="email" />
         </div>
-        <div class="form-field" style="margin-bottom:1.5rem;">
+        <div class="form-field">
           <label for="login-password">Password</label>
           <input type="password" id="login-password" class="form-input" placeholder="••••••••" required autocomplete="current-password" />
         </div>
-        <button class="btn-primary" id="btn-signin" type="submit" style="width:100%;">Sign In</button>
+        <button class="btn-primary" id="btn-signin" type="submit">Sign In</button>
       </form>
 
-      <p class="login-error" id="login-error" role="alert" aria-live="assertive" style="display:none;margin-top:1rem;"></p>
+      <p class="login-error" id="login-error" role="alert" aria-live="assertive" style="display:none;"></p>
     </div>
   </main>
 
@@ -71,7 +71,7 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
   <script src="js/firebase-config.js"></script>
-  <script src="js/utils.js?v=7"></script>
+  <script src="js/utils.js?v=8"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="js/auth.js"></script>
   <script>

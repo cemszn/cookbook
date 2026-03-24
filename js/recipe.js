@@ -54,6 +54,7 @@ async function loadRecipe() {
 }
 
 function showError(msg) {
+  document.title = 'The Cookbook';
   fadeOutVeil();
   document.getElementById('recipe-page').innerHTML = `
     <div class="empty-state empty-state--no-hpad">
