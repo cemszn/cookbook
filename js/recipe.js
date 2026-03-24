@@ -90,10 +90,18 @@ function renderPage() {
     `<span class="footer-tag">${escHtml(t)}</span>`
   ).join('');
 
+  const h = new Date().getHours();
+  const greeting = h < 5  ? 'A late night in the kitchen?'
+                 : h < 12 ? 'Good morning — what are we making today?'
+                 : h < 17 ? 'Good afternoon — something to cook tonight?'
+                 : h < 21 ? 'Good evening — time to cook.'
+                 :          'A late night in the kitchen?';
+
   const page = document.getElementById('recipe-page');
   page.innerHTML = `
     <header class="book-header">
       <div class="book-logotype-main"><em>The</em> <span class="logotype-shimmer">Cookbook</span></div>
+      <div class="book-greeting">${escHtml(greeting)}</div>
       <div class="book-header-rule"></div>
     </header>
 

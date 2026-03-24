@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap">
   <link rel="preconnect" href="https://www.gstatic.com">
   <link rel="preconnect" href="https://unpkg.com">
-  <link rel="stylesheet" href="css/styles.css?v=25"/>
+  <link rel="stylesheet" href="css/styles.css?v=34"/>
   <script>(function(){var t=localStorage.getItem('theme');if(t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark');})();</script>
   <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon.png">
 </head>
@@ -38,6 +38,8 @@
 
     <header class="book-header">
       <div class="book-logotype-main"><em>The</em> <span class="logotype-shimmer">Cookbook</span></div>
+      <div class="book-greeting" id="book-greeting"><script>!function(){var h=new Date().getHours();document.currentScript.parentNode.textContent=h<5?'A late night in the kitchen?':h<12?'Good morning \u2014 what are we making today?':h<17?'Good afternoon \u2014 something to cook tonight?':h<21?'Good evening \u2014 time to cook.':'A late night in the kitchen?';}()</script></div>
+      <div class="book-header-rule"></div>
     </header>
 
     <div class="section-heading" style="opacity:0; animation: fadeUp 0.9s ease forwards 0.1s;">
@@ -138,7 +140,7 @@ RULES:
   </div><!-- /.page -->
 
   <script src="https://unpkg.com/feather-icons"></script>
-  <script src="js/utils.js?v=7"></script>
+  <script src="js/utils.js?v=15"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script>
     feather.replace();

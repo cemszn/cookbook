@@ -488,6 +488,7 @@ html.dark .theme-icon-moon svg.feather { color: var(--green-mid); }
   color: var(--text-light);
   letter-spacing: 0.08em;
   margin-top: 8px;
+  margin-bottom: 20px;
   min-height: 1.2em;
 }
 .logotype-shimmer {
